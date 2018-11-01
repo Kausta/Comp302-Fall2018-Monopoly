@@ -1,7 +1,5 @@
 package cabernet1.monopoly.service.network;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class NetworkService {
     private static volatile NetworkService _instance = null;
     private MockSocket socket;
