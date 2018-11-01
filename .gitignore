@@ -62,10 +62,10 @@ local.properties
 
 ### Eclipse Patch ###
 # Eclipse Core
-.project
+# .project
 
 # JDT-specific (Eclipse Java Development Tools)
-.classpath
+# .classpath
 
 # Annotation Processing
 .apt_generated
@@ -147,6 +147,7 @@ fabric.properties
 # modules.xml
 # .idea/misc.xml
 # *.ipr
+.idea/compiler.xml
 
 # Sonarlint plugin
 .idea/sonarlint
