@@ -13,7 +13,7 @@ public class GameView extends BaseView {
     private JPanel root;
 
     private GameView() {
-
+        // I know this is not a right way to use the git, but I'm just testing something. So, please don't kill me Caner :/
     }
 
     public static synchronized GameView getInstance() {
