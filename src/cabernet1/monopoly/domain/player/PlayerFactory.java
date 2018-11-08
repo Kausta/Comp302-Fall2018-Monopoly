@@ -1,5 +1,6 @@
 package cabernet1.monopoly.domain.player;
 
+import cabernet1.monopoly.domain.board.tile.Tile;
 import cabernet1.monopoly.domain.bot.BotPlayer;
 import cabernet1.monopoly.domain.bot.BotStrategyFactory;
 import cabernet1.monopoly.domain.bot.IStrategy;
@@ -19,14 +20,14 @@ public class PlayerFactory {
     // used to determine the current ID of the player
     private int numberOfInstances = 0;
 
-    public IPlayer createNormalPlayer(String name, int money) {
+    public IPlayer createNormalPlayer(String name, int money,Tile startingTile) {
         ++numberOfInstances;
-        return new Player(name, money, numberOfInstances);
+        return new Player(name, money, numberOfInstances,startingTile);
     }
 
-    public IPlayer createBotPlayer(String name, int money) {
+    public IPlayer createBotPlayer(String name, int money,Tile startingTile) {
         ++numberOfInstances;
         IStrategy strategy = BotStrategyFactory.getInstance().createDefaultStrategy();
-        return new BotPlayer(name, money, numberOfInstances, strategy);
+        return new BotPlayer(name, money, numberOfInstances,startingTile, strategy);
     }
 }
