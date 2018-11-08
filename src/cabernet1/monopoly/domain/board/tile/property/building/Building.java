@@ -1,4 +1,4 @@
-package cabernet1.monopoly.domain.tile.property.building;
+package cabernet1.monopoly.domain.board.tile.property.building;
 
 
 public abstract class Building {

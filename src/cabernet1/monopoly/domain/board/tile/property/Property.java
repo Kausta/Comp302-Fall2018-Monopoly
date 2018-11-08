@@ -1,6 +1,6 @@
-package cabernet1.monopoly.domain.tile.property;
+package cabernet1.monopoly.domain.board.tile.property;
 
-import cabernet1.monopoly.domain.tile.Tile;
+import cabernet1.monopoly.domain.board.tile.Tile;
 
 public abstract class Property extends Tile {
     public int price;

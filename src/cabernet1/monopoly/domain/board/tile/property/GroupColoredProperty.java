@@ -1,11 +1,10 @@
-package cabernet1.monopoly.domain.tile.property;
-
+package cabernet1.monopoly.domain.board.tile.property;
 import java.util.ArrayList;
 
-import cabernet1.monopoly.domain.tile.enumerators.ColorGroup;
-import cabernet1.monopoly.domain.tile.property.building.Hotel;
-import cabernet1.monopoly.domain.tile.property.building.House;
-import cabernet1.monopoly.domain.tile.property.building.Skyscraper;
+import cabernet1.monopoly.domain.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.board.tile.property.building.Hotel;
+import cabernet1.monopoly.domain.board.tile.property.building.House;
+import cabernet1.monopoly.domain.board.tile.property.building.Skyscraper;
 
 public class GroupColoredProperty extends Property {
 

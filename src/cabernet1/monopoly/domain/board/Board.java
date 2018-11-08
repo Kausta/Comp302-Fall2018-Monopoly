@@ -3,6 +3,8 @@ package cabernet1.monopoly.domain.board;
 import java.util.ArrayList;
 import java.util.List;
 
+import cabernet1.monopoly.domain.board.tile.Tile;
+
 public class Board {
 	List<Tile> boardTiles;
 	private void initiateTiles() {

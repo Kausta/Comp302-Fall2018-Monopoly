@@ -1,6 +1,6 @@
-package cabernet1.monopoly.domain.tile;
+package cabernet1.monopoly.domain.board.tile;
 
-import cabernet1.monopoly.domain.tile.enumerators.TileType;
+import cabernet1.monopoly.domain.board.tile.enumerators.TileType;
 
 public class ActionTile extends Tile{
     public TileType tileType;

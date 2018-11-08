@@ -1,4 +1,4 @@
-package cabernet1.monopoly.domain.tile.enumerators;
+package cabernet1.monopoly.domain.board.tile.enumerators;
 
 /**
  * The enumarator for color groups

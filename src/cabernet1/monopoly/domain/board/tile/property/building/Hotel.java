@@ -1,9 +1,9 @@
-package cabernet1.monopoly.domain.tile.property.building;
+package cabernet1.monopoly.domain.board.tile.property.building;
 
-public class Skyscraper extends Building{
+public class Hotel extends Building{
     int rent;
 
-    public Skyscraper(int price, int sellPrice, int rent){
+    public Hotel(int price, int sellPrice, int rent){
         super(price, sellPrice);
         this.rent = rent;
         limit = 1;

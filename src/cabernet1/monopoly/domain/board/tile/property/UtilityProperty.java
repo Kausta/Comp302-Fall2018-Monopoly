@@ -1,4 +1,4 @@
-package cabernet1.monopoly.domain.tile.property;
+package cabernet1.monopoly.domain.board.tile.property;
 
 public class UtilityProperty extends Property{
     
