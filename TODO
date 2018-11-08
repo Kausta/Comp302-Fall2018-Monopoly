@@ -1,0 +1,7 @@
+- GroupColoredProperty Class:
+	- add the rent items
+	- add them to the constructors
+- Board:
+	- add the information about the boards tiles
+	
+- add Piece class
