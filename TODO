@@ -1,7 +1,14 @@
 - GroupColoredProperty Class:
 	- add the rent items
 	- add them to the constructors
+
 - Board:
 	- add the information about the boards tiles
+	- add the following methods:
+		- getJailTile(): Tile
+			- return the Jail Tile
 	
 - add Piece class
+
+- add enumerators for dice faces, movementStatus
+- add a strategy class for the player movement, depending on the type of the dice
