@@ -5,14 +5,19 @@ import cabernet1.monopoly.domain.bot.BotStrategyFactory;
 import cabernet1.monopoly.domain.bot.IStrategy;
 
 public class PlayerFactory {
-    private BotStrategyFactory botStrategyFactory;
+    private static volatile PlayerFactory _instance = null;
+
+    private PlayerFactory() {}
+
+    public static synchronized PlayerFactory getInstance() {
+        if(_instance == null) {
+            _instance = new PlayerFactory();
+        }
+        return _instance;
+    }
 
     // used to determine the current ID of the player
     private int numberOfInstances = 0;
-
-    public PlayerFactory(BotStrategyFactory botStrategyFactory) {
-        this.botStrategyFactory = botStrategyFactory;
-    }
 
     public IPlayer createNormalPlayer(String name, int money) {
         ++numberOfInstances;
@@ -21,7 +26,7 @@ public class PlayerFactory {
 
     public IPlayer createBotPlayer(String name, int money) {
         ++numberOfInstances;
-        IStrategy strategy = botStrategyFactory.createDefaultStrategy();
+        IStrategy strategy = BotStrategyFactory.getInstance().createDefaultStrategy();
         return new BotPlayer(name, money, numberOfInstances, strategy);
     }
 }
