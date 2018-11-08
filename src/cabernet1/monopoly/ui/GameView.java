@@ -3,8 +3,10 @@ package cabernet1.monopoly.ui;
 import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
+import cabernet1.monopoly.utils.ResourceManager;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class GameView extends BaseView {
     private static volatile GameView _instance = null;
@@ -31,6 +33,9 @@ public class GameView extends BaseView {
 
     private void initializeUI() {
         this.root = new JPanel();
+
+        URL boardImage = ResourceManager.getInstance().getResourcePath("board.png");
+        logger.d("Loading board from " + boardImage);
     }
 
     @Override
