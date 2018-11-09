@@ -3,6 +3,7 @@ package cabernet1.monopoly.domain.bot;
 import cabernet1.monopoly.domain.board.Board;
 import cabernet1.monopoly.domain.board.tile.Tile;
 import cabernet1.monopoly.domain.die.IDie;
+import cabernet1.monopoly.domain.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.player.IPlayer;
 
 public class BotPlayer extends IPlayer {
@@ -27,7 +28,7 @@ public class BotPlayer extends IPlayer {
     }
 
 	@Override
-	public void playTurn(IDie[] dice, Board board) {
+	public void playTurn(NormalDiceCup dice, Board board) {
 		// to be implemented later
 	}
 
@@ -44,7 +45,7 @@ public class BotPlayer extends IPlayer {
 	}
 
 	@Override
-	protected Tile handleBusIconMove() {
+	protected Tile handleBusMove() {
 		// TODO Auto-generated method stub
 		return null;
 	}
