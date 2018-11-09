@@ -1,6 +1,6 @@
 package cabernet1.monopoly.ui;
 
-import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.game.GameController;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.ResourceManager;

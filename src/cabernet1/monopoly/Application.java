@@ -1,7 +1,7 @@
 package cabernet1.monopoly;
 
-import cabernet1.monopoly.domain.Game;
-import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.game.Game;
+import cabernet1.monopoly.domain.game.GameController;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.ui.GameView;
