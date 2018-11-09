@@ -1,15 +1,28 @@
 package cabernet1.monopoly.domain.die;
 
+import cabernet1.monopoly.domain.die.enumerators.SpeedDieFaces;
+
 public class SpeedDie extends IDie {
     @Override
     public void rollDice() {
-        int temp = (diceGen.nextInt(6) + 1);
-        if (temp < 4)
-            faceValue = String.valueOf(temp);
-        else if (temp == 4 || temp == 5)
-            faceValue = "Mr.Monopoly";
-        else
-            faceValue = "BusIcon";
+        int value = diceGen.nextInt(6) + 1;
+        switch (value) {
+        case 1:
+        	faceValue=SpeedDieFaces.One;
+        	break;
+        case 2:
+        	faceValue=SpeedDieFaces.Two;
+        	break;
+        case 3:
+        	faceValue=SpeedDieFaces.Three;
+        	break;
+        case 4: case 5:
+        	faceValue=SpeedDieFaces.MrMonopoly;
+        	break;
+        case 6:
+        	faceValue=SpeedDieFaces.BusIcon;
+        	break;
+        }
     }
 
 }

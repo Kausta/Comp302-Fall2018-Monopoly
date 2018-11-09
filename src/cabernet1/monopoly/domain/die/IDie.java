@@ -2,15 +2,17 @@ package cabernet1.monopoly.domain.die;
 
 import java.util.Random;
 
+import cabernet1.monopoly.domain.die.enumerators.DieFaces;
+
 public abstract class IDie {
     protected static Random diceGen;
-    protected String faceValue;
+    protected DieFaces faceValue;
 
     public IDie() {
         diceGen = new Random();
     }
 
-    public String getDiceValue() {
+    public DieFaces getDiceValue() {
         return faceValue;
     }
 
