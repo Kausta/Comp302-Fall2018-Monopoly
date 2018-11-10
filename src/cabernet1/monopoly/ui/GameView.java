@@ -3,10 +3,11 @@ package cabernet1.monopoly.ui;
 import cabernet1.monopoly.domain.game.GameController;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
+import cabernet1.monopoly.ui.panels.*;
 import cabernet1.monopoly.utils.ResourceManager;
 
 import javax.swing.*;
-import java.net.URL;
+import java.awt.*;
 
 public class GameView extends BaseView {
     private static volatile GameView _instance = null;
@@ -15,7 +16,6 @@ public class GameView extends BaseView {
     private JPanel root;
 
     private GameView() {
-        // I know this is not a right way to use the git, but I'm just testing something. So, please don't kill me Caner :/
     }
 
     public static synchronized GameView getInstance() {
@@ -32,9 +32,27 @@ public class GameView extends BaseView {
     }
 
     private void initializeUI() {
+        // We have one big panel which covers the whole frame.
         this.root = new JPanel();
 
-        URL boardImage = ResourceManager.getInstance().getResourcePath("board.png");
+        // Getting the path of the board image
+        String boardImage = ResourceManager.getInstance().getResourcePath("board.png").getPath();
+
+        // Board panel covers the left side of the frame.
+        BoardPanel bP = BoardPanel.getInstance(boardImage);
+
+        // Right panel covers the right side of the frame.
+        // In addition, it contains some other panels
+        RightPanel rP = RightPanel.getInstance();
+        rP.add(MouseOverPanel.getInstance(), BorderLayout.NORTH);
+        rP.add(DetailsPanel.getInstance(), BorderLayout.NORTH);
+        rP.add(LogPanel.getInstance(), BorderLayout.NORTH);
+        rP.add(ActionPanel.getInstance(), BorderLayout.NORTH);
+
+        // Adding BoardPanel and RightPanel to our one big panel -which acts as frame in our case-.
+        this.root.add(bP, BorderLayout.WEST);
+        this.root.add(rP, BorderLayout.EAST);
+
         logger.d("Loading board from " + boardImage);
     }
 
