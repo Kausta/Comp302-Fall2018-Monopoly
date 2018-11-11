@@ -11,6 +11,7 @@ public class RightPanel extends BasePanel {
     private static volatile RightPanel _instance = null;
 
     private RightPanel () {
+        setBackground(new Color(212, 216, 221));
 
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);

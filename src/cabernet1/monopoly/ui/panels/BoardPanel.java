@@ -16,6 +16,7 @@ public class BoardPanel extends BasePanel {
     private BufferedImage board;
 
     private BoardPanel (String path) {
+        setBackground(new Color(212, 216, 221));
 
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);

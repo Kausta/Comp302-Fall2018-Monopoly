@@ -43,6 +43,8 @@ public class GameView extends BaseView {
         // We have one big panel which covers the whole frame.
         this.root = new JPanel();
 
+        root.setBackground(new Color(212, 216, 221));
+
         // Getting the path of the board image
         String boardImage = ResourceManager.getInstance().getResourcePath("board.png").getPath();
 

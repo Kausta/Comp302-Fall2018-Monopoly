@@ -13,7 +13,7 @@ public class MouseOverPanel extends BasePanel {
     private static volatile MouseOverPanel _instance = null;
 
     private MouseOverPanel () {
-        setBackground(new Color(212, 216, 221));
+        setBackground(new Color(237, 240, 244));
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
         // Adjusting the size of panel with the coefficients

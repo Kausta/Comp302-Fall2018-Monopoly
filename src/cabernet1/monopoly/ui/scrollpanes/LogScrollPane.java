@@ -1,6 +1,7 @@
 package cabernet1.monopoly.ui.scrollpanes;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class LogScrollPane extends BaseScrollPane {
 
@@ -32,6 +33,7 @@ public class LogScrollPane extends BaseScrollPane {
         // Creating a text area and add it into scroll pane
         JTextArea display = new JTextArea ();
         display.setEditable(false); // text area must be non-editable
+        display.setBackground(new Color(237, 240, 244));
         setViewportView(display);
 
         // Sample: how to append text to text area
