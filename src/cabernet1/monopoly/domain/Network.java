@@ -5,10 +5,12 @@ import cabernet1.monopoly.domain.network.MockSocket;
 
 public class Network {
     private static volatile Network _instance = null;
+    private NetworkController networkController;
     private MockSocket socket;
 
     private Network() {
         this.socket = new MockSocket();
+        this.networkController = new NetworkController(getNetworkAdapter());
     }
 
     public static synchronized Network getInstance() {

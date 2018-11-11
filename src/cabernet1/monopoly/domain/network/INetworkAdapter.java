@@ -1,10 +1,12 @@
 package cabernet1.monopoly.domain.network;
 
-import cabernet1.monopoly.service.ICommand;
+import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.utils.Observer;
 
 public interface INetworkAdapter {
-    void sendObject(ICommand command);
-
-    void registerReceiver(Observer<ICommand> commandReceiver);
+    /**
+     * Sends a command to the network socket
+     * @param command
+     */
+    void sendCommand(ICommand command);
 }
