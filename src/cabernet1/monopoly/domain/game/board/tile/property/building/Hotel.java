@@ -1,7 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property.building;
 
 public class Hotel extends Building{
-    private int rent;
+    int rent;
 
     public Hotel(int price, int sellPrice, int rent){
         super(price, sellPrice);

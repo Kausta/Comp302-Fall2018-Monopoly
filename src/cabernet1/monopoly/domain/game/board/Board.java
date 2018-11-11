@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private List<Tile> boardTiles;
+    List<Tile> boardTiles;
 
     private void initiateTiles() {
-        //TODO manually add all the information about the board's tile
+        //manually add all the information about the board's tile
     }
 
     private int getNumberOfTiles() {

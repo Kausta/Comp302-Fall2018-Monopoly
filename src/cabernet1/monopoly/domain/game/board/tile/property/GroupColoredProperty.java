@@ -8,12 +8,12 @@ import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
 
 public class GroupColoredProperty extends Property {
 
-    private ColorGroup color;
+    public ColorGroup color;
 
-    private int mortgageValue;
-    private House house;
-    private Hotel hotel;
-    private Skyscraper skyscraper;
+    public int mortgageValue;
+    public House house;
+    public Hotel hotel;
+    public Skyscraper skyscraper;
 
 
     public GroupColoredProperty(String name, int price, int mortgageValue, ColorGroup color,
