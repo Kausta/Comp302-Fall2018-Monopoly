@@ -29,9 +29,15 @@ public class Board {
 		boardTiles=new ArrayList<>();
 		initiateTiles();
 	}
-	Tile getNextTile(Tile curTile, int numberOfSteps) {
+	public Tile getNextTile(Tile curTile, int numberOfSteps) {
+		//TODO: re-implement this function to support the multi-layer board, based on the parity of number of steps
 		int currentIdx=getPositionOfTile(curTile);
 		currentIdx=(currentIdx+numberOfSteps)%getNumberOfTiles();
 		return getTileAtPosition(currentIdx);
+	}
+	public Tile getJailTile() {
+		//TODO implement getJailTile
+		//just return the Jail Tile
+		return null;
 	}
 }
