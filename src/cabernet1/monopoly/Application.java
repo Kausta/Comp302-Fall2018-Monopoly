@@ -2,6 +2,7 @@ package cabernet1.monopoly;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.ui.GameView;
@@ -24,6 +25,9 @@ public class Application implements Runnable {
     @Override
     public void run() {
         logger.i("Running Monopoly");
+
+        // TODO: Make initialization happen after the user picks server or client mode in the UI
+        Network.getInstance().initializeServer(1024);
 
         Game game = Game.getInstance();
         GameController controller = game.getGameController();
