@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.die.util;
 
 import cabernet1.monopoly.domain.die.RegularDie;
 import cabernet1.monopoly.domain.die.SpeedDie;
+import cabernet1.monopoly.domain.die.enumerators.DiceCupStatus;
 import cabernet1.monopoly.domain.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.die.enumerators.SpeedDieFaces;
 
@@ -40,6 +41,8 @@ public class NormalDiceCup {
 			return NormalDiceCupStatus.BusMove;
 		
 		return NormalDiceCupStatus.normalMove;
- 
+	}
+	public int getFacesValue() {
+		return die1.getDiceValue().getValue()+die2.getDiceValue().getValue()+die3.getDiceValue().getValue();
 	}
 }
