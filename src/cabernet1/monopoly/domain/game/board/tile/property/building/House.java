@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class House extends Building{
 
-    public HashMap<Integer, Integer> rents;
+    private HashMap<Integer, Integer> rents;
 
     public House(int price, int sellPrice, ArrayList<Integer> rents){
         super(price, sellPrice);
