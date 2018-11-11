@@ -7,7 +7,7 @@ import java.awt.*;
 public class PropertiesTab extends JScrollPane {
     private static volatile PropertiesTab _instance = null;
 
-    public PropertiesTab() {
+    private PropertiesTab() {
         // Initialize Table
         initialize();
     }
@@ -19,7 +19,7 @@ public class PropertiesTab extends JScrollPane {
         return _instance;
     }
 
-    public void initialize() {
+    private void initialize() {
         JTable propertiesTable = new JTable();
         setViewportView(propertiesTable);
         propertiesTable.setModel(

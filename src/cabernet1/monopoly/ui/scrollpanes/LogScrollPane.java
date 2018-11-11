@@ -10,7 +10,7 @@ public class LogScrollPane extends BaseScrollPane {
 
     private static volatile LogScrollPane _instance = null;
 
-    public LogScrollPane () {
+    private LogScrollPane () {
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);
 

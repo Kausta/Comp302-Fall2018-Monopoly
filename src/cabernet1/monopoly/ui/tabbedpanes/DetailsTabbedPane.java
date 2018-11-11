@@ -17,7 +17,7 @@ public class DetailsTabbedPane extends BaseTabbedPane {
 
     private static volatile DetailsTabbedPane _instance = null;
 
-    public DetailsTabbedPane () {
+    private DetailsTabbedPane () {
 
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);
@@ -35,9 +35,9 @@ public class DetailsTabbedPane extends BaseTabbedPane {
 
     private void initialize() {
         // Tab 1
-        addTab("Players Statistics", null, PlayersTab.getInstance(), null);
+        addTab("Players", null, PlayersTab.getInstance(), null);
 
         // Tab2
-        addTab("Deeds Statistics", null, PropertiesTab.getInstance(), null);
+        addTab("Properties", null, PropertiesTab.getInstance(), null);
     }
 }

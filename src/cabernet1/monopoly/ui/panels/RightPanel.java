@@ -10,7 +10,7 @@ public class RightPanel extends BasePanel {
 
     private static volatile RightPanel _instance = null;
 
-    public RightPanel () {
+    private RightPanel () {
 
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);

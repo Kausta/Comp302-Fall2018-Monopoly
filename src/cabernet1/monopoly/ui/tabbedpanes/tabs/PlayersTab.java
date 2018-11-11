@@ -7,7 +7,7 @@ import java.awt.*;
 public class PlayersTab extends JScrollPane {
     private static volatile PlayersTab _instance = null;
 
-    public PlayersTab() {
+    private PlayersTab() {
         // Initialize Table
         initialize();
     }
@@ -19,7 +19,7 @@ public class PlayersTab extends JScrollPane {
         return _instance;
     }
 
-    public void initialize() {
+    private void initialize() {
         JTable playerTable = new JTable();
         setViewportView(playerTable);
         playerTable.setModel(

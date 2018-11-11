@@ -12,7 +12,7 @@ public class MouseOverPanel extends BasePanel {
 
     private static volatile MouseOverPanel _instance = null;
 
-    public MouseOverPanel () {
+    private MouseOverPanel () {
         setBackground(new Color(212, 216, 221));
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 

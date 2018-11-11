@@ -10,7 +10,7 @@ public class ActionPanel extends BasePanel {
 
     private static volatile ActionPanel _instance = null;
 
-    public ActionPanel () {
+    private ActionPanel () {
         setBackground(Color.CYAN);
 
         // Adjusting the size of panel with the coefficients

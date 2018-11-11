@@ -15,7 +15,7 @@ public class BoardPanel extends BasePanel {
     private static volatile BoardPanel _instance = null;
     private BufferedImage board;
 
-    public BoardPanel (String path) {
+    private BoardPanel (String path) {
 
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);
@@ -46,7 +46,7 @@ public class BoardPanel extends BasePanel {
      * Finally, it adds the created JLabel to panel itself.
      * @param path Path of the board image in local
      */
-    public void drawBoard(String path) {
+    private void drawBoard(String path) {
         try {
             this.board = ImageIO.read(new File(path));
             Image scaledBoard = board.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT);
