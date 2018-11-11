@@ -3,13 +3,19 @@ package cabernet1.monopoly.domain.game.board.tile.property.building;
 
 public abstract class Building {
 
-    public int price, sellPrice;
+	protected int price, sellPrice;
     protected int amount, limit;
 
     public Building(int price, int sellPrice){
         this.price = price;
         this.sellPrice = sellPrice;
         amount = 0;
+    }
+    public int getPrice() {
+    	return price;
+    }
+    public int getSellPrice() {
+    	return sellPrice;
     }
     /**
      * Increases the amount of the building by 1

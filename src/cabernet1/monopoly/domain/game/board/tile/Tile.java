@@ -1,9 +1,12 @@
 package cabernet1.monopoly.domain.game.board.tile;
 
 public abstract class Tile{
-    public String name;
+    protected String name;
 
     public Tile(String name){
         this.name = name;
+    }
+    public String getName() {
+    	return name;
     }
 }
