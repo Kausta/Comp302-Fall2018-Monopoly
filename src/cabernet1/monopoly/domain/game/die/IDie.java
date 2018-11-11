@@ -1,8 +1,8 @@
 package cabernet1.monopoly.domain.game.die;
 
-import java.util.Random;
-
 import cabernet1.monopoly.domain.game.die.enumerators.DieFaces;
+
+import java.util.Random;
 
 public abstract class IDie {
     protected static Random diceGen;
