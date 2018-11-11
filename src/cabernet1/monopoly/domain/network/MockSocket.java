@@ -4,7 +4,7 @@ import cabernet1.monopoly.service.ICommand;
 import cabernet1.monopoly.utils.Observable;
 import cabernet1.monopoly.utils.Observer;
 
-public class MockSocket extends BaseSocket implements INetworkFacade {
+public class MockSocket extends BaseSocket implements INetworkAdapter {
     private Observable<ICommand> commandObservable = new Observable<>();
 
     @Override
