@@ -9,10 +9,13 @@ package cabernet1.monopoly.ui;
 import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
+import cabernet1.monopoly.ui.panels.*;
+import cabernet1.monopoly.ui.scrollpanes.LogScrollPane;
+import cabernet1.monopoly.ui.tabbedpanes.DetailsTabbedPane;
 import cabernet1.monopoly.utils.ResourceManager;
 
 import javax.swing.*;
-import java.net.URL;
+import java.awt.*;
 
 public class GameView extends BaseView {
     private static volatile GameView _instance = null;
@@ -21,7 +24,6 @@ public class GameView extends BaseView {
     private JPanel root;
 
     private GameView() {
-
     }
 
     public static synchronized GameView getInstance() {
@@ -38,9 +40,29 @@ public class GameView extends BaseView {
     }
 
     private void initializeUI() {
+        // We have one big panel which covers the whole frame.
         this.root = new JPanel();
 
-        URL boardImage = ResourceManager.getInstance().getResourcePath("board.png");
+        root.setBackground(new Color(212, 216, 221));
+
+        // Getting the path of the board image
+        String boardImage = ResourceManager.getInstance().getResourcePath("board_small.png").getPath();
+
+        // Board panel covers the left side of the frame.
+        BoardPanel bP = BoardPanel.getInstance(boardImage);
+
+        // Right panel covers the right side of the frame.
+        // In addition, it contains some other panels
+        RightPanel rP = RightPanel.getInstance();
+        rP.add(MouseOverPanel.getInstance(), BorderLayout.NORTH);
+        rP.add(DetailsTabbedPane.getInstance(), BorderLayout.NORTH);
+        rP.add(LogScrollPane.getInstance(), BorderLayout.NORTH);
+        rP.add(ActionPanel.getInstance(), BorderLayout.NORTH);
+
+        // Adding BoardPanel and RightPanel to our one big panel -which acts as frame in our case-.
+        this.root.add(bP, BorderLayout.WEST);
+        this.root.add(rP, BorderLayout.EAST);
+
         logger.d("Loading board from " + boardImage);
     }
 
