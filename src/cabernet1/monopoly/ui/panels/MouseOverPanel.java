@@ -1,5 +1,7 @@
 package cabernet1.monopoly.ui.panels;
 
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
 public class MouseOverPanel extends BasePanel {
@@ -11,10 +13,12 @@ public class MouseOverPanel extends BasePanel {
     private static volatile MouseOverPanel _instance = null;
 
     public MouseOverPanel () {
-        setBackground(Color.MAGENTA);
+        setBackground(new Color(212, 216, 221));
+        setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);
+
     }
 
     public static synchronized MouseOverPanel getInstance() {
