@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component inheritJdk="true">
 	<exclude-output/>
-	<contentEntry url="file://$MODULE_DIR$">
-		<testFolder url="file://$MODULE_DIR$/test"/>
-	</contentEntry>
-	<levels>
-		<level name="org.junit.jupiter:junit-jupiter-engine:5.3.1" value="project"/>
-	</levels>
+	<contentEntry url="file://$MODULE_DIR$"/>
 </component>

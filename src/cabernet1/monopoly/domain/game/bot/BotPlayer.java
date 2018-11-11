@@ -2,20 +2,21 @@ package cabernet1.monopoly.domain.game.bot;
 
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.die.IDie;
+import cabernet1.monopoly.domain.game.die.util.JailDiceCup;
+import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class BotPlayer extends IPlayer {
     private IStrategy botStrategy;
 
-    public BotPlayer(String name, int money, int defaultOrder,Tile currentTile, IStrategy botStrategy) {
-        super(name, money, defaultOrder,currentTile);
+    public BotPlayer(String name, int money, int defaultOrder, Tile currentTile, IStrategy botStrategy) {
+        super(name, money, defaultOrder, currentTile);
         this.botStrategy = botStrategy;
     }
 
     @Override
     public void playTurn() {
-        botStrategy.execute();
+
     }
 
     public IStrategy getBotStrategy() {
@@ -26,38 +27,58 @@ public class BotPlayer extends IPlayer {
         this.botStrategy = botStrategy;
     }
 
-	@Override
-	public void playTurn(IDie[] dice, Board board) {
-		// to be implemented later
-	}
+    @Override
+    public void playTurn(NormalDiceCup dice, Board board) {
+        botStrategy.execute();
+        //TODO implement bot-playTurn
+    }
 
-	@Override
-	protected Tile handleNormalMove() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	protected Tile handleMrMonopolyMove() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    protected void goJail(Board board) {
+        // TODO Auto-generated method stub
 
-	@Override
-	protected Tile handleBusIconMove() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
 
-	@Override
-	protected Tile handleTriplesMove() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void playJailturn(JailDiceCup cup, Board board) {
+        // TODO Auto-generated method stub
 
-	@Override
-	protected Tile handleDoubleMove() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
+
+    @Override
+    protected Tile handleNormalMove(NormalDiceCup cup, Board board) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected Tile handleMrMonopolyMove(NormalDiceCup cup, Board board) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected Tile handleBusMove(NormalDiceCup cup, Board board) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected Tile handleTriplesMove(NormalDiceCup cup, Board board) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected Tile handleDoubleMove(NormalDiceCup cup, Board board) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void jumpToTile(Tile newTile) {
+        // TODO Auto-generated method stub
+
+    }
 }
