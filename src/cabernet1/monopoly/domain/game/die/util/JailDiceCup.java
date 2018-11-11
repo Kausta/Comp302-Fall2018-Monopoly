@@ -15,9 +15,9 @@ public class JailDiceCup {
 		die2.rollDice();
 
 		if (isDoubles())
-			return JailDiceCupStatus.doubles;
+			return JailDiceCupStatus.DOUBLES;
 
-		return JailDiceCupStatus.notDoubles;
+		return JailDiceCupStatus.NOT_DOUBLES;
 	}
 	public int getFacesValue() {
 		return die1.getDiceValue().getValue()+die2.getDiceValue().getValue();
