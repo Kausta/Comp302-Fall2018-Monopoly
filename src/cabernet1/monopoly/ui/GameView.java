@@ -46,7 +46,7 @@ public class GameView extends BaseView {
         root.setBackground(new Color(212, 216, 221));
 
         // Getting the path of the board image
-        String boardImage = ResourceManager.getInstance().getResourcePath("board.png").getPath();
+        String boardImage = ResourceManager.getInstance().getResourcePath("board_small.png").getPath();
 
         // Board panel covers the left side of the frame.
         BoardPanel bP = BoardPanel.getInstance(boardImage);
