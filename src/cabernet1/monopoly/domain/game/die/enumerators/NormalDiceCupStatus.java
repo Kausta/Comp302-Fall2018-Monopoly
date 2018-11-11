@@ -1,6 +1,6 @@
 package cabernet1.monopoly.domain.game.die.enumerators;
 
-public enum NormalDiceCupStatus {
+public enum NormalDiceCupStatus implements DiceCupStatus{
 	normalMove,
 	MrMonopolyMove,
 	BusMove,

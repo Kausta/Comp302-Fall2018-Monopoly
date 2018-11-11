@@ -1,3 +1,6 @@
+/*
+ * TODO: add endTurn function that calls the endTurn in the game
+ */
 package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.logging.Logger;
