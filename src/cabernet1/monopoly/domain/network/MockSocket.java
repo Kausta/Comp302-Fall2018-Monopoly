@@ -1,6 +1,6 @@
 package cabernet1.monopoly.domain.network;
 
-import cabernet1.monopoly.service.ICommand;
+import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.utils.Observable;
 import cabernet1.monopoly.utils.Observer;
 
