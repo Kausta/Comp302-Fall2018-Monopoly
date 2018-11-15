@@ -34,11 +34,7 @@ public class GroupColoredProperty extends Property {
      * @return status message to be shown
      */
     public String buyHouse(){
-        if(house.limitReached()){
-            return "Already at the maximum number of houses.";
-        }
-        house.increaseAmount();
-        return "Successfully purchased the house.";
+        return house.increaseAmount();
     }
 
     /**
@@ -46,11 +42,66 @@ public class GroupColoredProperty extends Property {
      * @return status message to be shown
      */
     public String demolishHouse(){
-        if(house.exists()){
-            house.decreaseAmount();
-            return "Successfully demolished the house.";
+        return house.decreaseAmount();
+    }
+
+    /**
+     * Adds a hotel to the property
+     * @return status message to be shown
+     */
+    public String buyHotel(){
+        return hotel.increaseAmount();
+    }
+
+    /**
+     * Removes a hotel from the property
+     * @return status message to be shown
+     */
+    public String demolishHotel(){
+        return hotel.decreaseAmount();
+    }
+
+    /**
+     * Adds a skyscraper to the property
+     * @return status message to be shown
+     */
+    public String buySkyScraper(){
+        return skyscraper.increaseAmount();
+    }
+
+    /**
+     * Removes a skyscraper from the property
+     * @return status message to be shown
+     */
+    public String demolishSkyscraper(){
+        return skyscraper.decreaseAmount();
+    }
+
+    /**
+     * @return The mortgage Value
+     */
+    public int getMortgageValue(){
+        return mortgageValue;
+    }
+
+    /**
+     * @return the current rent for landing on the tile
+     */
+    public int getRent(){
+        if(skyscraper.exists()){
+            return skyscraper.getRent();
+        }else if(hotel.exists()){
+            return hotel.getRent();
+        }else{
+            return house.getRent();
         }
-        return "There are no jouses to demolish";
+    }
+
+    /**
+     * @return the color group of the tile
+     */
+    public ColorGroup getColorGroup(){
+        return color;
     }
 
 

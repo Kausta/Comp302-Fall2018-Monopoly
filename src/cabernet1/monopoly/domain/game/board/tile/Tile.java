@@ -10,6 +10,9 @@ public abstract class Tile{
         this.tileType=tileType;
     }
 
+    /**
+     * @return the name of the tile
+     */
 	public String getName() {
 		return name;
 	}

@@ -4,7 +4,7 @@ public class Skyscraper extends Building{
     private int rent;
 
     public Skyscraper(int price, int sellPrice, int rent){
-        super(price, sellPrice);
+        super(price, sellPrice, "skyscraper", "skyscrapers");
         this.rent = rent;
         limit = 1;
     }
@@ -13,4 +13,5 @@ public class Skyscraper extends Building{
     public int getRent(){
         return rent;
     }
+    
 }

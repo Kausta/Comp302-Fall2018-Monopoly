@@ -4,7 +4,7 @@ public class Hotel extends Building{
     private int rent;
 
     public Hotel(int price, int sellPrice, int rent){
-        super(price, sellPrice);
+        super(price, sellPrice, "hotel", "hotels");
         this.rent = rent;
         limit = 1;
     }
