@@ -12,11 +12,8 @@ package cabernet1.monopoly.domain.game.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
-import cabernet1.monopoly.domain.game.die.util.JailDiceCup;
-import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
@@ -79,7 +76,9 @@ public abstract class IPlayer {
 		this.curTile = newTile;
 
 	}
-
+	public Tile getCurrentTile() {
+		return curTile;
+	}
 	
 	public int getID() {
 		return ID;
@@ -148,9 +147,12 @@ public abstract class IPlayer {
 		if (money >= amountOfMoney) {
 			money -= amountOfMoney;
 		} else {
-
-			// TODO: handle selling houses and morgage property
+			
+			// TODO: handle selling houses and mortgage property
 		}
+	}
+	public void gainMoney(int amountOfMoney) {
+		money+=amountOfMoney;
 	}
 
 }

@@ -85,18 +85,13 @@ public class Player extends IPlayer {
 		NetworkController nc = Network.getInstance().getNetworkController();
 
 		String previousTile = curTile.getName();
-		String message;
-		if (newTile.equals(board.getJailTile())) {
-			message = getName() + " will land on jail, hence, he/she will go to jail";
-			goJail();
-		} else {
-			message = getName() + " has moved from " + previousTile + "  to " + curTile.getName();
-			nc.sendCommand(new AnnounceMessageCommand(message));
-		}
+		String message = getName() + " has moved from " + previousTile + "  to " + curTile.getName();
+		nc.sendCommand(new AnnounceMessageCommand(message));
 		nc.sendCommand(new MovePlayerCommand(this, newTile));
-
+		board.handleTile(this, newTile);
 
 	}
+	
 
 	@Override
 	protected void handleMrMonopolyMove() {
@@ -120,6 +115,7 @@ public class Player extends IPlayer {
 
 		if (nextTile != null) {
 			nc.sendCommand(new MovePlayerCommand(this, nextTile));
+			board.handleTile(this, nextTile);
 		}
 	}
 
@@ -140,6 +136,7 @@ public class Player extends IPlayer {
 				message = "You will move to the next Chance tile";
 			nc.sendCommand(new AnnounceMessageCommand(message));
 			nc.sendCommand(new MovePlayerCommand(this, nextTile));
+			board.handleTile(this, nextTile);
 		}
 	}
 
@@ -183,6 +180,8 @@ public class Player extends IPlayer {
 		nc.sendCommand(new MovePlayerCommand(this, newTile));
 		String message = getName() + " has transposed immediately from " + previousTile + " to " + curTile.getName();
 		nc.sendCommand(new AnnounceMessageCommand(message));
+		
+		Board.getInstance().handleTile(this, newTile);
 	}
 
 }

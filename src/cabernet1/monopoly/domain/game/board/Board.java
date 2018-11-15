@@ -3,7 +3,15 @@ package cabernet1.monopoly.domain.game.board;
 import java.util.ArrayList;
 import java.util.List;
 
+import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.Network;
+import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
 
 public class Board {
 	private static volatile Board _instance = null;
@@ -78,5 +86,61 @@ public class Board {
 		// return null if not found
 		return null;
 	}
-
+	public void handleProperty(Player player, Property property) {
+		//TODO implement handleProperty method
+		/* if not owned by anyone
+		 * 		- check if the money is enough to buy it
+		 * 		- if so call controller.enableBuyProperty
+		 * if it's owned by himself:
+		 * 		- check the current state of it(can't buy a house, can buy house/hotel/skyscraper)
+		 * 		- check if the amount to do that is enough
+		 * 		- if so call controller.enableUpgradeBuilding  
+		 * if it's owned by someone else:
+		 * 		- get the other player & amount of rent
+		 * 		- use player.payRent(amount) & player2.gainRent(amount)
+		 * 
+		 */
+	}
+	public void handleTile(Player player,Tile destTile) {
+		//TODO implement handleTile method
+		String message ="";
+		GameController controller=Game.getInstance().getGameController();
+		/*  
+		 *  this method will handle landing on the following tiles:
+		 *  	- Property -> handleProperty ->
+		 *  	- Jail -> call player.goJail
+		 *  	- Chance or Community Tile -> use card.drawCard (TODO implement drawCard)
+		 *  	- else, call the suitable class (it will do nothing)
+		 *  
+		 *  announce whatever is the suitable message using the code below
+		 *  
+		 *   
+		 */
+		if (player.getMovementStatus()==PlayerMovementStatus.NORMAL_MOVE) {
+			controller.enableSpecialAction();
+		}else {
+			controller.enableEndTurn();
+		}
+		
+		NetworkController nc=Network.getInstance().getNetworkController();
+		nc.sendCommand(new AnnounceMessageCommand(message));
+		
+	}
+	public void upgradeBuilding(Player player,Property property) {
+		//TODO implement upgradeBuilding method
+		// detect what is the type of the building (since there is only one definitive way to upgrade the building (if possible))
+		// this method will only be called when it's possible to do so
+		// upgrade that building on the corresponding property
+		String message ="Building on "+property.getName()+" has been upgraded";
+		NetworkController nc=Network.getInstance().getNetworkController();
+		nc.sendCommand(new AnnounceMessageCommand(message));
+	}
+	public void buyProperty(Player player,Property property) {
+		//TODO implement buyProperty method
+		// this method will only be called when it's possible to do so
+		// handle the buying, update the owner in property.ownBy + player.ownProperty
+		String message =player.getName() + " has bought "+ property.getName();
+		NetworkController nc=Network.getInstance().getNetworkController();
+		nc.sendCommand(new AnnounceMessageCommand(message));
+	}
 }

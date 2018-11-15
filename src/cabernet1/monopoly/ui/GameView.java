@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.die.util.DiceCup;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
@@ -82,6 +81,7 @@ public class GameView extends BaseView {
     	//TODO showPlayerInfo method
     	// this method should represent the starting turn
     	// all info in the ui should be updated to be for that player
+    	// all the buttons except rollDice button should be disabled
     }
     public void rollDice() {
     	//TODO: call this function when the rollDice button is clicked
@@ -107,7 +107,37 @@ public class GameView extends BaseView {
     	// if pictures of the dice aren't implement, just announce the value using cup.getFacesValue()
     }
     public void endTurn() {
-
+    	//TODO this method should be called when the endTurn button or enableSpecialAction button is called 
     	controller.endTurn();
+    }
+    
+    public void enableUpgradeBuildingButton() {
+    	//TODO implement enableUpgradeBuildingButtons method
+    	// enable the "Upgrade Building button" (create one)
+    	
+    }
+
+    public void upgradeBuilding() {
+    	//TODO implement upgradeBuilding method
+    	// this method should be called when the upgrade button is pressed
+    	// call controller.upgradeBuilding
+    }
+    public void enableBuyPropertyButton() {
+    	//TODO implement enableBuyPropertyButtons method
+    	// enable the "Buy Property button" (create one)
+    	
+    }
+    public void buyBuilding() {
+    	//TODO implement buyBuilding method
+    	// this method should be called when the buy button is pressed
+    	// call controller.buyBuilding
+    }
+    public void enableSpecialActionButton() {
+    	// TODO implement enableSpecialActionButton button
+    	// enable that button 
+    }
+    public void enableEndTurnButton() {
+    	// TODO implement enableEndTurnButton button
+    	// enable that button 
     }
 }

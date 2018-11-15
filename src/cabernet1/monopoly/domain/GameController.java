@@ -3,7 +3,9 @@
  */
 package cabernet1.monopoly.domain;
 
+import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.die.util.DiceCup;
 import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.Player;
@@ -64,6 +66,30 @@ public class GameController {
 	}
 	public void endTurn() {
 		Game.getInstance().endTurn();
+	}
+	public void enableUpgradeBuilding() {
+		//TODO implement enableUpgradeBuilding method
+		// call ui.enableUpgradeBuildingButton in ui using observer
+	}
+	public void enableBuyProperty() {
+		// TODO implement enableBuyProperty method
+		// call ui.enableBuyPropertyButton in ui using observer
+	}
+	public void UpgradeBuilding() {
+		Board.getInstance().upgradeBuilding(getCurrentPlayer(),(Property) getCurrentPlayer().getCurrentTile());
+	}
+	public void buyProperty() {
+		Board.getInstance().buyProperty(getCurrentPlayer(),(Property) getCurrentPlayer().getCurrentTile());
+	}
+	public void enableSpecialAction() {
+		// TODO implement enableSpecialActionButton method
+		// call ui.enableSpecialActionButton in ui using observer
+		
+	}
+	public void enableEndTurn() {
+		// TODO implement enableEndTurn method
+		// call ui.enableEndTurnButton in ui using observer
+		
 	}
 	
 	
