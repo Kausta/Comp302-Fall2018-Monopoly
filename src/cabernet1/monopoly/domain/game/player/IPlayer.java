@@ -17,6 +17,7 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.die.util.JailDiceCup;
 import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
+import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
@@ -29,18 +30,14 @@ public abstract class IPlayer {
 	protected Tile curTile;
 	protected int numberOfConsecutiveDoublesRolls;
 	private boolean inJail;
-	protected boolean lastMoveDouble;
+	protected PlayerMovementStatus movementStatus;
+	
 	protected int ID;
+	protected boolean directionClockwise;
+	
 	
 	List<Property> ownedProperty;
-	public boolean isLastMoveDouble() {
-		return lastMoveDouble;
-	}
-
-	protected void setLastMoveDouble(boolean lastMoveDouble) {
-		this.lastMoveDouble = lastMoveDouble;
-	}
-
+	
 	public IPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile) {
 		this.ID=ID;
 		this.name = name;
@@ -51,7 +48,18 @@ public abstract class IPlayer {
 		this.numberOfConsecutiveDoublesRolls = 0;
 		this.inJail = false;
 		this.ownedProperty=new ArrayList<>();
+		this.directionClockwise=true;
 	}
+	public PlayerMovementStatus getMovementStatus() {
+		return movementStatus;
+	}
+	protected void setMovementStatus(PlayerMovementStatus newStatus) {
+		this.movementStatus=newStatus;
+	}
+	public void increaseNumberOfConsecutiveDoublesRolls() {
+		++numberOfConsecutiveDoublesRolls;
+	}
+	
 	public boolean isOwningProperty(Property property) {
 		for (Property prop:ownedProperty) {
 			if (prop.equals(property))
@@ -90,15 +98,15 @@ public abstract class IPlayer {
 		return playerOrder;
 	}
 
-	protected abstract Tile handleNormalMove(NormalDiceCup cup,Board board);
+	protected abstract void handleNormalMove(NormalDiceCup cup,Board board);
 
-	protected abstract Tile handleMrMonopolyMove(NormalDiceCup cup,Board board);
+	protected abstract void handleMrMonopolyMove(NormalDiceCup cup,Board board);
 
-	protected abstract Tile handleBusMove(NormalDiceCup cup,Board board);
+	protected abstract void handleBusMove(NormalDiceCup cup,Board board);
 
-	protected abstract Tile handleTriplesMove(NormalDiceCup cup,Board board);
+	protected abstract void handleTriplesMove(NormalDiceCup cup,Board board);
 
-	protected abstract Tile handleDoubleMove(NormalDiceCup cup,Board board);
+	protected abstract void handleDoubleMove(NormalDiceCup cup,Board board);
 	
 	public abstract void playTurn(NormalDiceCup cup, Board board);
 	public abstract void playJailturn(JailDiceCup cup, Board board);
@@ -122,8 +130,10 @@ public abstract class IPlayer {
 		return inJail;
 	}
 
-	public void getInJail() {
-		inJail = true;
+	public void changeJailStatus(boolean inJail) {
+		this.inJail = inJail;
+		if (inJail)
+			numberOfConsecutiveDoublesRolls=0;
 	}
 
 	protected abstract void goJail(Board board);
@@ -135,4 +145,5 @@ public abstract class IPlayer {
 			//TODO: handle selling houses and morgage property
 		}
 	}
+	
 }

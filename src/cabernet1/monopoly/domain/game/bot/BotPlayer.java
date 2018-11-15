@@ -47,33 +47,28 @@ public class BotPlayer extends IPlayer {
 	}
 
 	@Override
-	protected Tile handleNormalMove(NormalDiceCup cup, Board board) {
+	protected void handleNormalMove(NormalDiceCup cup, Board board) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	protected Tile handleMrMonopolyMove(NormalDiceCup cup, Board board) {
+	protected void handleMrMonopolyMove(NormalDiceCup cup, Board board) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	protected Tile handleBusMove(NormalDiceCup cup, Board board) {
+	protected void handleBusMove(NormalDiceCup cup, Board board) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	protected Tile handleTriplesMove(NormalDiceCup cup, Board board) {
+	protected void handleTriplesMove(NormalDiceCup cup, Board board) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	protected Tile handleDoubleMove(NormalDiceCup cup, Board board) {
+	protected void handleDoubleMove(NormalDiceCup cup, Board board) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
