@@ -31,15 +31,14 @@ public abstract class IPlayer {
 	protected int numberOfConsecutiveDoublesRolls;
 	private boolean inJail;
 	protected PlayerMovementStatus movementStatus;
-	
+
 	protected int ID;
 	protected boolean directionClockwise;
-	
-	
+
 	List<Property> ownedProperty;
-	
+
 	public IPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile) {
-		this.ID=ID;
+		this.ID = ID;
 		this.name = name;
 		this.money = money;
 		this.isActive = true;
@@ -47,41 +46,45 @@ public abstract class IPlayer {
 		this.curTile = currentTile;
 		this.numberOfConsecutiveDoublesRolls = 0;
 		this.inJail = false;
-		this.ownedProperty=new ArrayList<>();
-		this.directionClockwise=true;
+		this.ownedProperty = new ArrayList<>();
+		this.directionClockwise = true;
 	}
+
 	public PlayerMovementStatus getMovementStatus() {
 		return movementStatus;
 	}
-	protected void setMovementStatus(PlayerMovementStatus newStatus) {
-		this.movementStatus=newStatus;
+
+	public void setMovementStatus(PlayerMovementStatus newStatus) {
+		this.movementStatus = newStatus;
 	}
+
 	public void increaseNumberOfConsecutiveDoublesRolls() {
 		++numberOfConsecutiveDoublesRolls;
 	}
-	
+
 	public boolean isOwningProperty(Property property) {
-		for (Property prop:ownedProperty) {
+		for (Property prop : ownedProperty) {
 			if (prop.equals(property))
 				return true;
 		}
 		return false;
 	}
+
 	public void ownProperty(Property property) {
 		ownedProperty.add(property);
-		
-	}
-	public void changeCurrentTile(Tile newTile) {
-		this.curTile = newTile;
-		
+
 	}
 
-	public void playTurn() {
-		logger.i("Turn of " + name);
+	public void changeCurrentTile(Tile newTile) {
+		this.curTile = newTile;
+
 	}
+
+	
 	public int getID() {
 		return ID;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -98,19 +101,22 @@ public abstract class IPlayer {
 		return playerOrder;
 	}
 
-	protected abstract void handleNormalMove(NormalDiceCup cup,Board board);
+	protected abstract void handleNormalMove();
 
-	protected abstract void handleMrMonopolyMove(NormalDiceCup cup,Board board);
+	protected abstract void handleMrMonopolyMove();
 
-	protected abstract void handleBusMove(NormalDiceCup cup,Board board);
+	protected abstract void handleBusMove();
 
-	protected abstract void handleTriplesMove(NormalDiceCup cup,Board board);
+	protected abstract void handleTriplesMove();
 
-	protected abstract void handleDoubleMove(NormalDiceCup cup,Board board);
-	
-	public abstract void playTurn(NormalDiceCup cup, Board board);
-	public abstract void playJailturn(JailDiceCup cup, Board board);
+	protected abstract void handleDoubleMove();
+
+	public abstract void playTurn();
+
+	public abstract void playJailturn();
+
 	public abstract void jumpToTile(Tile newTile);
+
 	/*
 	 * helper method for playTurn
 	 */
@@ -133,17 +139,18 @@ public abstract class IPlayer {
 	public void changeJailStatus(boolean inJail) {
 		this.inJail = inJail;
 		if (inJail)
-			numberOfConsecutiveDoublesRolls=0;
+			numberOfConsecutiveDoublesRolls = 0;
 	}
 
-	protected abstract void goJail(Board board);
+	protected abstract void goJail();
+
 	public void payRent(int amountOfMoney) {
-		if (money>=amountOfMoney) {
-			money-=amountOfMoney;
-		}else {
-			
-			//TODO: handle selling houses and morgage property
+		if (money >= amountOfMoney) {
+			money -= amountOfMoney;
+		} else {
+
+			// TODO: handle selling houses and morgage property
 		}
 	}
-	
+
 }

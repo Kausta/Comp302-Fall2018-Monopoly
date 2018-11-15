@@ -4,6 +4,10 @@
  */
 package cabernet1.monopoly.domain.game.player;
 
+import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.Network;
+import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
@@ -12,6 +16,11 @@ import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.util.JailDiceCup;
 import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.network.command.commands.ChangeJailStatusCommand;
+import cabernet1.monopoly.domain.network.command.commands.ChangeMovementStatusCommand;
+import cabernet1.monopoly.domain.network.command.commands.IncNumConsDoubleRollsCommand;
+import cabernet1.monopoly.domain.network.command.commands.MovePlayerCommand;
 
 public class Player extends IPlayer {
 	public Player(int ID, String name, int money, int defaultOrder, Tile currentTile) {
@@ -19,72 +28,82 @@ public class Player extends IPlayer {
 	}
 
 	@Override
-	public void playTurn(NormalDiceCup cup, Board board) {
+	public void playTurn() {
+		NormalDiceCup cup = NormalDiceCup.getInstance();
 		NormalDiceCupStatus rollStatus = cup.rollCup();
-		// TODO announceMessage of the dice result to UI
-		// TODO changeDiceFaces(die1: DieFaces,die2: DieFaces,die3: DieFaces)
+		NetworkController nc = Network.getInstance().getNetworkController();
+		GameController controller = Game.getInstance().getGameController();
+		controller.showDiceValue();
 		switch (rollStatus) {
 		case NORMAL_MOVE:
-			handleNormalMove(cup, board);
+			handleNormalMove();
 			break;
 		case DOUBLE_MOVE:
-			handleDoubleMove(cup, board);
+			handleDoubleMove();
 			break;
 		case TRIPLE_MOVE:
-			handleTriplesMove(cup, board);
+			handleTriplesMove();
 			break;
 		case MR_MONOPOLY_MOVE:
-			//TODO:network.changeMovementStatus(this,PlayerMovementStatus.MRMONOPOLY_MOVE);
-			handleNormalMove(cup, board);
+			nc.sendCommand(new ChangeMovementStatusCommand(this, PlayerMovementStatus.MRMONOPOLY_MOVE));
+			handleNormalMove();
 			break;
 		case BUS_MOVE:
-			//TODO:network.changeMovementStatus(this,PlayerMovementStatus.BUS_MOVE);
-			handleNormalMove(cup, board);
+			nc.sendCommand(new ChangeMovementStatusCommand(this, PlayerMovementStatus.BUS_MOVE));
+			handleNormalMove();
 			break;
 		}
 
 	}
 
 	@Override
-	public void playJailturn(JailDiceCup cup, Board board) {
+	public void playJailturn() {
+		JailDiceCup cup = JailDiceCup.getInstance();
 		JailDiceCupStatus rollStatus = cup.rollCup();
+		NetworkController nc = Network.getInstance().getNetworkController();
+
 		String message;
 		switch (rollStatus) {
 		case DOUBLES:
 			message = getName() + " has got out of jail!";
-			// TODO network.announceMessage(message)
-			// TODO: handleDoubleMove for JailCup: handleDoubleMove(cup,board);
+			nc.sendCommand(new AnnounceMessageCommand(message));
+			// TODO: handleDoubleMove for JailCup: handleJailDoubleMove();
 			break;
 		case NOT_DOUBLES:
 			message = getName() + " has not rolled Doubles. Hence, he/she will stay in jail for this turn";
-			// TODO network.announceMessage(message)
+			nc.sendCommand(new AnnounceMessageCommand(message));
 			break;
 		}
 
 	}
 
 	@Override
-	protected void handleNormalMove(NormalDiceCup cup, Board board) {
+	protected void handleNormalMove() {
+		Board board = Board.getInstance();
+		NormalDiceCup cup = NormalDiceCup.getInstance();
 		Tile newTile = board.getNextTile(curTile, cup.getFacesValue());
+		NetworkController nc = Network.getInstance().getNetworkController();
+
 		String previousTile = curTile.getName();
-		// TODO network.changeCurrentTile(this,newTile)
 		String message;
 		if (newTile.equals(board.getJailTile())) {
-			message=getName()+ " will land on jail, hence, he/she will go to jail";
-			goJail(board);
-		}else {
+			message = getName() + " will land on jail, hence, he/she will go to jail";
+			goJail();
+		} else {
 			message = getName() + " has moved from " + previousTile + "  to " + curTile.getName();
-			// TODO network.announceMessage(message)
+			nc.sendCommand(new AnnounceMessageCommand(message));
 		}
+		nc.sendCommand(new MovePlayerCommand(this, newTile));
 
-		
-		// TODO network.movePlayer(this,curTile);
-		
 
 	}
 
 	@Override
-	protected void handleMrMonopolyMove(NormalDiceCup cup, Board board) {
+	protected void handleMrMonopolyMove() {
+		Board board = Board.getInstance();
+		NormalDiceCup cup = NormalDiceCup.getInstance();
+		NetworkController nc = Network.getInstance().getNetworkController();
+
 		Tile nextTile = board.nextUnownedProperty(curTile, directionClockwise, cup.getFacesValue());
 		String message;
 		if (nextTile == null) {
@@ -97,71 +116,73 @@ public class Player extends IPlayer {
 		} else {
 			message = "You will move to the next un owned Property, namely " + nextTile.getName();
 		}
-		// TODO: UI.announceMessage(message)
+		nc.sendCommand(new AnnounceMessageCommand(message));
+
 		if (nextTile != null) {
-			// TODO:network.changeCurrentTile(this,newTile)
-			// TODO: network.movePlayer(this,newTile)
+			nc.sendCommand(new MovePlayerCommand(this, nextTile));
 		}
 	}
 
 	@Override
-	protected void handleBusMove(NormalDiceCup cup, Board board) {
-		
-		// TODO implement handleBusIconMove function
+	protected void handleBusMove() {
+		NetworkController nc = Network.getInstance().getNetworkController();
+		Board board = Board.getInstance();
+		NormalDiceCup cup = NormalDiceCup.getInstance();
 		Tile nextTile = board.nextUnownedProperty(curTile, directionClockwise, cup.getFacesValue());
 		String message;
 		if (nextTile == null) {
 			message = "No community chest or chance card on your way, hence you will stay in your place";
-			// TODO: UI.announceMessage(message)
-		}else {
-			if (nextTile.getTileType()==TileType.CommunityChest)
+			nc.sendCommand(new AnnounceMessageCommand(message));
+		} else {
+			if (nextTile.getTileType() == TileType.CommunityChest)
 				message = "You will move to the next community chest tile";
 			else
 				message = "You will move to the next Chance tile";
-			// TODO: UI.announceMessage(message)
-			// TODO:network.changeCurrentTile(this,newTile)
-			// TODO: network.movePlayer(this,newTile)
+			nc.sendCommand(new AnnounceMessageCommand(message));
+			nc.sendCommand(new MovePlayerCommand(this, nextTile));
 		}
 	}
 
 	@Override
-	protected void handleTriplesMove(NormalDiceCup cup, Board board) {
-		// TODO UI.chooseTile()
+	protected void handleTriplesMove() {
+		Game.getInstance().getGameController().chooseTile(this);
 
 	}
 
 	@Override
-	protected void handleDoubleMove(NormalDiceCup cup, Board board) {
-		//TODO: network.increaseNumberOfConsecutiveDoublesRolls()
+	protected void handleDoubleMove() {
+		NetworkController nc = Network.getInstance().getNetworkController();
+		nc.sendCommand(new IncNumConsDoubleRollsCommand(this));
 		++numberOfConsecutiveDoublesRolls;
 		if (numberOfConsecutiveDoublesRolls == 3) {
-			goJail(board);
+			goJail();
 			return;
 		}
-		//TODO:network.changeMovementStatus(this,PlayerMovementStatus.DOUBLE_MOVE);
-		handleNormalMove(cup, board);
+		nc.sendCommand(new ChangeMovementStatusCommand(this, PlayerMovementStatus.DOUBLE_MOVE));
+		handleNormalMove();
 	}
 
 	@Override
-	protected void goJail(Board board) {
+	protected void goJail() {
+		NetworkController nc = Network.getInstance().getNetworkController();
+		Board board = Board.getInstance();
 		String message = getName() + " has got into jail";
 
-		// TODO: netowrk.announceMessage(message)
+		nc.sendCommand(new AnnounceMessageCommand(message));
 		Tile jailTile = board.getJailTile();
-		// TODO network.movePlayer(this,jailTile);
+		nc.sendCommand(new MovePlayerCommand(this, jailTile));
 		// TODO ask about using card to get out of jail
-		// TODO: changeCurrentTile(jailTile);
-		// TODO: network.changeJailStatus(this,true);
 
+		nc.sendCommand(new ChangeJailStatusCommand(this, true));
 	}
 
 	@Override
 	public void jumpToTile(Tile newTile) {
+		NetworkController nc = Network.getInstance().getNetworkController();
 		String previousTile = curTile.getName();
-		// TODO network.changeCurrentTile(newTile)
+		nc.sendCommand(new MovePlayerCommand(this, newTile));
 		String message = getName() + " has transposed immediately from " + previousTile + " to " + curTile.getName();
-		// TODO network.announceMessage(message)
-
+		nc.sendCommand(new AnnounceMessageCommand(message));
 	}
 
 }
