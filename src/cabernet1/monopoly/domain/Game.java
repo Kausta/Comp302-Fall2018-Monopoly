@@ -21,18 +21,18 @@ public class Game {
         initialization();
     }
 
-    private void initialization() {
-        gameBoard = new Board();
-        player = new ArrayList<>();
-        normalCup = new NormalDiceCup();
-        rollThreeCup = new RollThreeDiceCup();
-    }
-
     public static synchronized Game getInstance() {
         if (_instance == null) {
             _instance = new Game();
         }
         return _instance;
+    }
+
+    private void initialization() {
+        gameBoard = new Board();
+        player = new ArrayList<>();
+        normalCup = new NormalDiceCup();
+        rollThreeCup = new RollThreeDiceCup();
     }
 
     public synchronized GameController getGameController() {

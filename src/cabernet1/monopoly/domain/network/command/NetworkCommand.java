@@ -12,7 +12,7 @@ public class NetworkCommand implements ICommand {
 
     @Override
     public void execute() {
-        if(innerCommand != null) {
+        if (innerCommand != null) {
             innerCommand.execute();
         }
     }

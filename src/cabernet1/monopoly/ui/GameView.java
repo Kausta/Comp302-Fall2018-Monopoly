@@ -1,5 +1,5 @@
 /*
- * TODO add moveToTile function 
+ * TODO add moveToTile function
  * 		this function move the current player to the selected tile
  * TODO add chooseTile function
  * 		this function order the user to choose a tile to go to(for TRIPLES move)
@@ -9,7 +9,10 @@ package cabernet1.monopoly.ui;
 import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
-import cabernet1.monopoly.ui.panels.*;
+import cabernet1.monopoly.ui.panels.ActionPanel;
+import cabernet1.monopoly.ui.panels.BoardPanel;
+import cabernet1.monopoly.ui.panels.MouseOverPanel;
+import cabernet1.monopoly.ui.panels.RightPanel;
 import cabernet1.monopoly.ui.scrollpanes.LogScrollPane;
 import cabernet1.monopoly.ui.tabbedpanes.DetailsTabbedPane;
 import cabernet1.monopoly.utils.ResourceManager;

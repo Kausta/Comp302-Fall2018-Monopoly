@@ -2,9 +2,9 @@ package cabernet1.monopoly.domain.game.board.tile.actiontile;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 
-public class PayDay extends ActionTile{
+public class PayDay extends ActionTile {
 
-    public PayDay(){
+    public PayDay() {
         super("PayDay", TileType.PayDay);
     }
 

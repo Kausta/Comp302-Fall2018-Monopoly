@@ -3,10 +3,11 @@ package cabernet1.monopoly.domain.game.bot;
 public class BotStrategyFactory {
     private static volatile BotStrategyFactory _instance = null;
 
-    private BotStrategyFactory() {}
+    private BotStrategyFactory() {
+    }
 
     public static synchronized BotStrategyFactory getInstance() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = new BotStrategyFactory();
         }
         return _instance;

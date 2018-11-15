@@ -6,13 +6,12 @@ import java.awt.*;
 
 public class ActionPanel extends BasePanel {
 
+    private static volatile ActionPanel _instance = null;
     // Height and width coefficient constants
     private final double HEIGHT_COEFFICIENT = 1.45;
     private final double WIDTH_COEFFICIENT = 7.5;
 
-    private static volatile ActionPanel _instance = null;
-
-    private ActionPanel () {
+    private ActionPanel() {
         setBackground(new Color(237, 240, 244));
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 

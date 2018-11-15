@@ -27,8 +27,8 @@ public class NetworkController implements Observer<NetworkCommand> {
     }
 
     /**
-     *  Send command first sends the command throughout the network, it doesn't execute it locally because server will resend it
-     *  So, the command will be executed when the server accepts and resends it
+     * Send command first sends the command throughout the network, it doesn't execute it locally because server will resend it
+     * So, the command will be executed when the server accepts and resends it
      *
      * @param command
      */
@@ -42,6 +42,7 @@ public class NetworkController implements Observer<NetworkCommand> {
 
     /**
      * Executes the command received from the network
+     *
      * @param command
      */
     @Override
