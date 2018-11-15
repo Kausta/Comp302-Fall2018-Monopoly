@@ -28,47 +28,39 @@ public class BotPlayer extends IPlayer {
 	}
 
 	@Override
-	public void playTurn(NormalDiceCup dice, Board board) {
-		botStrategy.execute();
-		//TODO implement bot-playTurn
-	}
-
-	
-	@Override
-	protected void goJail(Board board) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void playJailturn(JailDiceCup cup, Board board) {
+	protected void handleNormalMove() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void handleNormalMove(NormalDiceCup cup, Board board) {
+	protected void handleMrMonopolyMove() {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	protected void handleMrMonopolyMove(NormalDiceCup cup, Board board) {
+	protected void handleBusMove() {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	protected void handleBusMove(NormalDiceCup cup, Board board) {
+	protected void handleTriplesMove() {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	protected void handleTriplesMove(NormalDiceCup cup, Board board) {
+	protected void handleDoubleMove() {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	protected void handleDoubleMove(NormalDiceCup cup, Board board) {
+	public void playJailturn() {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -76,4 +68,12 @@ public class BotPlayer extends IPlayer {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	protected void goJail() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
