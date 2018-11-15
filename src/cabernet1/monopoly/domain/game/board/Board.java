@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    List<Tile> boardTiles;
+    private List<Tile> boardTiles;
 
     private void initiateTiles() {
         //manually add all the information about the board's tile
@@ -47,4 +47,24 @@ public class Board {
         //just return the Jail Tile
         return null;
     }
+    public Tile nextUnownedProperty(Tile curTile, boolean direction, int diceResult) {
+    	//TODO: implement nextUnownedProperty method 
+    	// implement based on Monopoly rules, check handle Mr.Monopoly use case
+    	//		return null if not found
+    	return null;
+    }
+    public Tile nextRentableProperty(Tile curTile, boolean direction, int diceResult) {
+    	//TODO: implement nextRentableProperty method
+    	// implement based on Monopoly rules, check handle Mr.Monopoly use case
+    	//		return null if not found
+    	return null;
+    }
+    
+    public Tile nextNearestCommunityChestOrChanceTile(Tile curTile, boolean direction, int diceResult) {
+    	//TODO: implement nextNearestCommunityChestOrChanceTile method
+    	// implement based on monopoly rules, check handle roll dice use case
+    	//		return null if not found
+    	return null;
+    }
+   
 }

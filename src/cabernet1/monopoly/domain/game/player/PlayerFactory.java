@@ -22,12 +22,12 @@ public class PlayerFactory {
 
     public IPlayer createNormalPlayer(String name, int money,Tile startingTile) {
         ++numberOfInstances;
-        return new Player(name, money, numberOfInstances,startingTile);
+        return new Player(numberOfInstances, name, money, numberOfInstances,startingTile);
     }
 
     public IPlayer createBotPlayer(String name, int money,Tile startingTile) {
         ++numberOfInstances;
         IStrategy strategy = BotStrategyFactory.getInstance().createDefaultStrategy();
-        return new BotPlayer(name, money, numberOfInstances,startingTile, strategy);
+        return new BotPlayer(numberOfInstances,name, money, numberOfInstances,startingTile, strategy);
     }
 }

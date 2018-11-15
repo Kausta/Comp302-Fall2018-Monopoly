@@ -5,4 +5,7 @@ package cabernet1.monopoly.domain.game.board.tile.enumerators;
  */
 public enum TileType {
     CommunityChest,
+    Chance,
+    ColoredGroupProperty,
+    UtilityProperty
 }
