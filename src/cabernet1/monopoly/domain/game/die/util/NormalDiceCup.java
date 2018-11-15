@@ -5,7 +5,7 @@ import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
 
-public class NormalDiceCup{
+public class NormalDiceCup {
     RegularDie die1;
     RegularDie die2;
     SpeedDie die3;
@@ -46,5 +46,9 @@ public class NormalDiceCup{
 
     public int getFacesValue() {
         return die1.getDiceValue().getValue() + die2.getDiceValue().getValue() + die3.getDiceValue().getValue();
+    }
+
+    public boolean isEven() {
+        return (die1.getDiceValue().getValue() + die2.getDiceValue().getValue()) % 2 == 0;
     }
 }

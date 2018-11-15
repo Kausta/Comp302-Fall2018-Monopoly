@@ -7,12 +7,14 @@ import cabernet1.monopoly.utils.Observer;
 public interface INetworkAdapter {
     /**
      * Sends a command to the network socket
+     *
      * @param command
      */
     void sendCommand(ICommand command);
 
     /**
      * Called when a packet is received from network
+     *
      * @param observer
      */
     void onReceiveCommand(Observer<NetworkCommand> observer);
