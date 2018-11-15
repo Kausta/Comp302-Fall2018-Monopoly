@@ -8,7 +8,7 @@ public class House extends Building{
     private HashMap<Integer, Integer> rents;
 
     public House(int price, int sellPrice, ArrayList<Integer> rents){
-        super(price, sellPrice);
+        super(price, sellPrice, "house", "houses");
         for(int i = 0; i < 5; i++){
             this.rents.put(i, rents.get(i));
         }

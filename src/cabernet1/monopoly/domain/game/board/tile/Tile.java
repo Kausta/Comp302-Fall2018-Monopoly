@@ -7,6 +7,9 @@ public abstract class Tile{
         this.name = name;
     }
 
+    /**
+     * @return the nema of the tile
+     */
 	public String getName() {
 		return name;
 	}

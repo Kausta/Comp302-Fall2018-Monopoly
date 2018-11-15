@@ -9,6 +9,10 @@ public abstract class Property extends Tile {
         super(name);
         this.price = price;
     }
+
+    /**
+     * @return price of the property
+     */
     public int getPrice() {
     	return price;
     }
