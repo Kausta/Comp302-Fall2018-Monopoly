@@ -10,6 +10,7 @@ public class ClientSocket extends BaseSocket {
 
     /**
      * Constructor for creating a new client socket
+     *
      * @param ipAddress
      * @param port
      */
@@ -20,6 +21,7 @@ public class ClientSocket extends BaseSocket {
 
     /**
      * Constructor for creating a client socket from an already initialized socket
+     *
      * @param socket
      */
     public ClientSocket(Socket socket) {

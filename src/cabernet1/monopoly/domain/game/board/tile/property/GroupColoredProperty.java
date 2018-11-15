@@ -1,26 +1,28 @@
 package cabernet1.monopoly.domain.game.board.tile.property;
-import java.util.ArrayList;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Hotel;
 import cabernet1.monopoly.domain.game.board.tile.property.building.House;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
 
+import java.util.ArrayList;
+
 public class GroupColoredProperty extends Property {
 
-    public ColorGroup color;
+    private ColorGroup color;
 
-    public int mortgageValue;
-    public House house;
-    public Hotel hotel;
-    public Skyscraper skyscraper;
+    private int mortgageValue;
+    private House house;
+    private Hotel hotel;
+    private Skyscraper skyscraper;
 
 
     public GroupColoredProperty(String name, int price, int mortgageValue, ColorGroup color,
                                 int housePrice, int houseSellPrice, ArrayList<Integer> houseRents,
                                 int hotelPrice, int hotelSellPrice, int hotelRent,
-                                int skyscraperPrice, int skyscraperSellPrice, int skyscraperRent){
-        super(name, price);
+                                int skyscraperPrice, int skyscraperSellPrice, int skyscraperRent) {
+        super(name, TileType.ColoredGroupProperty, price);
         this.mortgageValue = mortgageValue;
         this.color = color;
         house = new House(housePrice, houseSellPrice, houseRents);
@@ -30,26 +32,83 @@ public class GroupColoredProperty extends Property {
 
     /**
      * Adds a house to the property
+     *
      * @return status message to be shown
      */
-    public String buyHouse(){
-        if(house.limitReached()){
-            return "Already at the maximum number of houses.";
-        }
-        house.increaseAmount();
-        return "Successfully purchased the house.";
+    public String buyHouse() {
+        return house.increaseAmount();
     }
 
     /**
      * Removes a house from the property
+     *
      * @return status message to be shown
      */
-    public String demolishHouse(){
-        if(house.exists()){
-            house.decreaseAmount();
-            return "Successfully demolished the house.";
+    public String demolishHouse() {
+        return house.decreaseAmount();
+    }
+
+    /**
+     * Adds a hotel to the property
+     *
+     * @return status message to be shown
+     */
+    public String buyHotel() {
+        return hotel.increaseAmount();
+    }
+
+    /**
+     * Removes a hotel from the property
+     *
+     * @return status message to be shown
+     */
+    public String demolishHotel() {
+        return hotel.decreaseAmount();
+    }
+
+    /**
+     * Adds a skyscraper to the property
+     *
+     * @return status message to be shown
+     */
+    public String buySkyScraper() {
+        return skyscraper.increaseAmount();
+    }
+
+    /**
+     * Removes a skyscraper from the property
+     *
+     * @return status message to be shown
+     */
+    public String demolishSkyscraper() {
+        return skyscraper.decreaseAmount();
+    }
+
+    /**
+     * @return The mortgage Value
+     */
+    public int getMortgageValue() {
+        return mortgageValue;
+    }
+
+    /**
+     * @return the current rent for landing on the tile
+     */
+    public int getRent() {
+        if (skyscraper.exists()) {
+            return skyscraper.getRent();
+        } else if (hotel.exists()) {
+            return hotel.getRent();
+        } else {
+            return house.getRent();
         }
-        return "There are no jouses to demolish";
+    }
+
+    /**
+     * @return the color group of the tile
+     */
+    public ColorGroup getColorGroup() {
+        return color;
     }
 
 
