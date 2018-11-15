@@ -1,14 +1,26 @@
 package cabernet1.monopoly.domain.game.die.util;
 
+import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
 
-public class NormalDiceCup{
+public class NormalDiceCup implements DiceCup{
+	private static volatile NormalDiceCup _instance = null;
+    
     RegularDie die1;
     RegularDie die2;
     SpeedDie die3;
+  	private NormalDiceCup() {
+  		
+  	}
+    public static synchronized NormalDiceCup getInstance() {
+        if (_instance == null) {
+            _instance = new NormalDiceCup();
+        }
+        return _instance;
+    }
 
     private boolean isDoubles() {
         // when determining doubles, only the first two dice are consider
