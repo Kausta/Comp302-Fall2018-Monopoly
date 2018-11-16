@@ -1,72 +1,146 @@
 package cabernet1.monopoly.domain.game.board;
 
-import cabernet1.monopoly.domain.game.board.tile.Tile;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.Network;
+import cabernet1.monopoly.domain.NetworkController;
+import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
+
 public class Board {
-    private List<Tile> boardTiles;
+	private static volatile Board _instance = null;
 
-    public Board() {
-        boardTiles = new ArrayList<>();
-        initiateTiles();
-    }
+	private Board() {
+		boardTiles = new ArrayList<>();
+		initiateTiles();
+	}
 
-    private void initiateTiles() {
-        //manually add all the information about the board's tile
-    }
+	public static synchronized Board getInstance() {
+		if (_instance == null) {
+			_instance = new Board();
+		}
+		return _instance;
+	}
 
-    private int getNumberOfTiles() {
-        return boardTiles.size();
-    }
+	private List<Tile> boardTiles;
 
-    private int getPositionOfTile(Tile tile) {
-        int counter = 0;
-        for (Tile singleTile : boardTiles) {
-            if (singleTile.equals(tile))
-                return counter;
-            ++counter;
-        }
-        return -1;
-    }
+	private void initiateTiles() {
+		// manually add all the information about the board's tile
+	}
 
-    private Tile getTileAtPosition(int position) {
-        return boardTiles.get(position);
-    }
+	private int getNumberOfTiles() {
+		return boardTiles.size();
+	}
 
-    public Tile getNextTile(Tile curTile, int numberOfSteps) {
-        //TODO: re-implement this function to support the multi-layer board, based on the parity of number of steps
-        int currentIdx = getPositionOfTile(curTile);
-        currentIdx = (currentIdx + numberOfSteps) % getNumberOfTiles();
-        return getTileAtPosition(currentIdx);
-    }
+	private int getPositionOfTile(Tile tile) {
+		int counter = 0;
+		for (Tile singleTile : boardTiles) {
+			if (singleTile.equals(tile))
+				return counter;
+			++counter;
+		}
+		return -1;
+	}
 
-    public Tile getJailTile() {
-        //TODO implement getJailTile
-        //just return the Jail Tile
-        return null;
-    }
+	private Tile getTileAtPosition(int position) {
+		return boardTiles.get(position);
+	}
 
-    public Tile nextUnownedProperty(Tile curTile, boolean direction, int diceResult) {
-        //TODO: implement nextUnownedProperty method
-        // implement based on Monopoly rules, check handle Mr.Monopoly use case
-        //		return null if not found
-        return null;
-    }
+	public Tile getNextTile(Tile curTile, int numberOfSteps) {
+		// TODO: re-implement this function to support the multi-layer board, based on
+		// the parity of number of steps
+		int currentIdx = getPositionOfTile(curTile);
+		currentIdx = (currentIdx + numberOfSteps) % getNumberOfTiles();
+		return getTileAtPosition(currentIdx);
+	}
 
-    public Tile nextRentableProperty(Tile curTile, boolean direction, int diceResult) {
-        //TODO: implement nextRentableProperty method
-        // implement based on Monopoly rules, check handle Mr.Monopoly use case
-        //		return null if not found
-        return null;
-    }
+	public Tile getJailTile() {
+		// TODO implement getJailTile
+		// just return the Jail Tile
+		return null;
+	}
 
-    public Tile nextNearestCommunityChestOrChanceTile(Tile curTile, boolean direction, int diceResult) {
-        //TODO: implement nextNearestCommunityChestOrChanceTile method
-        // implement based on monopoly rules, check handle roll dice use case
-        //		return null if not found
-        return null;
-    }
+	public Tile nextUnownedProperty(Tile curTile, boolean direction, int diceResult) {
+		// TODO: implement nextUnownedProperty method
+		// implement based on Monopoly rules, check handle Mr.Monopoly use case
+		// return null if not found
+		return null;
+	}
 
+	public Tile nextRentableProperty(Tile curTile, boolean direction, int diceResult) {
+		// TODO: implement nextRentableProperty method
+		// implement based on Monopoly rules, check handle Mr.Monopoly use case
+		// return null if not found
+		return null;
+	}
+
+	public Tile nextNearestCommunityChestOrChanceTile(Tile curTile, boolean direction, int diceResult) {
+		// TODO: implement nextNearestCommunityChestOrChanceTile method
+		// implement based on monopoly rules, check handle roll dice use case
+		// return null if not found
+		return null;
+	}
+	public void handleProperty(Player player, Property property) {
+		//TODO implement handleProperty method
+		/* if not owned by anyone
+		 * 		- check if the money is enough to buy it
+		 * 		- if so call controller.enableBuyProperty
+		 * if it's owned by himself:
+		 * 		- check the current state of it(can't buy a house, can buy house/hotel/skyscraper)
+		 * 		- check if the amount to do that is enough
+		 * 		- if so call controller.enableUpgradeBuilding  
+		 * if it's owned by someone else:
+		 * 		- get the other player & amount of rent
+		 * 		- use player.payRent(amount) & player2.gainRent(amount)
+		 * 
+		 */
+	}
+	public void handleTile(Player player,Tile destTile) {
+		//TODO implement handleTile method
+		String message ="";
+		GameController controller=Game.getInstance().getGameController();
+		/*  
+		 *  this method will handle landing on the following tiles:
+		 *  	- Property -> handleProperty ->
+		 *  	- Jail -> call player.goJail
+		 *  	- Chance or Community Tile -> use card.drawCard (TODO implement drawCard)
+		 *  	- else, call the suitable class (it will do nothing)
+		 *  
+		 *  announce whatever is the suitable message using the code below
+		 *  
+		 *   
+		 */
+		if (player.getMovementStatus()==PlayerMovementStatus.NORMAL_MOVE) {
+			controller.enableSpecialAction();
+		}else {
+			controller.enableEndTurn();
+		}
+		
+		NetworkController nc=Network.getInstance().getNetworkController();
+		nc.sendCommand(new AnnounceMessageCommand(message));
+		
+	}
+	public void upgradeBuilding(Player player,Property property) {
+		//TODO implement upgradeBuilding method
+		// detect what is the type of the building (since there is only one definitive way to upgrade the building (if possible))
+		// this method will only be called when it's possible to do so
+		// upgrade that building on the corresponding property
+		String message ="Building on "+property.getName()+" has been upgraded";
+		NetworkController nc=Network.getInstance().getNetworkController();
+		nc.sendCommand(new AnnounceMessageCommand(message));
+	}
+	public void buyProperty(Player player,Property property) {
+		//TODO implement buyProperty method
+		// this method will only be called when it's possible to do so
+		// handle the buying, update the owner in property.ownBy + player.ownProperty
+		String message =player.getName() + " has bought "+ property.getName();
+		NetworkController nc=Network.getInstance().getNetworkController();
+		nc.sendCommand(new AnnounceMessageCommand(message));
+	}
 }
