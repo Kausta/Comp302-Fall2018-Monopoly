@@ -2,7 +2,6 @@ package cabernet1.monopoly.ui.tabbedpanes.tabs;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 
 public class PropertiesTab extends JScrollPane {
     private static volatile PropertiesTab _instance = null;
@@ -25,6 +24,7 @@ public class PropertiesTab extends JScrollPane {
         propertiesTable.setModel(
                 new DefaultTableModel(new Object[][]{}, new String[]{"Property Name", "Owner", "Group", "Rent"}) {
                     Class[] columnTypes = new Class[]{String.class, String.class, Integer.class};
+
                     public Class getColumnClass(int columnIndex) {
                         return columnTypes[columnIndex];
                     }

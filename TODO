@@ -12,3 +12,77 @@
 
 - add enumerators for dice faces, movementStatus
 - add a strategy class for the player movement, depending on the type of the dice
+
+
+
+type of Messages from domain to Network:
+	- announceMessage (message: string) (domain->UI)
+		- it will announce Message in the UI with the current the message
+	- move player (player:Player , newTile: Tile) (domain->UI)
+		- call the ui.movePlayer(player,newTile)
+	- changeCurrentTile (player: Player , newTile: Tile) (domain->domain)
+		- change controller.changeCurrentTile(player,newTile)
+	- changeJailStatus(player: Player,boolean inJail) (domain->domain)
+		- call the controller.getInJail(player,inJail) 
+	- changeMovementStatus(player:Player, status: PlayerMovementStatus)
+		- call controller.changeMovementStatus(player, status)
+	- increaseNumberOfConsecutiveDoublesRolls(player: Player)
+		- call controller.increaseNumberOfConsecutiveDoublesRolls(player)
+Observers: 
+	- show face of the dice(DiceCup)
+	- chooseTile
+	- announceMessage(message: String)
+
+Board:
+	- nextUnownedProperty(curTile:Tile, direction: Boolean, diceResultParityOdd: int)
+		- based on handling MrMonopoly usecases
+		- return null if not found
+	- nextRetableProperty(curTile:Tile, curPlayer: Player, direction: Boolean, diceResultParity: int)
+		- based on handling MrMonopoly usecases
+		- return null if not found
+
+
+
+UI:
+	- movePlayer(player: Player, newTile: Tile)
+		- transport the player to the new tile(only trasportation for phase #1)
+	- announceMessage(message: String)
+		- announce a message to the announcement section
+
+	- chooseTile(player,Tile newTile)
+		- command the player to choose a tile
+		- call JumpToTile(player, newSelectedTile)
+
+
+Controller:
+	- jumpToTile(player: Player, newSelectedTile: Tile)
+		- call player.JumpToTile(newSelectedTile)
+	- changeCurrentTile(player,newTile: Tile)
+		- call player.changeCurrentTile(newTile)
+
+	- changeJailStatus(player: Player,boolean inJail)
+		- call player.changeJailStatus(inJail)
+	- changeMovementStatus(player:Player, status: PlayerMovementStatus)
+		- call player.changeMovementStatus(status)
+	- increaseNumberOfConsecutiveDoublesRolls(player)
+		- call player.increaseNumberOfConsecutiveDoublesRolls()
+Game
+	- endTurn()
+		- checks which player is playing
+		- check if in jail, end the move, and announce that in ui
+		- get the status of the player
+			- if normal move, just finish the turn, and announce that in ui
+			- if bus move, call player.busMove(normalCup,board)
+			- if mr monopoly move, call player.handleMrMonopolyMove(normalCup,board)
+			- if double move, call player.playTurn(normalCup,board)
+
+main functionalities to be implemented:
+	Roll dice (not simulated).
+	Buy Property.
+		- buy property
+		- pay rent
+	Starting the game with at least two computers.
+	Demo of one chance and community chest card. The deck may contain only these cards.
+		- draw card
+		- handle bus move
+	Roll three cards.

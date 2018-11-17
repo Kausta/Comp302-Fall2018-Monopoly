@@ -4,18 +4,18 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 public class BoardPanel extends BasePanel {
 
+    private static volatile BoardPanel _instance = null;
     // Height and width coefficient constants
     private final double HEIGHT_COEFFICIENT = 8.25;
     private final double WIDTH_COEFFICIENT = 8.25;
-
-    private static volatile BoardPanel _instance = null;
     private BufferedImage board;
 
-    private BoardPanel (String path) {
+    private BoardPanel(String path) {
         setBackground(new Color(212, 216, 221));
 
         // Adjusting the size of panel with the coefficients
@@ -29,6 +29,7 @@ public class BoardPanel extends BasePanel {
      * Almost trivial getInstance method to make BoardPanel singleton.
      * In addition to trivial one, it also gets board image as parameter
      * and uses it to add the board image to panel itself.
+     *
      * @param path Path of the board image in local.
      * @return Instance of Singleton object.
      */
@@ -45,6 +46,7 @@ public class BoardPanel extends BasePanel {
      * Then it scale the image to fit the panel.
      * After that it creates a new JLabel with initializing a new ImageIcon with the scaled image.
      * Finally, it adds the created JLabel to panel itself.
+     *
      * @param path Path of the board image in local
      */
     private void drawBoard(String path) {
@@ -54,8 +56,7 @@ public class BoardPanel extends BasePanel {
             JLabel boardImageLabel = new JLabel(new ImageIcon(scaledBoard));
             add(boardImageLabel);
             boardImageLabel.setVisible(true);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
         }
     }
 }

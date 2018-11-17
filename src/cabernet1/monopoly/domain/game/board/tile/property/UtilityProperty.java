@@ -1,8 +1,10 @@
 package cabernet1.monopoly.domain.game.board.tile.property;
 
-public class UtilityProperty extends Property{
+import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 
-    public UtilityProperty(String name, int price){
-        super(name, price);
+public class UtilityProperty extends Property {
+
+    public UtilityProperty(String name, int price) {
+        super(name, TileType.UtilityProperty, price);
     }
 }

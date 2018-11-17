@@ -9,8 +9,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 public class BotPlayer extends IPlayer {
     private IStrategy botStrategy;
 
-    public BotPlayer(String name, int money, int defaultOrder, Tile currentTile, IStrategy botStrategy) {
-        super(name, money, defaultOrder, currentTile);
+    public BotPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile, IStrategy botStrategy) {
+        super(ID, name, money, defaultOrder, currentTile);
         this.botStrategy = botStrategy;
     }
 
@@ -47,33 +47,28 @@ public class BotPlayer extends IPlayer {
     }
 
     @Override
-    protected Tile handleNormalMove(NormalDiceCup cup, Board board) {
+    protected void handleNormalMove(NormalDiceCup cup, Board board) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
-    protected Tile handleMrMonopolyMove(NormalDiceCup cup, Board board) {
+    protected void handleMrMonopolyMove(NormalDiceCup cup, Board board) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
-    protected Tile handleBusMove(NormalDiceCup cup, Board board) {
+    protected void handleBusMove(NormalDiceCup cup, Board board) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
-    protected Tile handleTriplesMove(NormalDiceCup cup, Board board) {
+    protected void handleTriplesMove(NormalDiceCup cup, Board board) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
-    protected Tile handleDoubleMove(NormalDiceCup cup, Board board) {
+    protected void handleDoubleMove(NormalDiceCup cup, Board board) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
