@@ -48,6 +48,9 @@ public class GameView extends BaseView {
 
         root.setBackground(new Color(212, 216, 221));
 
+        // Initializing Observers
+        initializeObservers();
+
         // Getting the path of the board image
         String boardImage = ResourceManager.getInstance().getResourcePath("board_small.png").getPath();
 
@@ -67,6 +70,10 @@ public class GameView extends BaseView {
         this.root.add(rP, BorderLayout.EAST);
 
         logger.d("Loading board from " + boardImage);
+    }
+
+    private void initializeObservers() {
+        LogScrollPane.getInstance().initialize(controller.announcement);
     }
 
     @Override
