@@ -63,6 +63,11 @@ public class GameController {
 		} else {
 			currentPlayer.playTurn();
 		}
+		try {
+			Thread.sleep(150);
+		} catch (InterruptedException e) {
+		}
+		playerListObservable.setValue(playerList());
 		// showDiceValue();
 	}
 
@@ -116,6 +121,7 @@ public class GameController {
 	}
 	public void buyProperty() {
 		Board.getInstance().buyProperty(getCurrentPlayer(),(Property) getCurrentPlayer().getCurrentTile());
+		playerListObservable.setValue(playerList());
 	}
 	// All the enableX methods below are set to update the observer with "true" assuming the specified buttons'
 

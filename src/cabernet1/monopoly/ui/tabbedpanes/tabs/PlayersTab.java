@@ -45,6 +45,12 @@ public class PlayersTab extends JScrollPane implements Observer<List<IPlayer>> {
                 }
         );*/
 
+        DefaultTableModel model = (DefaultTableModel)playerTable.getModel();
+        for(IPlayer p: controller.playerList()) {
+            String money = "" + p.getMoney();
+            model.addRow(new Object[]{p.getName(), p.getCurrentTile().getName(), money});
+        }
+
         playerTable.getColumnModel().getColumn(0).setResizable(false);
         playerTable.getColumnModel().getColumn(0).setPreferredWidth(600);
         playerTable.getColumnModel().getColumn(1).setResizable(false);
