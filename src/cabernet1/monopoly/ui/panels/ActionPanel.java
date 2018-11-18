@@ -1,5 +1,10 @@
 package cabernet1.monopoly.ui.panels;
 
+import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.ui.buttons.RollDiceButton;
+import cabernet1.monopoly.ui.scrollpanes.LogScrollPane;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
@@ -30,7 +35,6 @@ public class ActionPanel extends BasePanel {
     }
 
     private void initialize() {
-        JButton rollDice = new JButton("Roll Dice!");
-        add(rollDice);
+        add(RollDiceButton.getInstance());
     }
 }
