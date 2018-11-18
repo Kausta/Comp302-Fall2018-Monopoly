@@ -65,11 +65,6 @@ public class GameController {
 		} else {
 			currentPlayer.playTurn();
 		}
-		try {
-			Thread.sleep(150);
-		} catch (InterruptedException e) {
-		}
-		playerListObservable.setValue(playerList());
 		// showDiceValue();
 	}
 

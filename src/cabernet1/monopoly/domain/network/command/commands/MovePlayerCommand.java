@@ -27,7 +27,7 @@ public class MovePlayerCommand extends ICommand {
     public void execute() {
         GameController game = Game.getInstance().getGameController();
         game.movePlayer(player, newTile);
-
+        game.playerListObservable.setValue(game.playerList());
     }
 
 }
