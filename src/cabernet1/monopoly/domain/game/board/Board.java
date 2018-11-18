@@ -28,13 +28,7 @@ public class Board {
 	private List<ChanceCard> chanceCards;
 	private Random r = new Random();
 
-
 	private Board() {
-		boardTiles = new ArrayList<>();
-		communityChestCards = new ArrayList<>();
-		chanceCards = new ArrayList<>();
-		initiateTiles();
-		initializeCards();
 	}
 
 	public static synchronized Board getInstance() {
@@ -42,6 +36,14 @@ public class Board {
 			_instance = new Board();
 		}
 		return _instance;
+	}
+
+	public void initialize() {
+		boardTiles = new ArrayList<>();
+		communityChestCards = new ArrayList<>();
+		chanceCards = new ArrayList<>();
+		initiateTiles();
+		initializeCards();
 	}
 
 	private List<Tile> boardTiles;
@@ -151,7 +153,7 @@ public class Board {
 			controller.enableBuyProperty();
 		}else if(property.getOwner().equals(player)){
 			// check if can buy building;
-			// if so call controller.enableUpgradeBuilding  
+			// if so call controller.enableUpgradeBuilding
 		}else{
 			int rent = property.getRent();
 			player.payRent(rent);
@@ -163,26 +165,26 @@ public class Board {
 		// TODO implement handleTile method
 		String message ="";
 		GameController controller=Game.getInstance().getGameController();
-		/*  
+		/*
 		 *  this method will handle landing on the following tiles:
 		 *  	- Property -> handleProperty ->
 		 *  	- Jail -> call player.goJail
 		 *  	- Chance or Community Tile -> use card.drawCard (TODO implement drawCard)
 		 *  	- else, call the suitable class (it will do nothing)
-		 *  
+		 *
 		 *  announce whatever is the suitable message using the code below
-		 *  
-		 *   
+		 *
+		 *
 		 */
 		if (player.getMovementStatus()==PlayerMovementStatus.NORMAL_MOVE) {
 			controller.enableSpecialAction();
 		}else {
 			controller.enableEndTurn();
 		}
-		
+
 		NetworkController nc=Network.getInstance().getNetworkController();
 		nc.sendCommand(new AnnounceMessageCommand(message));
-		
+
 	}
 	public void upgradeBuilding(Player player,Property property) {
 		// TODO implement upgradeBuilding method
