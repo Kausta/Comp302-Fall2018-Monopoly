@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.actiontile;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
+import cabernet1.monopoly.domain.game.player.Player;
 
 public class Jail extends ActionTile {
 
@@ -9,12 +10,12 @@ public class Jail extends ActionTile {
     }
 
     @Override
-    public void landingAction() {
+    public void landingAction(Player player) {
         // TODO: implement
     }
 
     @Override
-    public void passingAction() {
+    public void passingAction(Player player) {
 
     }
 
