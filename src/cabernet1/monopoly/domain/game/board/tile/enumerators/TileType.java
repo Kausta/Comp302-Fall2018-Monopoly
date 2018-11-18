@@ -43,5 +43,7 @@ public enum TileType {
     ReverseDirection,
     SqueezePlay,
     TelephoneCompany,
-    Bonus
+    Bonus,
+    ColoredGroupProperty,
+    UtilityProperty
 }

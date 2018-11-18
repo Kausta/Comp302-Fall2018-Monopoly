@@ -1,16 +1,24 @@
 package cabernet1.monopoly.domain.game.board.tile;
 
-public abstract class Tile{
-    private String name;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 
-    public Tile(String name){
+public abstract class Tile {
+    private String name;
+    private TileType tileType;
+
+    public Tile(String name, TileType tileType) {
         this.name = name;
+        this.tileType = tileType;
     }
 
     /**
-     * @return the nema of the tile
+     * @return the name of the tile
      */
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public TileType getTileType() {
+        return tileType;
+    }
 }

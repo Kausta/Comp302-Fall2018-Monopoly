@@ -35,12 +35,13 @@ public abstract class BaseScrollPane extends JScrollPane {
      * It takes two coefficient parameters for height and width
      * and calculates the screen size with multiplying these
      * coefficients with heightPiece and widthPiece values.
+     *
      * @param hC Height coefficient
      * @param wC Width coefficient
      */
     public void adjustSize(double hC, double wC) {
-        height = (int)(heightPiece*hC);
-        width = (int)(widthPiece*wC);
+        height = (int) (heightPiece * hC);
+        width = (int) (widthPiece * wC);
         size.height = height;
         size.width = width;
         setPreferredSize(size);

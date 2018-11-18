@@ -3,21 +3,14 @@ package cabernet1.monopoly.ui.tabbedpanes;
 import cabernet1.monopoly.ui.tabbedpanes.tabs.PlayersTab;
 import cabernet1.monopoly.ui.tabbedpanes.tabs.PropertiesTab;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Properties;
-
 public class DetailsTabbedPane extends BaseTabbedPane {
 
+    private static volatile DetailsTabbedPane _instance = null;
     // Height and width coefficient constants
     private final double HEIGHT_COEFFICIENT = 3;
     private final double WIDTH_COEFFICIENT = 7.5;
 
-    private static volatile DetailsTabbedPane _instance = null;
-
-    private DetailsTabbedPane () {
+    private DetailsTabbedPane() {
 
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);
