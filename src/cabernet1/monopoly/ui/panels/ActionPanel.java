@@ -1,6 +1,9 @@
 package cabernet1.monopoly.ui.panels;
 
+import cabernet1.monopoly.ui.buttons.*;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
@@ -30,7 +33,20 @@ public class ActionPanel extends BasePanel {
     }
 
     private void initialize() {
-        JButton rollDice = new JButton("Roll Dice!");
-        add(rollDice);
+        add(RollDiceButton.getInstance(), BorderLayout.CENTER);
+        add(BuyPropertyButton.getInstance(), BorderLayout.CENTER);
+        add(EndTurnButton.getInstance(), BorderLayout.CENTER);
+
+        RegularDieImage die1 = new RegularDieImage();
+        die1.startObserving(controller.die1Observeable);
+        add(die1);
+
+        RegularDieImage die2 = new RegularDieImage();
+        die2.startObserving(controller.die2Observeable);
+        add(die2);
+
+        SpeedDieImage die3 = new SpeedDieImage();
+        die3.startObserving(controller.speedDieObserveable);
+        add(die3);
     }
 }

@@ -23,57 +23,53 @@ public class BotPlayer extends IPlayer {
         return botStrategy;
     }
 
-    public void setBotStrategy(IStrategy botStrategy) {
-        this.botStrategy = botStrategy;
-    }
+	@Override
+	protected void handleNormalMove() {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @Override
-    public void playTurn(NormalDiceCup dice, Board board) {
-        botStrategy.execute();
-        //TODO implement bot-playTurn
-    }
+	@Override
+	protected void handleMrMonopolyMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void handleBusMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void handleTriplesMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void handleDoubleMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playJailturn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jumpToTile(Tile newTile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void goJail() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
-    @Override
-    protected void goJail(Board board) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void playJailturn(JailDiceCup cup, Board board) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void handleNormalMove(NormalDiceCup cup, Board board) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    protected void handleMrMonopolyMove(NormalDiceCup cup, Board board) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    protected void handleBusMove(NormalDiceCup cup, Board board) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    protected void handleTriplesMove(NormalDiceCup cup, Board board) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    protected void handleDoubleMove(NormalDiceCup cup, Board board) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void jumpToTile(Tile newTile) {
-        // TODO Auto-generated method stub
-
-    }
 }
