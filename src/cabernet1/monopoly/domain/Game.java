@@ -1,30 +1,21 @@
 package cabernet1.monopoly.domain;
 
-import cabernet1.monopoly.domain.game.board.Board;
-import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
-import cabernet1.monopoly.domain.game.die.util.RollThreeDiceCup;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.player.PlayerFactory;
+import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Game {
 	private static volatile Game _instance = null;
 	private GameController controller;
 
-	private List<Player> player;
+	private List<InitialPlayerData> initialPlayerData;
+	private List<IPlayer> player;
 
 	private Game() {
-		initialization();
-	}
-
-	private void initialization() {
-		player = new ArrayList<>();
-		
-		// TODO coordinate with Caner to see how to start the game with how many players
-		// and which ones on which devices
-		// then instantiate them and add them to the player list
-		// call configureTurn to start the turn
 	}
 
 	public static synchronized Game getInstance() {
@@ -32,6 +23,13 @@ public class Game {
 			_instance = new Game();
 		}
 		return _instance;
+	}
+
+	public void initialize(List<InitialPlayerData> initialPlayerData) {
+		this.initialPlayerData = initialPlayerData;
+		this.player = initialPlayerData.stream()
+				.map(playerData -> PlayerFactory.getInstance().createFromInitialData(playerData))
+				.collect(Collectors.toList());
 	}
 
 	public synchronized GameController getGameController() {
@@ -55,7 +53,7 @@ public class Game {
 
 	public void configureTurn() {
 		//TODO implement configureTurn method
-		
+
 		// call the showPlayerInfo(player) on the UI using observer
 
 	}
