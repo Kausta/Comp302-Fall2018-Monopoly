@@ -58,9 +58,6 @@ public class GameController {
 		} else {
 			currentPlayer.playTurn();
 		}
-		rollButton.setValue(false);
-		buyButton.setValue(true);
-		announceMessage("Player rolled " + die1.getDiceValue().getValue() + ", " + die2.getDiceValue().getValue() + ", " + die3.getDiceValue().getValue());
 		// showDiceValue();
 	}
 
