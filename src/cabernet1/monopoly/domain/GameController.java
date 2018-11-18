@@ -9,15 +9,17 @@ import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
 
+import java.util.List;
+
 public class GameController {
 	private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
-
 	// To add announcements to UI
     public Observable<String> announcement = new Observable<>();
 
@@ -33,6 +35,7 @@ public class GameController {
 	public Observable<Boolean> endButton = new Observable<>();
 	public Observable<Boolean> rollButton = new Observable<>();
 
+	public Observable<Player> playerObserver = new Observable<>();
 
 
 	RegularDie die1 = NormalDiceCup.getInstance().die1;
@@ -47,12 +50,13 @@ public class GameController {
 	public Player getCurrentPlayer() {
 		return Game.getInstance().getCurrentPlayer();
 	}
+
 	public void announceMessage(String message) {
 		announcement.setValue(message);
 	}
 
 	public void rollDice(){
-		Player currentPlayer = Game.getInstance().getCurrentPlayer();
+		Player currentPlayer = getCurrentPlayer();
 		if (currentPlayer.isInJail()) {
 			currentPlayer.playJailturn();
 		} else {
@@ -69,11 +73,12 @@ public class GameController {
 	public void showDiceValue() {
 		die1Observeable.setValue(die1.getDiceValue().getValue());
 		die2Observeable.setValue(die2.getDiceValue().getValue());
-		speedDieObserveable.setValue(die3.getDiceValue().getValue());
+		speedDieObserveable.setValue(die3.speedDieValue());
 	}
 
 	public void movePlayer(Player player, Tile newTile) {
 		movePlayerObserveable.setValue(newTile);
+		player.setCurrentTile(newTile);
 	}
 
 	public void jumpToTile(Player player, Tile newTile) {
@@ -129,6 +134,12 @@ public class GameController {
 	public void enableRollDice(){
 		rollButton.setValue(true);
 	}
-	
-	
+
+	public void playerInfo(Player player){
+		playerObserver.setValue(player);
+	}
+
+	public List<IPlayer> playerList(){
+		return Game.getInstance().getPlayers();
+	}
 }

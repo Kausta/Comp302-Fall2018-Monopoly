@@ -82,6 +82,10 @@ public abstract class IPlayer {
 	public Tile getCurrentTile() {
 		return curTile;
 	}
+
+	public void setCurrentTile(Tile tile){
+		this.curTile = tile;
+	}
 	
 	public int getID() {
 		return ID;

@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.network.command.commands;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
+
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
@@ -28,5 +29,4 @@ public class ChangeJailStatusCommand extends ICommand {
         game.changeJailStatus(player, inJail);
 
     }
-
 }
