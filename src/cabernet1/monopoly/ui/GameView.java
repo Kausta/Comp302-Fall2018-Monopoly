@@ -85,7 +85,7 @@ public class GameView extends BaseView {
     }
     public void rollDice() {
     	//TODO: call this function when the rollDice button is clicked
-    	controller.playTurn();
+    	controller.rollDice();
     }
     public void announceMessage(String message) {
     	// TODO implement announceMessage function

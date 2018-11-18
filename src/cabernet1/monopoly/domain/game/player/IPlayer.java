@@ -141,4 +141,6 @@ public abstract class IPlayer {
 		money+=amountOfMoney;
 	}
 
+	public boolean isInJail(){ return inJail; }
+
 }
