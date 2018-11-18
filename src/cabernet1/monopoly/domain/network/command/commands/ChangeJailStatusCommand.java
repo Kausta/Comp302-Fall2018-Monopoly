@@ -2,14 +2,14 @@ package cabernet1.monopoly.domain.network.command.commands;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
-import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class ChangeJailStatusCommand extends ICommand {
     private boolean inJail;
-    private Player player;
+    private IPlayer player;
 
-    public Player getPlayer() {
+    public IPlayer getPlayer() {
         return player;
     }
 
@@ -17,7 +17,7 @@ public class ChangeJailStatusCommand extends ICommand {
         return inJail;
     }
 
-    public ChangeJailStatusCommand(Player player, boolean inJail) {
+    public ChangeJailStatusCommand(IPlayer player, boolean inJail) {
         this.player = player;
         this.inJail = inJail;
     }
