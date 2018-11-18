@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
@@ -10,6 +11,10 @@ import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.*;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.card.chancecard.ChanceCard;
+import cabernet1.monopoly.domain.game.card.chancecard.HolidayBonus;
+import cabernet1.monopoly.domain.game.card.communitycard.CommunityChestCard;
+import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
@@ -18,10 +23,17 @@ public class Board {
 	private static volatile Board _instance = null;
 	private Pool poolTile;
 
+	private List<CommunityChestCard> communityChestCards;
+	private List<ChanceCard> chanceCards;
+	private Random r = new Random();
+
 
 	private Board() {
 		boardTiles = new ArrayList<>();
+		communityChestCards = new ArrayList<>();
+		chanceCards = new ArrayList<>();
 		initiateTiles();
+		initializeCards();
 	}
 
 	public static synchronized Board getInstance() {
@@ -38,6 +50,19 @@ public class Board {
 		poolTile = new Pool();
 		boardTiles.add(0, new Go());
 		boardTiles.add(80, new Jail());
+	}
+
+	private void initializeCards(){
+		communityChestCards.add(new PayHospitalBills());
+		chanceCards.add(new HolidayBonus());
+	}
+
+	public ChanceCard getChanceCard(){
+		return chanceCards.get(r.nextInt(chanceCards.size()));
+	}
+
+	public CommunityChestCard getCommunityChestCard(){
+		return communityChestCards.get(r.nextInt(communityChestCards.size()));
 	}
 
 	private int getNumberOfTiles() {
