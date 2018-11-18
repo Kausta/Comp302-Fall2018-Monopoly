@@ -91,18 +91,6 @@ public abstract class IPlayer {
 		return name;
 	}
 
-    public PlayerMovementStatus getMovementStatus() {
-        return movementStatus;
-    }
-
-    protected void setMovementStatus(PlayerMovementStatus newStatus) {
-        this.movementStatus = newStatus;
-    }
-
-    public void increaseNumberOfConsecutiveDoublesRolls() {
-        ++numberOfConsecutiveDoublesRolls;
-    }
-
 	protected abstract void handleNormalMove();
 
 	protected abstract void handleMrMonopolyMove();
@@ -112,8 +100,6 @@ public abstract class IPlayer {
 	protected abstract void handleTriplesMove();
 
 	protected abstract void handleDoubleMove();
-
-	public abstract void playTurn();
 
 	public abstract void playJailturn();
 

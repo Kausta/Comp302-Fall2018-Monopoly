@@ -143,9 +143,7 @@ public class Player extends IPlayer {
 	@Override
 	protected void handleTriplesMove() {
 		Game.getInstance().getGameController().chooseTile(this);
-
-    @Override
-    protected void handleBusMove(NormalDiceCup cup, Board board) {
+	}
 
 	@Override
 	protected void handleDoubleMove() {
@@ -184,16 +182,5 @@ public class Player extends IPlayer {
 		
 		Board.getInstance().handleTile(this, newTile);
 	}
-
-    }
-
-    @Override
-    public void jumpToTile(Tile newTile) {
-        String previousTile = curTile.getName();
-        // TODO network.changeCurrentTile(newTile)
-        String message = getName() + " has transposed immediately from " + previousTile + " to " + curTile.getName();
-        // TODO network.announceMessage(message)
-
-    }
 
 }
