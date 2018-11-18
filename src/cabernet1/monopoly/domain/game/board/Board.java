@@ -48,13 +48,30 @@ public class Board {
 
 	private void initiateTiles() {
 		// manually add all the information about the board's tile
+		// first the low, right corner of middle then inner, then outer
 		poolTile = new Pool();
 		for(int i = 0; i < 120; i++) {
 			boardTiles.add(i, new MediterraneanAvenue());
 		}
 		boardTiles.add(0, new Go());
-		boardTiles.add(80, new Jail());
-	}
+		boardTiles.add(2, new CommunityChestTile());
+		boardTiles.add(7, new ChanceTile());
+		boardTiles.add(10, new Jail());
+		boardTiles.add(17, new CommunityChestTile());
+		boardTiles.add(22, new ChanceTile());
+		boardTiles.add(33, new CommunityChestTile());
+		boardTiles.add(36, new ChanceTile());
+		boardTiles.add(45, new CommunityChestTile());
+		boardTiles.add(57, new ChanceTile());
+		boardTiles.add(67, new CommunityChestTile());
+		boardTiles.add(75, new ChanceTile());
+		boardTiles.add(86, new ChanceTile());
+		boardTiles.add(89, new CommunityChestTile());
+		boardTiles.add(95, new ChanceTile());
+		boardTiles.add(101, new CommunityChestTile());
+		boardTiles.add(111, new CommunityChestTile());
+		boardTiles.add(119, new ChanceTile());
+		}
 
 	private void initializeCards(){
 		communityChestCards.add(new PayHospitalBills());
