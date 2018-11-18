@@ -20,8 +20,6 @@ public class IncNumConsDoubleRollsCommand extends ICommand {
     public void execute() {
         GameController game = Game.getInstance().getGameController();
         game.increaseNumberOfConsecutiveDoubleRolls(player);
-
-
     }
 
 }

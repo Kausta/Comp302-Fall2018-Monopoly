@@ -37,6 +37,7 @@ public class ActionPanel extends BasePanel {
         add(BuyPropertyButton.getInstance(), BorderLayout.CENTER);
         add(EndTurnButton.getInstance(), BorderLayout.CENTER);
 
+        /*
         RegularDieImage die1 = new RegularDieImage();
         die1.startObserving(controller.die1Observeable);
         add(die1);
@@ -48,5 +49,6 @@ public class ActionPanel extends BasePanel {
         SpeedDieImage die3 = new SpeedDieImage();
         die3.startObserving(controller.speedDieObserveable);
         add(die3);
+        */
     }
 }

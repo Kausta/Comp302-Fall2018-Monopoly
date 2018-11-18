@@ -7,6 +7,7 @@ import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class ChangeMovementStatusCommand extends ICommand{
+
 	private PlayerMovementStatus movementStatus;
 	private IPlayer player;
 	public IPlayer getPlayer() {
@@ -23,6 +24,5 @@ public class ChangeMovementStatusCommand extends ICommand{
 	public void execute() {
 		GameController game=Game.getInstance().getGameController();
 		game.changeMovementStatus(player, movementStatus);
-
 	}
 }
