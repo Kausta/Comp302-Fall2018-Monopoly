@@ -53,6 +53,26 @@ public class Form implements ActionListener {
             return this;
         }
 
+        public Builder addLabel(String labelText) {
+            JPanel container = new JPanel();
+            GridBagLayout layout = new GridBagLayout();
+            container.setLayout(layout);
+
+            JLabel label = new JLabel(labelText);
+
+            GridBagConstraints c1 = new GridBagConstraints();
+            c1.gridx = 0;
+            c1.gridy = 0;
+            c1.gridwidth = 1;
+            c1.gridheight = 1;
+            c1.anchor = GridBagConstraints.CENTER;
+            container.add(label, c1);
+
+            components.add(container);
+
+            return this;
+        }
+
         public Builder addLabeledComponent(String labelText, Component component) {
             JPanel container = new JPanel();
             GridBagLayout layout = new GridBagLayout();

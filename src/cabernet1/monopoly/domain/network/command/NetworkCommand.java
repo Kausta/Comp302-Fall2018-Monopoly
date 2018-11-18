@@ -3,7 +3,7 @@ package cabernet1.monopoly.domain.network.command;
 /**
  * Represents a command being sent in the network
  */
-public class NetworkCommand implements ICommand {
+public class NetworkCommand extends ICommand {
     private ICommand innerCommand;
 
     public NetworkCommand(ICommand innerCommand) {
