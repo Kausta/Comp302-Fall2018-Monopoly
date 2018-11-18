@@ -25,10 +25,8 @@ public class PlayerFactory {
 
     public IPlayer createFromInitialData(InitialPlayerData playerData) {
         if (playerData.isBotPlayer()) {
-            // TODO: Get initial tile
             return this.createBotPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
         } else {
-            // TODO: Get initial tile
             return this.createNormalPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
         }
     }

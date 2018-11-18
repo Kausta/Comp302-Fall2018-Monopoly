@@ -1,5 +1,6 @@
 package cabernet1.monopoly.domain;
 
+import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.PlayerFactory;
@@ -19,6 +20,9 @@ public class Game {
 	private List<IPlayer> player;
 
 	private Game() {
+		// Manually initialize the board here
+		Board board = Board.getInstance();
+		board.initialize();
 	}
 
 	public static synchronized Game getInstance() {
@@ -29,6 +33,7 @@ public class Game {
 	}
 
 	public void initialize(List<InitialPlayerData> initialPlayerData) {
+		logger.i("Registering players to the game");
 		this.initialPlayerData = initialPlayerData;
 		this.player = initialPlayerData.stream()
 				.map(playerData -> {
