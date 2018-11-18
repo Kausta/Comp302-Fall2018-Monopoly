@@ -8,7 +8,6 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
-import cabernet1.monopoly.domain.game.die.util.DiceCup;
 import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
@@ -16,18 +15,27 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
 
-import java.util.ArrayList;
-
 public class GameController {
 	private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
 	// To add announcements to UI
     public Observable<String> announcement = new Observable<>();
+
     public Observable<Integer> die1Observeable = new Observable<>();
     public Observable<Integer> die2Observeable = new Observable<>();
     public Observable<Integer> speedDieObserveable = new Observable<>();
 
-    RegularDie die1 = NormalDiceCup.getInstance().die1;
+    public Observable<Tile> movePlayerObserveable = new Observable<>();
+
+    public Observable<Boolean> upgradeButton = new Observable<>();
+	public Observable<Boolean> buyButton = new Observable<>();
+	public Observable<Boolean> specialButton = new Observable<>();
+	public Observable<Boolean> endButton = new Observable<>();
+	public Observable<Boolean> rollButton = new Observable<>();
+
+
+
+	RegularDie die1 = NormalDiceCup.getInstance().die1;
     RegularDie die2 = NormalDiceCup.getInstance().die2;
     SpeedDie die3 = NormalDiceCup.getInstance().die3;
 
@@ -66,8 +74,7 @@ public class GameController {
 	}
 
 	public void movePlayer(Player player, Tile newTile) {
-		// TODO implement movePlayer method
-		// call the movePlayer method in ui using observer
+		movePlayerObserveable.setValue(newTile);
 	}
 
 	public void jumpToTile(Player player, Tile newTile) {
@@ -96,28 +103,32 @@ public class GameController {
 		Game.getInstance().endTurn();
 	}
 	public void enableUpgradeBuilding() {
-		//TODO implement enableUpgradeBuilding method
-		// call ui.enableUpgradeBuildingButton in ui using observer
+		upgradeButton.setValue(true);
 	}
-	public void enableBuyProperty() {
-		// TODO implement enableBuyProperty method
-		// call ui.enableBuyPropertyButton in ui using observer
-	}
+
 	public void UpgradeBuilding() {
 		Board.getInstance().upgradeBuilding(getCurrentPlayer(),(Property) getCurrentPlayer().getCurrentTile());
 	}
 	public void buyProperty() {
 		Board.getInstance().buyProperty(getCurrentPlayer(),(Property) getCurrentPlayer().getCurrentTile());
 	}
+	// All the enableX methods below are set to update the observer with "true" assuming the specified buttons'
+
+	//initial states are disabled.
+	public void enableBuyProperty() {
+		buyButton.setValue(true);
+	}
 	public void enableSpecialAction() {
-		// TODO implement enableSpecialActionButton method
-		// call ui.enableSpecialActionButton in ui using observer
+		specialButton.setValue(true);
 		
 	}
 	public void enableEndTurn() {
-		// TODO implement enableEndTurn method
-		// call ui.enableEndTurnButton in ui using observer
+		endButton.setValue(true);
 		
+	}
+
+	public void enableRollDice(){
+		rollButton.setValue(true);
 	}
 	
 	

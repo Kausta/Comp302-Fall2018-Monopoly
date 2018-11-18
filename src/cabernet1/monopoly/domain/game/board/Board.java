@@ -10,6 +10,7 @@ import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.*;
+import cabernet1.monopoly.domain.game.board.tile.property.MediterraneanAvenue;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.card.chancecard.ChanceCard;
 import cabernet1.monopoly.domain.game.card.chancecard.HolidayBonus;
@@ -48,6 +49,9 @@ public class Board {
 	private void initiateTiles() {
 		// manually add all the information about the board's tile
 		poolTile = new Pool();
+		for(int i = 0; i < 120; i++) {
+			boardTiles.add(i, new MediterraneanAvenue());
+		}
 		boardTiles.add(0, new Go());
 		boardTiles.add(80, new Jail());
 	}

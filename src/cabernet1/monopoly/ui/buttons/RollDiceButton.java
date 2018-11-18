@@ -23,7 +23,7 @@ public class RollDiceButton extends BaseButton {
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // TODO: Add a rollDice function to GameController
-                // controller.rollDice();
+                controller.rollDice();
                 logger.d("Roll Dice button is clicked");
             }
         });
