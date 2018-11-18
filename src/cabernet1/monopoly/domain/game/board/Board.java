@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
@@ -11,6 +12,10 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.*;
 import cabernet1.monopoly.domain.game.board.tile.property.MediterraneanAvenue;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.card.chancecard.ChanceCard;
+import cabernet1.monopoly.domain.game.card.chancecard.HolidayBonus;
+import cabernet1.monopoly.domain.game.card.communitycard.CommunityChestCard;
+import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
@@ -19,10 +24,17 @@ public class Board {
 	private static volatile Board _instance = null;
 	private Pool poolTile;
 
+	private List<CommunityChestCard> communityChestCards;
+	private List<ChanceCard> chanceCards;
+	private Random r = new Random();
+
 
 	private Board() {
 		boardTiles = new ArrayList<>();
+		communityChestCards = new ArrayList<>();
+		chanceCards = new ArrayList<>();
 		initiateTiles();
+		initializeCards();
 	}
 
 	public static synchronized Board getInstance() {
@@ -36,12 +48,42 @@ public class Board {
 
 	private void initiateTiles() {
 		// manually add all the information about the board's tile
+		// first the low, right corner of middle then inner, then outer
 		poolTile = new Pool();
 		for(int i = 0; i < 120; i++) {
 			boardTiles.add(i, new MediterraneanAvenue());
 		}
 		boardTiles.add(0, new Go());
-		boardTiles.add(80, new Jail());
+		boardTiles.add(2, new CommunityChestTile());
+		boardTiles.add(7, new ChanceTile());
+		boardTiles.add(10, new Jail());
+		boardTiles.add(17, new CommunityChestTile());
+		boardTiles.add(22, new ChanceTile());
+		boardTiles.add(33, new CommunityChestTile());
+		boardTiles.add(36, new ChanceTile());
+		boardTiles.add(45, new CommunityChestTile());
+		boardTiles.add(57, new ChanceTile());
+		boardTiles.add(67, new CommunityChestTile());
+		boardTiles.add(75, new ChanceTile());
+		boardTiles.add(86, new ChanceTile());
+		boardTiles.add(89, new CommunityChestTile());
+		boardTiles.add(95, new ChanceTile());
+		boardTiles.add(101, new CommunityChestTile());
+		boardTiles.add(111, new CommunityChestTile());
+		boardTiles.add(119, new ChanceTile());
+		}
+
+	private void initializeCards(){
+		communityChestCards.add(new PayHospitalBills());
+		chanceCards.add(new HolidayBonus());
+	}
+
+	public ChanceCard getChanceCard(){
+		return chanceCards.get(r.nextInt(chanceCards.size()));
+	}
+
+	public CommunityChestCard getCommunityChestCard(){
+		return communityChestCards.get(r.nextInt(communityChestCards.size()));
 	}
 
 	private int getNumberOfTiles() {

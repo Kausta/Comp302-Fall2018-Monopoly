@@ -1,7 +1,7 @@
 package cabernet1.monopoly.domain.game.card;
 
-import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public interface IimmediateAction {
-    void action(Player player);
+    void action(IPlayer player);
 }

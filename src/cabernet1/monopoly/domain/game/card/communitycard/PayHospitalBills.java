@@ -3,7 +3,7 @@ package cabernet1.monopoly.domain.game.card.communitycard;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.Pool;
 import cabernet1.monopoly.domain.game.card.IimmediateAction;
-import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class PayHospitalBills extends CommunityChestCard implements IimmediateAction {
 
@@ -11,7 +11,7 @@ public class PayHospitalBills extends CommunityChestCard implements IimmediateAc
         super("Pay Hospital Bills");
     }
     @Override
-    public void action(Player player) {
+    public void action(IPlayer player) {
         Board board = Board.getInstance();
         Pool pool = board.getPoolTile();
         pool.addMoney(100);
