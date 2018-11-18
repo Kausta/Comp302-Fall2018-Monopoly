@@ -31,6 +31,7 @@ public abstract class IPlayer {
 	protected int numberOfConsecutiveDoublesRolls;
 	private boolean inJail;
 	protected PlayerMovementStatus movementStatus;
+	private int numberOfSteps = 1;
 
 	protected int ID;
 	protected int direction;
@@ -155,4 +156,13 @@ public abstract class IPlayer {
 	
 	public boolean isInJail(){ return inJail; }
 
+	public int getNumSteps(){
+		return this.numberOfSteps;
+	}
+
+	public void incrementSteps(){
+		numberOfSteps++;
+	}
+
+	public void resetSteps() { numberOfSteps = 1; }
 }
