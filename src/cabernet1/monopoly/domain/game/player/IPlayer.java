@@ -33,7 +33,7 @@ public abstract class IPlayer {
 	protected PlayerMovementStatus movementStatus;
 
 	protected int ID;
-	protected boolean directionClockwise;
+	protected int direction;
 
 	List<Property> ownedProperty;
 
@@ -47,7 +47,7 @@ public abstract class IPlayer {
 		this.numberOfConsecutiveDoublesRolls = 0;
 		this.inJail = false;
 		this.ownedProperty = new ArrayList<>();
-		this.directionClockwise = true;
+		this.direction = 1;
 	}
 
 	public PlayerMovementStatus getMovementStatus() {
@@ -85,6 +85,10 @@ public abstract class IPlayer {
 	
 	public int getID() {
 		return ID;
+	}
+
+	public int getMoney(){
+		return money;
 	}
 
 	public String getName() {
@@ -141,6 +145,10 @@ public abstract class IPlayer {
 		money+=amountOfMoney;
 	}
 
+	public void loseMoney(int amountOfMoney){
+		money-=amountOfMoney;
+	}
+	
 	public boolean isInJail(){ return inJail; }
 
 }

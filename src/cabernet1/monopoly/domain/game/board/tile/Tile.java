@@ -18,6 +18,9 @@ public abstract class Tile {
         return name;
     }
 
+    /**
+     * @return the tile type
+     */
     public TileType getTileType() {
         return tileType;
     }
