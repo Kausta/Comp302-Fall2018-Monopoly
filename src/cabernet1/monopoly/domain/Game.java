@@ -4,12 +4,15 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.PlayerFactory;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
+import cabernet1.monopoly.logging.Logger;
+import cabernet1.monopoly.logging.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Game {
 	private static volatile Game _instance = null;
+	private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 	private GameController controller;
 
 	private List<InitialPlayerData> initialPlayerData;
@@ -28,7 +31,10 @@ public class Game {
 	public void initialize(List<InitialPlayerData> initialPlayerData) {
 		this.initialPlayerData = initialPlayerData;
 		this.player = initialPlayerData.stream()
-				.map(playerData -> PlayerFactory.getInstance().createFromInitialData(playerData))
+				.map(playerData -> {
+					logger.i("Registered " + playerData.getName());
+					return PlayerFactory.getInstance().createFromInitialData(playerData);
+				})
 				.collect(Collectors.toList());
 	}
 

@@ -19,5 +19,7 @@ public class WelcomeCommand extends ICommand {
         NetworkController controller = Network.getInstance().getNetworkController();
         ConnectedCommand command = new ConnectedCommand(clientIdentifier);
         controller.sendCommand(command);
+
+        Network.getInstance().setIdentifier(clientIdentifier);
     }
 }

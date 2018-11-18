@@ -63,7 +63,7 @@ public class ServerSocketAdapter implements INetworkAdapter {
     }
 
     /**
-     * Re-sends a received command to other clients
+     * Re-sends a received command to other clients and executes on the server
      */
     private void resendCommand(NetworkCommand command) {
         this.sendCommand(command);
