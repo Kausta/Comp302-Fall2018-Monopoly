@@ -36,6 +36,7 @@ public class GameController {
 	public Observable<Boolean> rollButton = new Observable<>();
 
 	public Observable<Player> playerObserver = new Observable<>();
+	public Observable<List<IPlayer>> playerListObservable = new Observable<>();
 
 
 	RegularDie die1 = NormalDiceCup.getInstance().die1;
