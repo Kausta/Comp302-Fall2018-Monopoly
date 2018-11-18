@@ -29,6 +29,9 @@ public class ViewUtils {
         // Setting screen size
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+        // Center, not required when we make it full screen
+        frame.setLocationRelativeTo(null);
+
         frame.setVisible(true);
         return frame;
     }
