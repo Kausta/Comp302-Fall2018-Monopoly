@@ -20,5 +20,5 @@ public class IncNumConsDoubleRollsCommand implements ICommand{
 		
 		
 	}
-	
+
 }
