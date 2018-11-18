@@ -27,4 +27,5 @@ public class RegularDie extends IDie {
                 break;
         }
     }
+
 }

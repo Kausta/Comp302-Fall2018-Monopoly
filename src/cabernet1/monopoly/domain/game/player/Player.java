@@ -39,6 +39,7 @@ public class Player extends IPlayer {
 			handleNormalMove();
 			break;
 		case DOUBLE_MOVE:
+			incrementSteps();
 			handleDoubleMove();
 			break;
 		case TRIPLE_MOVE:
@@ -54,8 +55,14 @@ public class Player extends IPlayer {
 			break;
 		}
 
+		if(getNumSteps() == 0){
+			controller.disableRollDice();
+			controller.enableEndTurn();
+		}
+
     }
 
+	// TODO: need to check building buying availability hear can check easier with owned properties
 	@Override
 	public void playJailturn() {
 		JailDiceCup cup = JailDiceCup.getInstance();
@@ -85,7 +92,7 @@ public class Player extends IPlayer {
 		NetworkController nc = Network.getInstance().getNetworkController();
 
 		String previousTile = curTile.getName();
-		String message = getName() + " has moved from " + previousTile + "  to " + curTile.getName();
+		String message = getName() + " has moved from " + previousTile + "  to " + newTile.getName();
 		nc.sendCommand(new AnnounceMessageCommand(message));
 		nc.sendCommand(new MovePlayerCommand(this, newTile));
 		board.handleTile(this, newTile);
@@ -99,10 +106,10 @@ public class Player extends IPlayer {
 		NormalDiceCup cup = NormalDiceCup.getInstance();
 		NetworkController nc = Network.getInstance().getNetworkController();
 
-		Tile nextTile = board.nextUnownedProperty(curTile, directionClockwise, cup.getFacesValue());
+		Tile nextTile = board.nextUnownedProperty(curTile, direction, cup.getFacesValue());
 		String message;
 		if (nextTile == null) {
-			nextTile = board.nextRentableProperty(curTile, directionClockwise, cup.getFacesValue());
+			nextTile = board.nextRentableProperty(curTile, direction, cup.getFacesValue());
 			if (nextTile == null) {
 				message = "No rentable Properties has been found on your way, hence you will stay in your place";
 			} else {
@@ -124,7 +131,7 @@ public class Player extends IPlayer {
 		NetworkController nc = Network.getInstance().getNetworkController();
 		Board board = Board.getInstance();
 		NormalDiceCup cup = NormalDiceCup.getInstance();
-		Tile nextTile = board.nextUnownedProperty(curTile, directionClockwise, cup.getFacesValue());
+		Tile nextTile = board.nextUnownedProperty(curTile, direction, cup.getFacesValue());
 		String message;
 		if (nextTile == null) {
 			message = "No community chest or chance card on your way, hence you will stay in your place";

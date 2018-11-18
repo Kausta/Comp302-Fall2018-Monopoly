@@ -3,9 +3,10 @@ package cabernet1.monopoly.domain.game.die;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
 
 public class SpeedDie extends IDie {
+
+    private int value = diceGen.nextInt(6) + 1;
     @Override
     public void rollDice() {
-        int value = diceGen.nextInt(6) + 1;
         switch (value) {
             case 1:
                 faceValue = SpeedDieFaces.One;
@@ -24,6 +25,11 @@ public class SpeedDie extends IDie {
                 faceValue = SpeedDieFaces.BusIcon;
                 break;
         }
+        value = diceGen.nextInt(6) + 1;
+    }
+
+    public int speedDieValue(){
+        return this.value;
     }
 
 }

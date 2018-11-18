@@ -16,6 +16,20 @@ public class LogScrollPane extends BaseScrollPane implements Observer<String> {
     private JTextArea display = new JTextArea();
 
     private LogScrollPane() {
+        initialize();
+    }
+
+    public static synchronized LogScrollPane getInstance() {
+        if (_instance == null) {
+            _instance = new LogScrollPane();
+        }
+        return _instance;
+    }
+
+    public void initialize() {
+        // Starting observe the announcement field on GameController
+        controller.announcement.addObserver(this);
+
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);
 
@@ -28,17 +42,6 @@ public class LogScrollPane extends BaseScrollPane implements Observer<String> {
         setViewportView(display);
     }
 
-    public static synchronized LogScrollPane getInstance() {
-        if (_instance == null) {
-            _instance = new LogScrollPane();
-        }
-        return _instance;
-    }
-
-    public void initialize(Observable<String> announcement) {
-        announcement.addObserver(this);
-    }
-
     public void announceMessage(String message) {
         display.append(" " + message + "\n");
     }
@@ -46,6 +49,5 @@ public class LogScrollPane extends BaseScrollPane implements Observer<String> {
     @Override
     public void onValueChanged(String value) {
         announceMessage(value);
-        logger.d("Value is changed with observers");
     }
 }

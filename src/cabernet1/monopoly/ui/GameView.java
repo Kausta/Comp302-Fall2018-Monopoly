@@ -52,9 +52,6 @@ public class GameView extends BaseView {
 
         root.setBackground(new Color(212, 216, 221));
 
-        // Initializing Observers
-        initializeObservers();
-
         // Getting the path of the board image
         String boardImage = ResourceManager.getInstance().getResourcePath("board_small.png").getPath();
 
@@ -76,75 +73,71 @@ public class GameView extends BaseView {
         logger.d("Loading board from " + boardImage);
     }
 
-    private void initializeObservers() {
-        LogScrollPane.getInstance().initialize(controller.announcement);
-    }
-
     @Override
     public JPanel getRoot() {
         return this.root;
     }
     public void showPlayerInfo(Player player) {
-    	//TODO showPlayerInfo method
-    	// this method should represent the starting turn
-    	// all info in the ui should be updated to be for that player
-    	// all the buttons except rollDice button should be disabled
+        //TODO showPlayerInfo method
+        // this method should represent the starting turn
+        // all info in the ui should be updated to be for that player
+        // all the buttons except rollDice button should be disabled
     }
     public void rollDice() {
-    	//TODO: call this function when the rollDice button is clicked
-    	controller.playTurn();
+        //TODO: call this function when the rollDice button is clicked
+        controller.rollDice();
     }
     public void announceMessage(String message) {
-    	// TODO implement announceMessage function
-    	//		show the message on the announcement panel
+        // TODO implement announceMessage function
+        //		show the message on the announcement panel
     }
     public void movePlayer(Player player,Tile newTile) {
-    	//TODO implement movePlayer method
-    	//		move the corresponding player to the corresponding tile (just transporting for this phase)
-    	// call controller.changeCurrentTile(player,newTile)
+        //TODO implement movePlayer method
+        //		move the corresponding player to the corresponding tile (just transporting for this phase)
+        // call controller.changeCurrentTile(player,newTile)
     }
     public void chooseTile(Player player) {
-    	//TODO chooseTile method
-    	// command the player (currently playing) to choose a tile
-    	// call controller.jumpToTile(player,newSelectedTile)
+        //TODO chooseTile method
+        // command the player (currently playing) to choose a tile
+        // call controller.jumpToTile(player,newSelectedTile)
     }
     public void showDiceValue() {
-    	// TODO implement showDiceValue method
-    	//show the values of the dice (normal dice cup for now) as a pictures
-    	// if pictures of the dice aren't implement, just announce the value using cup.getFacesValue()
+        // TODO implement showDiceValue method
+        //show the values of the dice (normal dice cup for now) as a pictures
+        // if pictures of the dice aren't implement, just announce the value using cup.getFacesValue()
     }
     public void endTurn() {
-    	//TODO this method should be called when the endTurn button or enableSpecialAction button is called 
-    	controller.endTurn();
+        //TODO this method should be called when the endTurn button or enableSpecialAction button is called
+        controller.endTurn();
     }
-    
+
     public void enableUpgradeBuildingButton() {
-    	//TODO implement enableUpgradeBuildingButtons method
-    	// enable the "Upgrade Building button" (create one)
-    	
+        //TODO implement enableUpgradeBuildingButtons method
+        // enable the "Upgrade Building button" (create one)
+
     }
 
     public void upgradeBuilding() {
-    	//TODO implement upgradeBuilding method
-    	// this method should be called when the upgrade button is pressed
-    	// call controller.upgradeBuilding
+        //TODO implement upgradeBuilding method
+        // this method should be called when the upgrade button is pressed
+        // call controller.upgradeBuilding
     }
     public void enableBuyPropertyButton() {
-    	//TODO implement enableBuyPropertyButtons method
-    	// enable the "Buy Property button" (create one)
-    	
+        //TODO implement enableBuyPropertyButtons method
+        // enable the "Buy Property button" (create one)
+
     }
     public void buyBuilding() {
-    	//TODO implement buyBuilding method
-    	// this method should be called when the buy button is pressed
-    	// call controller.buyBuilding
+        //TODO implement buyBuilding method
+        // this method should be called when the buy button is pressed
+        // call controller.buyBuilding
     }
     public void enableSpecialActionButton() {
-    	// TODO implement enableSpecialActionButton button
-    	// enable that button 
+        // TODO implement enableSpecialActionButton button
+        // enable that button
     }
     public void enableEndTurnButton() {
-    	// TODO implement enableEndTurnButton button
-    	// enable that button 
+        // TODO implement enableEndTurnButton button
+        // enable that button
     }
 }
