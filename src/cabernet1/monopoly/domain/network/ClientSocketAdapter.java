@@ -24,8 +24,8 @@ public class ClientSocketAdapter implements INetworkAdapter {
     public ClientSocketAdapter(ClientSocket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         Socket socket = clientSocket.getSocket();
-        this.objectInputStream = new ObjectInputStream(socket.getInputStream());
         this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        this.objectInputStream = new ObjectInputStream(socket.getInputStream());
         executor.execute(this::waitForCommand);
     }
 
