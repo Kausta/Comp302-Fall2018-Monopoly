@@ -8,7 +8,7 @@ import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.*;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
@@ -36,6 +36,7 @@ public class Board {
 	private void initiateTiles() {
 		// manually add all the information about the board's tile
 		poolTile = new Pool();
+		boardTiles.add(0, new Go());
 		boardTiles.add(80, new Jail());
 	}
 
@@ -71,6 +72,10 @@ public class Board {
 
 	public Pool getPoolTile() {
 		return poolTile;
+	}
+
+	public Tile getInitialTile() {
+		return boardTiles.get(0);
 	}
 
 	public Tile nextUnownedProperty(Tile curTile, int direction, int diceResult) {
