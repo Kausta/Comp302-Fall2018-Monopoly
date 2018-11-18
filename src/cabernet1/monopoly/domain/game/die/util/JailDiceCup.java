@@ -28,12 +28,6 @@ public class JailDiceCup implements DiceCup{
 	public JailDiceCupStatus rollCup() {
 		die1.rollDice();
 		die2.rollDice();
-
-    private boolean isDoubles() {
-        // when determining doubles, only the first two dice are consider
-        return die1.getDiceValue() == die2.getDiceValue();
-    }
-
 		return JailDiceCupStatus.NOT_DOUBLES;
 	}
 
