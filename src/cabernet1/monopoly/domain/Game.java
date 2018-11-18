@@ -5,6 +5,7 @@ import cabernet1.monopoly.domain.game.board.Pool;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.PlayerFactory;
+import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
@@ -36,12 +37,10 @@ public class Game {
 	public void initialize(List<InitialPlayerData> initialPlayerData) {
 		logger.i("Registering players to the game");
 		this.initialPlayerData = initialPlayerData;
-		this.player = initialPlayerData.stream()
-				.map(playerData -> {
-					logger.i("Registered " + playerData.getName());
-					return PlayerFactory.getInstance().createFromInitialData(playerData);
-				})
-				.collect(Collectors.toList());
+		this.player = initialPlayerData.stream().map(playerData -> {
+			logger.i("Registered " + playerData.getName());
+			return PlayerFactory.getInstance().createFromInitialData(playerData);
+		}).collect(Collectors.toList());
 	}
 
 	public synchronized GameController getGameController() {
@@ -52,6 +51,9 @@ public class Game {
 	}
 
 	public void endTurn() {
+		String message = getCurrentPlayer().getName() + " turn has ended";
+		NetworkController nc = Network.getInstance().getNetworkController();
+		nc.sendCommand(new AnnounceMessageCommand(message));
 		playerPointer = (playerPointer + 1) % player.size();
 		configureTurn();
 
@@ -65,8 +67,8 @@ public class Game {
 		return (Player) player.get(playerPointer);
 	}
 
-	public List<IPlayer> getPlayers(){
+	public List<IPlayer> getPlayers() {
 		return this.player;
 	}
-	
+
 }
