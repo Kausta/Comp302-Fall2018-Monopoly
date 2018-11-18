@@ -1,12 +1,13 @@
 package cabernet1.monopoly.domain.game.board.tile.property;
 
+import java.util.ArrayList;
+
+import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Hotel;
 import cabernet1.monopoly.domain.game.board.tile.property.building.House;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
-
-import java.util.ArrayList;
 
 public class GroupColoredProperty extends Property {
 
@@ -110,6 +111,29 @@ public class GroupColoredProperty extends Property {
     public ColorGroup getColorGroup() {
         return color;
     }
+
+	public int getUpgradeAmount() {
+		if (house.limitReached()) {
+			if (hotel.limitReached()) {
+				if (skyscraper.limitReached()) {
+					return Constants.INF;
+				}
+				return skyscraper.getPrice();
+			}
+			return hotel.getPrice();
+		}
+		return house.getPrice();
+	}
+
+	public void upgrade() {
+		if (house.limitReached()) {
+			if (hotel.limitReached()) {
+				buySkyScraper();
+			}
+			buyHotel();
+		}
+		buyHouse();
+	}
 
 
 }

@@ -4,7 +4,9 @@
 package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.board.Board;
+import cabernet1.monopoly.domain.game.board.Pool;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
@@ -82,7 +84,7 @@ public class GameController {
 		speedDieObserveable.setValue(die3.speedDieValue());
 	}
 
-	public void movePlayer(Player player, Tile newTile) {
+	public void movePlayer(IPlayer player, Tile newTile) {
 		movePlayerObserveable.setValue(newTile);
 		player.setCurrentTile(newTile);
 	}
@@ -95,19 +97,26 @@ public class GameController {
 		player.changeCurrentTile(newTile);
 	}
 
-	public void changeJailStatus(Player player, boolean inJail) {
+	public void changeJailStatus(IPlayer player, boolean inJail) {
 		player.changeJailStatus(inJail);
 	}
 
-	public void changeMovementStatus(Player player, PlayerMovementStatus status) {
+	public void changeMovementStatus(IPlayer player, PlayerMovementStatus status) {
 		player.setMovementStatus(status);
 	}
 
-	public void increaseNumberOfConsecutiveDoubleRolls(Player player) {
+	public void increaseNumberOfConsecutiveDoubleRolls(IPlayer player) {
 		player.increaseNumberOfConsecutiveDoublesRolls();
 	}
 	public void playTurn() {
 		getCurrentPlayer().playTurn();
+	}
+
+	public void playerPayRent(IPlayer player, int rentAmount) {
+		player.payRent(rentAmount);
+	}
+	public void playerGainMoney(IPlayer player, int amount) {
+		player.gainMoney(amount);
 	}
 	public void endTurn() {
 		Game.getInstance().endTurn();
@@ -117,7 +126,7 @@ public class GameController {
 	}
 
 	public void UpgradeBuilding() {
-		Board.getInstance().upgradeBuilding(getCurrentPlayer(),(Property) getCurrentPlayer().getCurrentTile());
+		Board.getInstance().upgradeBuilding(getCurrentPlayer(),(GroupColoredProperty) getCurrentPlayer().getCurrentTile());
 	}
 	public void buyProperty() {
 		Board.getInstance().buyProperty(getCurrentPlayer(),(Property) getCurrentPlayer().getCurrentTile());
@@ -168,5 +177,15 @@ public class GameController {
 
 	public List<IPlayer> playerList(){
 		return Game.getInstance().getPlayers();
+	}
+	
+	public void increasePool(int amount) {
+		Board.getInstance().getPoolTile().addMoney(amount);
+		
+	}
+
+	public void completeUpgradeBuilding(GroupColoredProperty property) {
+		property.upgrade();
+		
 	}
 }
