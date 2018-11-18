@@ -1,8 +1,9 @@
 package cabernet1.monopoly.ui.panels;
 
 import cabernet1.monopoly.ui.buttons.BuyPropertyButton;
-import cabernet1.monopoly.ui.buttons.DieImage;
+import cabernet1.monopoly.ui.buttons.RegularDieImage;
 import cabernet1.monopoly.ui.buttons.RollDiceButton;
+import cabernet1.monopoly.ui.buttons.SpeedDieImage;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -36,13 +37,18 @@ public class ActionPanel extends BasePanel {
     private void initialize() {
         add(RollDiceButton.getInstance(), BorderLayout.CENTER);
         add(BuyPropertyButton.getInstance(), BorderLayout.CENTER);
+        BuyPropertyButton.getInstance().setVisible(false);
 
-        DieImage die1 = new DieImage();
+        RegularDieImage die1 = new RegularDieImage();
         die1.startObserving(controller.die1Observeable);
         add(die1);
 
-        DieImage die2 = new DieImage();
+        RegularDieImage die2 = new RegularDieImage();
         die2.startObserving(controller.die2Observeable);
         add(die2);
+
+        SpeedDieImage die3 = new SpeedDieImage();
+        die3.startObserving(controller.speedDieObserveable);
+        add(die3);
     }
 }

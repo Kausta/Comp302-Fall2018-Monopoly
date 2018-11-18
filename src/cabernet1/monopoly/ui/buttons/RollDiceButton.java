@@ -1,5 +1,7 @@
 package cabernet1.monopoly.ui.buttons;
 
+import cabernet1.monopoly.utils.Observable;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +22,8 @@ public class RollDiceButton extends BaseButton {
     }
 
     private void initialize() {
+        controller.rollButton.addObserver(this);
+
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // TODO: Add a rollDice function to GameController
@@ -29,7 +33,14 @@ public class RollDiceButton extends BaseButton {
         });
     }
 
-    public void onValueChanged(String value) {
+    @Override
+    public void onValueChanged(Boolean value) {
         // Change visibility
+        if(value) {
+            setVisible(true);
+        }
+        else {
+            setVisible(false);
+        }
     }
 }

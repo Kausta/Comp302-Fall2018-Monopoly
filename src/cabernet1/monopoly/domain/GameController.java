@@ -58,7 +58,10 @@ public class GameController {
 		} else {
 			currentPlayer.playTurn();
 		}
-		showDiceValue();
+		rollButton.setValue(false);
+		buyButton.setValue(true);
+		announceMessage("Player rolled " + die1.getDiceValue().getValue() + ", " + die2.getDiceValue().getValue() + ", " + die3.getDiceValue().getValue());
+		// showDiceValue();
 	}
 
 	public void chooseTile(Player player) {
@@ -70,7 +73,6 @@ public class GameController {
 		die1Observeable.setValue(die1.getDiceValue().getValue());
 		die2Observeable.setValue(die2.getDiceValue().getValue());
 		speedDieObserveable.setValue(die3.getDiceValue().getValue());
-
 	}
 
 	public void movePlayer(Player player, Tile newTile) {
