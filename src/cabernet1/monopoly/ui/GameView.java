@@ -52,9 +52,6 @@ public class GameView extends BaseView {
 
         root.setBackground(new Color(212, 216, 221));
 
-        // Initializing Observers
-        initializeObservers();
-
         // Getting the path of the board image
         String boardImage = ResourceManager.getInstance().getResourcePath("board_small.png").getPath();
 
@@ -76,10 +73,6 @@ public class GameView extends BaseView {
         logger.d("Loading board from " + boardImage);
     }
 
-    private void initializeObservers() {
-        LogScrollPane.getInstance().initialize(controller.announcement);
-    }
-
     @Override
     public JPanel getRoot() {
         return this.root;
@@ -92,7 +85,7 @@ public class GameView extends BaseView {
     }
     public void rollDice() {
     	//TODO: call this function when the rollDice button is clicked
-    	controller.playTurn();
+    	controller.rollDice();
     }
     public void announceMessage(String message) {
     	// TODO implement announceMessage function

@@ -148,5 +148,7 @@ public abstract class IPlayer {
 	public void loseMoney(int amountOfMoney){
 		money-=amountOfMoney;
 	}
+	
+	public boolean isInJail(){ return inJail; }
 
 }
