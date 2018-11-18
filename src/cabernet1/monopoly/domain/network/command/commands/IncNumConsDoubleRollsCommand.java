@@ -5,7 +5,7 @@ import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
-public class IncNumConsDoubleRollsCommand implements ICommand{
+public class IncNumConsDoubleRollsCommand extends ICommand{
 	private Player player;
 	public Player getPlayer() {
 		return player;

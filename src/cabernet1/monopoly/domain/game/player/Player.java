@@ -86,7 +86,7 @@ public class Player extends IPlayer {
 		NetworkController nc = Network.getInstance().getNetworkController();
 
 		String previousTile = curTile.getName();
-		String message = getName() + " has moved from " + previousTile + "  to " + curTile.getName();
+		String message = getName() + " has moved from " + previousTile + "  to " + newTile.getName();
 		nc.sendCommand(new AnnounceMessageCommand(message));
 		nc.sendCommand(new MovePlayerCommand(this, newTile));
 		board.handleTile(this, newTile);

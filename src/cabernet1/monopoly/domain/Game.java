@@ -18,6 +18,7 @@ public class Game {
 
 	private List<InitialPlayerData> initialPlayerData;
 	private List<IPlayer> player;
+	private int playerPointer = 0;
 
 	private Game() {
 		// Manually initialize the board here
@@ -51,34 +52,20 @@ public class Game {
 	}
 
 	public void endTurn() {
-		// TODO implement the endTurn method
-		/*
-		 * - checks which player is playing - check if in jail, end the move, and
-		 * announce that in ui - get the status of the player - if normal move, just
-		 * finish the turn, and announce that in ui - if bus move, call
-		 * player.busMove(normalCup,board) - if mr monopoly move, call
-		 * player.handleMrMonopolyMove(normalCup,board) - if double move, call
-		 * player.playTurn(normalCup,board)
-		 */
+		playerPointer = (playerPointer + 1) % player.size();
+		configureTurn();
+
 	}
 
 	public void configureTurn() {
-		//TODO implement configureTurn method
-
-		// call the showPlayerInfo(player) on the UI using observer
-
-	}
-
-	public void nextTurn() {
-		// TODO implement nextTurn method
-		// this method should know the next player
-		//then it should call configureTurn
+		controller.playerInfo(getCurrentPlayer());
 	}
 
 	public Player getCurrentPlayer() {
-		// TODO implement getCurrentPlayer method
-		// you should return the current player
-		// build a mechanism that dealing with the current player
-		return null;
+		return (Player) player.get(playerPointer);
+	}
+
+	public List<IPlayer> getPlayers(){
+		return this.player;
 	}
 }
