@@ -56,6 +56,7 @@ public class Player extends IPlayer {
 
     }
 
+	// TODO: need to check building buying availability hear can check easier with owned properties
 	@Override
 	public void playJailturn() {
 		JailDiceCup cup = JailDiceCup.getInstance();
@@ -99,10 +100,10 @@ public class Player extends IPlayer {
 		NormalDiceCup cup = NormalDiceCup.getInstance();
 		NetworkController nc = Network.getInstance().getNetworkController();
 
-		Tile nextTile = board.nextUnownedProperty(curTile, directionClockwise, cup.getFacesValue());
+		Tile nextTile = board.nextUnownedProperty(curTile, direction, cup.getFacesValue());
 		String message;
 		if (nextTile == null) {
-			nextTile = board.nextRentableProperty(curTile, directionClockwise, cup.getFacesValue());
+			nextTile = board.nextRentableProperty(curTile, direction, cup.getFacesValue());
 			if (nextTile == null) {
 				message = "No rentable Properties has been found on your way, hence you will stay in your place";
 			} else {
@@ -124,7 +125,7 @@ public class Player extends IPlayer {
 		NetworkController nc = Network.getInstance().getNetworkController();
 		Board board = Board.getInstance();
 		NormalDiceCup cup = NormalDiceCup.getInstance();
-		Tile nextTile = board.nextUnownedProperty(curTile, directionClockwise, cup.getFacesValue());
+		Tile nextTile = board.nextUnownedProperty(curTile, direction, cup.getFacesValue());
 		String message;
 		if (nextTile == null) {
 			message = "No community chest or chance card on your way, hence you will stay in your place";

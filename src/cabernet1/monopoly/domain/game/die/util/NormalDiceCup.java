@@ -5,13 +5,15 @@ import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
+import cabernet1.monopoly.utils.Observable;
 
-public class NormalDiceCup implements DiceCup{
+public class NormalDiceCup implements DiceCup {
 	private static volatile NormalDiceCup _instance = null;
     
-    RegularDie die1;
-    RegularDie die2;
-    SpeedDie die3;
+    public RegularDie die1 = new RegularDie();
+    public RegularDie die2 = new RegularDie();
+    public SpeedDie die3 = new SpeedDie();
+
   	private NormalDiceCup() {
   		
   	}

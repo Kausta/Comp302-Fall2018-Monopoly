@@ -6,6 +6,8 @@ package cabernet1.monopoly.domain;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.die.RegularDie;
+import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.util.DiceCup;
 import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.Player;
@@ -14,23 +16,41 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
 
+import java.util.ArrayList;
+
 public class GameController {
 	private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
 	// To add announcements to UI
     public Observable<String> announcement = new Observable<>();
+    public Observable<Integer> die1Observeable = new Observable<>();
+    public Observable<Integer> die2Observeable = new Observable<>();
+    public Observable<Integer> speedDieObserveable = new Observable<>();
+
+    RegularDie die1 = NormalDiceCup.getInstance().die1;
+    RegularDie die2 = NormalDiceCup.getInstance().die2;
+    SpeedDie die3 = NormalDiceCup.getInstance().die3;
+
 
 	public GameController() {
 		logger.i("Created Game Controller");
-
 	}
+
 	public Player getCurrentPlayer() {
 		return Game.getInstance().getCurrentPlayer();
 	}
 	public void announceMessage(String message) {
-		// TODO implement the announceMessage method
-		// call the announceMessage function in the UI using observer
+		announcement.setValue(message);
+	}
 
+	public void rollDice(){
+		Player currentPlayer = Game.getInstance().getCurrentPlayer();
+		if (currentPlayer.isInJail()) {
+			currentPlayer.playJailturn();
+		} else {
+			currentPlayer.playTurn();
+		}
+		showDiceValue();
 	}
 
 	public void chooseTile(Player player) {
@@ -39,13 +59,17 @@ public class GameController {
 	}
 
 	public void showDiceValue() {
-		// TODO implement the showDiceValue method
-		// call the showDiceValue method in the UI using observer
+		die1Observeable.setValue(die1.getDiceValue().getValue());
+		die2Observeable.setValue(die2.getDiceValue().getValue());
+		speedDieObserveable.setValue(die3.getDiceValue().getValue());
+
 	}
+
 	public void movePlayer(Player player, Tile newTile) {
 		// TODO implement movePlayer method
 		// call the movePlayer method in ui using observer
 	}
+
 	public void jumpToTile(Player player, Tile newTile) {
 		player.jumpToTile(newTile);
 	}
