@@ -9,6 +9,7 @@ public class House extends Building {
 
     public House(int price, int sellPrice, ArrayList<Integer> rents) {
         super(price, sellPrice, "house", "houses");
+        this.rents = new HashMap<Integer, Integer>();
         for (int i = 0; i < 5; i++) {
             this.rents.put(i, rents.get(i));
         }

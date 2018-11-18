@@ -23,8 +23,7 @@ public class BuyPropertyButton extends BaseButton {
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // TODO: Add a rollDice function to GameController
-                // controller.rollDice();
-                logger.d("BuyProperty button is clicked");
+                controller.buyProperty();
             }
         });
     }
