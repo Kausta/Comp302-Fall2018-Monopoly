@@ -1,7 +1,9 @@
 package cabernet1.monopoly.domain.network;
 
+import cabernet1.monopoly.domain.network.command.ConnectedCommand;
 import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.domain.network.command.NetworkCommand;
+import cabernet1.monopoly.domain.network.command.WelcomeCommand;
 import cabernet1.monopoly.utils.Observable;
 import cabernet1.monopoly.utils.Observer;
 
@@ -27,6 +29,7 @@ public class ServerSocketAdapter implements INetworkAdapter {
 
     @Override
     public void sendCommand(ICommand command) {
+        command.execute();
         connectedClients.forEach(socket -> socket.sendCommand(command));
     }
 
@@ -46,6 +49,11 @@ public class ServerSocketAdapter implements INetworkAdapter {
             ClientSocket clientSocket = new ClientSocket(socket);
             ClientSocketAdapter adapter = new ClientSocketAdapter(clientSocket);
             connectedClients.add(adapter);
+
+            String id = clientSocket.getIpAddress() + ":" + clientSocket.getPort();
+            WelcomeCommand command = new WelcomeCommand(id);
+            adapter.sendCommand(new NetworkCommand(command));
+
             adapter.onReceiveCommand(this::resendCommand);
         } catch (IOException e) {
             e.printStackTrace();

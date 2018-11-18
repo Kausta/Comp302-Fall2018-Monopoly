@@ -47,7 +47,7 @@ public class ClientSocketAdapter implements INetworkAdapter {
         try {
             Object command = this.objectInputStream.readObject();
             if (!(command instanceof NetworkCommand)) {
-                throw new IOException("Incorrect command received");
+                throw new IOException("Incorrect command received: " + command);
             }
             this.commandObservable.setValue((NetworkCommand) command);
         } catch (IOException | ClassNotFoundException e) {

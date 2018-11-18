@@ -22,6 +22,7 @@ public class InitializationController {
 
     public void setServer(boolean server) {
         isServer = server;
+        Network.getInstance().setServerMode(server);
     }
 
     public void startServer(int port) {

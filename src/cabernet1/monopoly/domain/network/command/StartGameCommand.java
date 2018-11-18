@@ -6,7 +6,7 @@ import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 
 import java.util.List;
 
-public class StartGameCommand implements ICommand {
+public class StartGameCommand extends ICommand {
     private final List<InitialPlayerData> players;
 
     public StartGameCommand(List<InitialPlayerData> players) {
