@@ -1,10 +1,21 @@
 package cabernet1.monopoly.ui.tabbedpanes.tabs;
 
+import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.game.player.IPlayer;
+import cabernet1.monopoly.logging.Logger;
+import cabernet1.monopoly.logging.LoggerFactory;
+import cabernet1.monopoly.utils.Observer;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
-public class PlayersTab extends JScrollPane {
+public class PlayersTab extends JScrollPane implements Observer<List<IPlayer>> {
     private static volatile PlayersTab _instance = null;
+    public Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
+    public GameController controller = Game.getInstance().getGameController();
+    private JTable playerTable;
 
     private PlayersTab() {
         // Initialize Table
@@ -19,22 +30,41 @@ public class PlayersTab extends JScrollPane {
     }
 
     private void initialize() {
-        JTable playerTable = new JTable();
+        controller.playerListObservable.addObserver(this);
+
+        playerTable = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Player Name", "Current Position", "Current Money"}));
         setViewportView(playerTable);
-        playerTable.setModel(
-                new DefaultTableModel(new Object[][]{}, new String[]{"Player Name", "Color", "Current Money"}) {
+
+        /*playerTable.setModel(
+                new DefaultTableModel(new Object[][]{}, new String[]{"Player Name", "Current Position", "Color", "Current Money"}) {
                     Class[] columnTypes = new Class[]{String.class, String.class, Integer.class};
 
                     public Class getColumnClass(int columnIndex) {
                         return columnTypes[columnIndex];
                     }
                 }
-        );
+        );*/
+
         playerTable.getColumnModel().getColumn(0).setResizable(false);
         playerTable.getColumnModel().getColumn(0).setPreferredWidth(600);
         playerTable.getColumnModel().getColumn(1).setResizable(false);
         playerTable.getColumnModel().getColumn(1).setPreferredWidth(100);
         playerTable.getColumnModel().getColumn(2).setResizable(false);
         playerTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+    }
+
+    @Override
+    public void onValueChanged(List<IPlayer> playerList) {
+        logger.d("Value changed");
+        DefaultTableModel model = (DefaultTableModel)playerTable.getModel();
+        int rowCount = model.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+        for(IPlayer p: playerList) {
+            String money = "" + p.getMoney();
+            model.addRow(new Object[]{p.getName(), p.getCurrentTile().getName(), money});
+        }
     }
 }
