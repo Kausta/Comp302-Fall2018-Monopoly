@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.board.Board;
+import cabernet1.monopoly.domain.game.board.Pool;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.PlayerFactory;
@@ -15,7 +16,6 @@ public class Game {
 	private static volatile Game _instance = null;
 	private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 	private GameController controller;
-
 	private List<InitialPlayerData> initialPlayerData;
 	private List<IPlayer> player;
 
@@ -81,4 +81,5 @@ public class Game {
 		// build a mechanism that dealing with the current player
 		return null;
 	}
+	
 }
