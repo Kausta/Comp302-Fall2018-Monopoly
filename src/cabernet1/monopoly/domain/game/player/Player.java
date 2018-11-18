@@ -39,6 +39,7 @@ public class Player extends IPlayer {
 			handleNormalMove();
 			break;
 		case DOUBLE_MOVE:
+			incrementSteps();
 			handleDoubleMove();
 			break;
 		case TRIPLE_MOVE:
@@ -52,6 +53,11 @@ public class Player extends IPlayer {
 			nc.sendCommand(new ChangeMovementStatusCommand(this, PlayerMovementStatus.BUS_MOVE));
 			handleNormalMove();
 			break;
+		}
+
+		if(getNumSteps() == 0){
+			controller.disableRollDice();
+			controller.enableEndTurn();
 		}
 
     }

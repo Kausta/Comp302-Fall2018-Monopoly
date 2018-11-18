@@ -136,6 +136,26 @@ public class GameController {
 		rollButton.setValue(true);
 	}
 
+	public void disableUpgradeBuilding(){
+		rollButton.setValue(false);
+	}
+
+	public void disableBuyProperty(){
+		buyButton.setValue(false);
+	}
+
+	public void disableSpecialAction(){
+		specialButton.setValue(false);
+	}
+
+	public void disableEndTurn(){
+		endButton.setValue(false);
+	}
+
+	public void disableRollDice(){
+		rollButton.setValue(false);
+	}
+
 	public void playerInfo(Player player){
 		playerObserver.setValue(player);
 	}
