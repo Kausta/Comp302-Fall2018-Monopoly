@@ -20,11 +20,11 @@ public class ViewUtils {
         // Preventing resizing
         frame.setResizable(false);
 
-        /* Making the game fullscreen. We are not using it right now for development purposes.
+         // Making the game fullscreen. We are not using it right now for development purposes.
         frame.dispose();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
-        */
+
 
         // Setting screen size
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

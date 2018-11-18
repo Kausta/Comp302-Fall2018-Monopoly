@@ -33,8 +33,10 @@ public class ContainerView extends BaseView {
 
         if (previous != null) {
             JPanel previousRoot = previous.getRoot();
-            JWindow window = (JWindow) SwingUtilities.getWindowAncestor(previousRoot);
+            JFrame window = (JFrame) SwingUtilities.getWindowAncestor(previousRoot);
             window.setContentPane(this.currentView.getRoot());
+            window.validate();
+            window.repaint();
         }
     }
 

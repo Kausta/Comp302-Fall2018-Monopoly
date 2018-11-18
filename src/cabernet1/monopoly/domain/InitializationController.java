@@ -25,10 +25,20 @@ public class InitializationController {
     }
 
     public void startServer(int port) {
-        boolean started = Application.getInstance().startServer(port);
+        boolean connected = Application.getInstance().startServer(port);
+        if(connected) {
+            startGame();
+        }
     }
 
     public void startClient(String ip, int port) {
-        boolean started = Application.getInstance().startClient(ip, port);
+        boolean connected = Application.getInstance().startClient(ip, port);
+        if(connected) {
+            startGame();
+        }
+    }
+
+    public void startGame() {
+        Application.getInstance().startGame();
     }
 }

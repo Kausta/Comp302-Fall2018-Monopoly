@@ -6,9 +6,6 @@ import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.ui.components.Form;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class InitializationView extends BaseView {
     private static final String ACTION_COMMAND_SERVER = "SERVER";
@@ -31,13 +28,13 @@ public class InitializationView extends BaseView {
 
     public void initialize(InitializationController controller) {
         this.controller = controller;
+
         this.initializeModeSelect();
         logger.i("Initialized Initial UI");
     }
 
     private void initializeModeSelect() {
         this.root = new JPanel();
-        this.root.setLayout(new BorderLayout());
 
         Form form = new Form.Builder()
                 .addButton("Start Server Mode", () -> {
@@ -50,12 +47,10 @@ public class InitializationView extends BaseView {
                 })
                 .build();
 
-        this.root.add(form.getContent(), BorderLayout.CENTER);
+        addToCenter(form.getContent());
     }
 
     private void initializeServerParameters() {
-        this.root.removeAll();
-
         JTextField portField = new JTextField();
         Form form = new Form.Builder()
                 .addLabeledComponent("Port: ", portField)
@@ -69,14 +64,10 @@ public class InitializationView extends BaseView {
                 })
                 .build();
 
-        this.root.add(form.getContent(), BorderLayout.CENTER);
-        this.root.validate();
-        this.root.repaint();
+        addToCenter(form.getContent());
     }
 
     private void initializeClientParameters() {
-        this.root.removeAll();
-
         JTextField ipField = new JTextField();
         JTextField portField = new JTextField();
         Form form = new Form.Builder()
@@ -93,9 +84,20 @@ public class InitializationView extends BaseView {
                 })
                 .build();
 
-        this.root.add(form.getContent(), BorderLayout.CENTER);
-        this.root.validate();
-        this.root.repaint();
+        addToCenter(form.getContent());
+    }
+
+    private void addToCenter(JComponent component) {
+        root.removeAll();
+
+        SpringLayout layout = new SpringLayout();
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, component, 0, SpringLayout.HORIZONTAL_CENTER, root);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, component, 0, SpringLayout.VERTICAL_CENTER, root);
+        root.setLayout(layout);
+        root.add(component);
+        root.validate();
+        root.repaint();
+
     }
 
     @Override
