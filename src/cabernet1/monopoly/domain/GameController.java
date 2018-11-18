@@ -15,6 +15,9 @@ import cabernet1.monopoly.logging.LoggerFactory;
 
 public class GameController {
 	private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+	
+	// To add announcements to UI
+    public Observable<String> announcement = new Observable<>();
 
 	public GameController() {
 		logger.i("Created Game Controller");
