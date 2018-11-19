@@ -1,39 +1,35 @@
 package cabernet1.monopoly.ui.buttons;
 
-import cabernet1.monopoly.utils.Observable;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RollDiceButton extends BaseButton {
+public class EndTurnButton extends BaseButton {
 
-    private static volatile RollDiceButton _instance = null;
+    private static volatile EndTurnButton _instance = null;
 
-    private RollDiceButton() {
-        setText("Roll Dice");
+    private EndTurnButton() {
+        setText("End Turn");
         initialize();
     }
 
-    public static synchronized RollDiceButton getInstance() {
+    public static synchronized EndTurnButton getInstance() {
         if (_instance == null) {
-            _instance = new RollDiceButton();
+            _instance = new EndTurnButton();
         }
         return _instance;
     }
 
     private void initialize() {
-        controller.rollButton.addObserver(this);
+        controller.endButton.addObserver(this);
 
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // TODO: Add a rollDice function to GameController
-                controller.rollDice();
-                logger.d("Roll Dice button is clicked");
+                controller.endTurn();
             }
         });
     }
 
-    @Override
     public void onValueChanged(Boolean value) {
         // Change visibility
         if(value) {

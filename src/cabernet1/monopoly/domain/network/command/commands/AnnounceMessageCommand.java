@@ -21,5 +21,4 @@ public class AnnounceMessageCommand extends ICommand {
         game.announceMessage(message);
 
     }
-
 }

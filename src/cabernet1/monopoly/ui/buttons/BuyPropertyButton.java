@@ -20,6 +20,8 @@ public class BuyPropertyButton extends BaseButton {
     }
 
     private void initialize() {
+        controller.buyButton.addObserver(this);
+
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // TODO: Add a rollDice function to GameController
@@ -28,7 +30,13 @@ public class BuyPropertyButton extends BaseButton {
         });
     }
 
-    public void onValueChanged(String value) {
+    public void onValueChanged(Boolean value) {
         // Change visibility
+        if(value) {
+            setVisible(true);
+        }
+        else {
+            setVisible(false);
+        }
     }
 }

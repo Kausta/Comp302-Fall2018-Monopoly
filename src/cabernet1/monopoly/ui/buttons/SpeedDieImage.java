@@ -13,14 +13,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class DieImage extends JPanel implements Observer<Integer> {
+public class SpeedDieImage extends JPanel implements Observer<Integer> {
 
     public Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
     private BufferedImage dieImage;
+    private JLabel dieImageLabel = new JLabel();
 
-    public DieImage() {
-        // Will be deleted later
-        drawDie(1);
+
+    public SpeedDieImage() {
+        add(dieImageLabel);
+        dieImageLabel.setVisible(true);
     }
 
     public void startObserving(Observable<Integer> observable) {
@@ -55,20 +57,21 @@ public class DieImage extends JPanel implements Observer<Integer> {
         return image;
     }
 
-    private void drawDie(int dieNum) {
+    public void drawDie(int dieNum) {
         try {
             String path = getDieImage(dieNum);
+            remove(dieImageLabel);
             dieImage = ImageIO.read(new File(path));
             Image scaledDie = dieImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-            JLabel boardImageLabel = new JLabel(new ImageIcon(scaledDie));
-            add(boardImageLabel);
-            boardImageLabel.setVisible(true);
+            dieImageLabel = new JLabel(new ImageIcon(scaledDie));
+            add(dieImageLabel);
         } catch (IOException ex) {
         }
     }
 
     @Override
     public void onValueChanged(Integer value) {
+        logger.d("" + value);
         drawDie(value);
     }
 }

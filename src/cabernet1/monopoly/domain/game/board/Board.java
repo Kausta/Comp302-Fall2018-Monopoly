@@ -9,7 +9,11 @@ import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.board.tile.actiontile.*;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.ChanceTile;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.CommunityChestTile;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.Go;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
+import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.MediterraneanAvenue;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.card.chancecard.ChanceCard;
@@ -19,6 +23,10 @@ import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.network.command.commands.ChangeJailStatusCommand;
+import cabernet1.monopoly.domain.network.command.commands.GainMoneyCommand;
+import cabernet1.monopoly.domain.network.command.commands.PayRentCommand;
+import cabernet1.monopoly.domain.network.command.commands.UpgradePropertyCommand;
 
 public class Board {
 	private static volatile Board _instance = null;
@@ -28,13 +36,7 @@ public class Board {
 	private List<ChanceCard> chanceCards;
 	private Random r = new Random();
 
-
 	private Board() {
-		boardTiles = new ArrayList<>();
-		communityChestCards = new ArrayList<>();
-		chanceCards = new ArrayList<>();
-		initiateTiles();
-		initializeCards();
 	}
 
 	public static synchronized Board getInstance() {
@@ -44,45 +46,54 @@ public class Board {
 		return _instance;
 	}
 
+	public void initialize() {
+		boardTiles = new ArrayList<>();
+		communityChestCards = new ArrayList<>();
+		chanceCards = new ArrayList<>();
+		initiateTiles();
+		initializeCards();
+	}
+
 	private List<Tile> boardTiles;
 
 	private void initiateTiles() {
 		// manually add all the information about the board's tile
 		// first the low, right corner of middle then inner, then outer
 		poolTile = new Pool();
-		for(int i = 0; i < 120; i++) {
+		for (int i = 0; i < 120; i++) {
 			boardTiles.add(i, new MediterraneanAvenue());
 		}
-		boardTiles.add(0, new Go());
-		boardTiles.add(2, new CommunityChestTile());
-		boardTiles.add(7, new ChanceTile());
-		boardTiles.add(10, new Jail());
-		boardTiles.add(17, new CommunityChestTile());
-		boardTiles.add(22, new ChanceTile());
-		boardTiles.add(33, new CommunityChestTile());
-		boardTiles.add(36, new ChanceTile());
-		boardTiles.add(45, new CommunityChestTile());
-		boardTiles.add(57, new ChanceTile());
-		boardTiles.add(67, new CommunityChestTile());
-		boardTiles.add(75, new ChanceTile());
-		boardTiles.add(86, new ChanceTile());
-		boardTiles.add(89, new CommunityChestTile());
-		boardTiles.add(95, new ChanceTile());
-		boardTiles.add(101, new CommunityChestTile());
-		boardTiles.add(111, new CommunityChestTile());
-		boardTiles.add(119, new ChanceTile());
-		}
 
-	private void initializeCards(){
+		boardTiles.set(0, new Go());
+		boardTiles.set(2, new CommunityChestTile());
+		boardTiles.set(7, new ChanceTile());
+		boardTiles.set(10, new Jail());
+		boardTiles.set(17, new CommunityChestTile());
+		boardTiles.set(22, new ChanceTile());
+		boardTiles.set(33, new CommunityChestTile());
+		boardTiles.set(36, new ChanceTile());
+		boardTiles.set(45, new CommunityChestTile());
+		boardTiles.set(57, new ChanceTile());
+		boardTiles.set(67, new CommunityChestTile());
+		boardTiles.set(75, new ChanceTile());
+		boardTiles.set(86, new ChanceTile());
+		boardTiles.set(89, new CommunityChestTile());
+		boardTiles.set(95, new ChanceTile());
+		boardTiles.set(101, new CommunityChestTile());
+		boardTiles.set(111, new CommunityChestTile());
+		boardTiles.set(119, new ChanceTile());
+	}
+
+	private void initializeCards() {
 		communityChestCards.add(new PayHospitalBills());
 		chanceCards.add(new HolidayBonus());
 	}
 
-	public ChanceCard getChanceCard(){
+	public ChanceCard getChanceCard() {
 		return chanceCards.get(r.nextInt(chanceCards.size()));
 	}
 
-	public CommunityChestCard getCommunityChestCard(){
+	public CommunityChestCard getCommunityChestCard() {
 		return communityChestCards.get(r.nextInt(communityChestCards.size()));
 	}
 
@@ -146,65 +157,76 @@ public class Board {
 	}
 
 	public void handleProperty(Player player, Property property) {
-		GameController controller=Game.getInstance().getGameController();
-		if(property.getOwner() == null && property.getPrice() < player.getMoney()){
+		GameController controller = Game.getInstance().getGameController();
+		NetworkController nc = Network.getInstance().getNetworkController();
+
+		if (property.getOwner() == null && property.getPrice() < player.getMoney()) {
 			controller.enableBuyProperty();
-		}else if(property.getOwner().equals(player)){
-			// check if can buy building;
-			// if so call controller.enableUpgradeBuilding  
-		}else{
+		} else if (property.getOwner().equals(player)) {
+
+			if (property instanceof GroupColoredProperty) {
+				GroupColoredProperty gcp = (GroupColoredProperty) property;
+				if (gcp.getUpgradeAmount() <= player.getMoney())
+					controller.enableUpgradeBuilding();
+			}
+		} else {
 			int rent = property.getRent();
-			player.payRent(rent);
-			property.getOwner().gainMoney(rent);
+			nc.sendCommand(new PayRentCommand(player, rent));
+			nc.sendCommand(new GainMoneyCommand(property.getOwner(), rent));
+
+			String message = player.getName() + " has paid a rent to " + property.getOwner().getName();
+			nc.sendCommand(new AnnounceMessageCommand(message));
 		}
-		// TODO finish implementing handleProperty method
 	}
-	public void handleTile(Player player,Tile destTile) {
-		// TODO implement handleTile method
-		String message ="";
-		GameController controller=Game.getInstance().getGameController();
-		/*  
-		 *  this method will handle landing on the following tiles:
-		 *  	- Property -> handleProperty ->
-		 *  	- Jail -> call player.goJail
-		 *  	- Chance or Community Tile -> use card.drawCard (TODO implement drawCard)
-		 *  	- else, call the suitable class (it will do nothing)
-		 *  
-		 *  announce whatever is the suitable message using the code below
-		 *  
-		 *   
-		 */
-		if (player.getMovementStatus()==PlayerMovementStatus.NORMAL_MOVE) {
+
+	public void handleTile(Player player, Tile destTile) {
+		String message = "";
+		NetworkController nc = Network.getInstance().getNetworkController();
+		GameController controller = Game.getInstance().getGameController();
+		if (destTile instanceof Property) {
+			handleProperty(player, (Property) destTile);
+		} else if (destTile instanceof Jail) {
+			message = player.getName() + " has got into jail!";
+			nc.sendCommand(new ChangeJailStatusCommand(player, true));
+		} else if (destTile instanceof ChanceTile) {
+			((ChanceTile) destTile).landingAction(player);
+		} else if (destTile instanceof CommunityChestTile) {
+			((CommunityChestTile) destTile).landingAction(player);
+		} else {// other types, do nothing for now
+			message = player.getName() + " has nothing to do now,will take a rest";
+		}
+		if (player.getMovementStatus() == PlayerMovementStatus.NORMAL_MOVE) {
 			controller.enableSpecialAction();
-		}else {
+		} else {
 			controller.enableEndTurn();
 		}
-		
-		NetworkController nc=Network.getInstance().getNetworkController();
-		nc.sendCommand(new AnnounceMessageCommand(message));
-		
+
+		if (!message.equals(""))
+			nc.sendCommand(new AnnounceMessageCommand(message));
+
 	}
-	public void upgradeBuilding(Player player,Property property) {
-		// TODO implement upgradeBuilding method
-		// detect what is the type of the building (since there is only one definitive way to upgrade the building (if possible))
-		// this method will only be called when it's possible to do so
-		// upgrade that building on the corresponding property
-		String message ="Building on "+property.getName()+" has been upgraded";
-		NetworkController nc=Network.getInstance().getNetworkController();
+
+	public void upgradeBuilding(Player player, GroupColoredProperty property) {
+		NetworkController nc = Network.getInstance().getNetworkController();
+		int upgradeAmount=property.getUpgradeAmount();
+		nc.sendCommand(new PayRentCommand(player, upgradeAmount));
+		nc.sendCommand(new UpgradePropertyCommand(property));
+		String message = "Building on " + property.getName() + " has been upgraded";
 		nc.sendCommand(new AnnounceMessageCommand(message));
 	}
 
 	/**
 	 * This method will only be called when it's possible to do so
+	 * 
 	 * @param player
 	 * @param property
 	 */
-	public void buyProperty(Player player,Property property) {
+	public void buyProperty(Player player, Property property) {
 		player.loseMoney(property.getPrice());
 		player.ownProperty(property);
 		property.setOwner(player);
-		String message =player.getName() + " has bought "+ property.getName();
-		NetworkController nc=Network.getInstance().getNetworkController();
+		String message = player.getName() + " has bought " + property.getName();
+		NetworkController nc = Network.getInstance().getNetworkController();
 		nc.sendCommand(new AnnounceMessageCommand(message));
 	}
 }

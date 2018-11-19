@@ -6,7 +6,6 @@ public class RegularDie extends IDie {
     @Override
     public void rollDice() {
         int value = diceGen.nextInt(6) + 1;
-        setValue(value);
         switch (value) {
             case 1:
                 faceValue = RegularDieFaces.One;

@@ -1,5 +1,7 @@
 package cabernet1.monopoly.ui.tabbedpanes;
 
+import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
@@ -8,6 +10,7 @@ import java.awt.*;
 
 public abstract class BaseTabbedPane extends JTabbedPane {
     public Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
+    public GameController controller = Game.getInstance().getGameController();
     private Dimension size = new Dimension();
     private int height;
     private int width;

@@ -10,7 +10,7 @@ public class Network {
     private NetworkController networkController;
     private BaseSocket socket;
     private INetworkAdapter adapter;
-
+    private String identifier;
     private boolean serverMode;
 
     private Network() {
@@ -25,6 +25,7 @@ public class Network {
 
     public void initializeServer(int port) throws IOException {
         this.serverMode = true;
+        this.identifier = "Server";
         ServerSocket socket = new ServerSocket(port);
         this.socket = socket;
         this.socket.connect();
@@ -58,5 +59,13 @@ public class Network {
 
     public void setServerMode(boolean serverMode) {
         this.serverMode = serverMode;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }

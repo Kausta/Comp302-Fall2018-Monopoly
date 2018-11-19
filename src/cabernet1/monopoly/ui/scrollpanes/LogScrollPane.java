@@ -49,6 +49,5 @@ public class LogScrollPane extends BaseScrollPane implements Observer<String> {
     @Override
     public void onValueChanged(String value) {
         announceMessage(value);
-        logger.d("Value is changed with observers");
     }
 }

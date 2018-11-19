@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.player;
 
 import cabernet1.monopoly.domain.game.Constants;
+import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.PayDay;
 import cabernet1.monopoly.domain.game.bot.BotPlayer;
@@ -23,12 +24,10 @@ public class PlayerFactory {
     }
 
     public IPlayer createFromInitialData(InitialPlayerData playerData) {
-        if(playerData.isBotPlayer()) {
-            // TODO: Get initial tile
-            return this.createBotPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, new PayDay());
+        if (playerData.isBotPlayer()) {
+            return this.createBotPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
         } else {
-            // TODO: Get initial tile
-            return this.createNormalPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, new PayDay());
+            return this.createNormalPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
         }
     }
 

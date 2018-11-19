@@ -1,5 +1,6 @@
 package cabernet1.monopoly.domain.network.command;
 
+import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
