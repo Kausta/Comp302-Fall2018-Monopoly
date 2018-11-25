@@ -5,7 +5,7 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class Jail extends ActionTile {
 
-    public Jail(){
+    public Jail() {
         super("Jail", TileType.Jail);
     }
 

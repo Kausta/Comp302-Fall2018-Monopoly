@@ -32,10 +32,9 @@ public class EndTurnButton extends BaseButton {
 
     public void onValueChanged(Boolean value) {
         // Change visibility
-        if(value) {
+        if (value) {
             setVisible(true);
-        }
-        else {
+        } else {
             setVisible(false);
         }
     }

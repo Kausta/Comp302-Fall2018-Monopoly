@@ -1,20 +1,16 @@
 package cabernet1.monopoly.domain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import cabernet1.monopoly.Application;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 import cabernet1.monopoly.domain.network.command.InformNamesCommand;
 import cabernet1.monopoly.domain.network.command.StartGameCommand;
-import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.utils.Observable;
-// import sun.nio.ch.Net;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+// import sun.nio.ch.Net;
 
 public class InitializationController {
     private static volatile InitializationController _instance = null;
@@ -76,13 +72,13 @@ public class InitializationController {
         // Player names for players playing on this computer
         String identifier = Network.getInstance().getIdentifier();
         List<String> currentPlayerNames = otherClientsPlayerNames.get(identifier);
-        System.out.println("reach here ,size is "+currentPlayerNames.size());
+        System.out.println("reach here ,size is " + currentPlayerNames.size());
         for (String name : currentPlayerNames) {
             InitialPlayerData data = new InitialPlayerData(initialPlayerData.size(), name, Network.getInstance().getIdentifier(), false);
             initialPlayerData.add(data);
         }
         otherClientsPlayerNames.remove(identifier);
-        for(String clientId: otherClientsPlayerNames.keySet()) {
+        for (String clientId : otherClientsPlayerNames.keySet()) {
             List<String> players = otherClientsPlayerNames.get(clientId);
             players.forEach((name) -> {
                 InitialPlayerData data = new InitialPlayerData(initialPlayerData.size(), name, clientId, false);

@@ -1,9 +1,6 @@
 package cabernet1.monopoly.domain.game.bot;
 
-import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.die.util.JailDiceCup;
-import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class BotPlayer extends IPlayer {
@@ -23,53 +20,53 @@ public class BotPlayer extends IPlayer {
         return botStrategy;
     }
 
-	@Override
-	protected void handleNormalMove() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    protected void handleNormalMove() {
+        // TODO Auto-generated method stub
 
-	@Override
-	protected void handleMrMonopolyMove() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	protected void handleBusMove() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    protected void handleMrMonopolyMove() {
+        // TODO Auto-generated method stub
 
-	@Override
-	protected void handleTriplesMove() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	protected void handleDoubleMove() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    protected void handleBusMove() {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void playJailturn() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	public void jumpToTile(Tile newTile) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    protected void handleTriplesMove() {
+        // TODO Auto-generated method stub
 
-	@Override
-	protected void goJail() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
+
+    @Override
+    protected void handleDoubleMove() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void playJailturn() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void jumpToTile(Tile newTile) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    protected void goJail() {
+        // TODO Auto-generated method stub
+
+    }
 
 
 }

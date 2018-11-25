@@ -25,7 +25,7 @@ public class SetPlayersCommand extends ICommand {
     @Override
     public void execute() {
         boolean isServer = Network.getInstance().isServerMode();
-        if(!isServer) {
+        if (!isServer) {
             return;
         }
         InitializationController.getInstance().initializePlayerNamesFor(clientIdentifier, playerNames);

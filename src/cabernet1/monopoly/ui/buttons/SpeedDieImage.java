@@ -31,7 +31,7 @@ public class SpeedDieImage extends JPanel implements Observer<Integer> {
 
     private String getDieImage(int dieNum) {
         String image = "";
-        switch(dieNum) {
+        switch (dieNum) {
             case 1:
                 image = ResourceManager.getInstance().getResourcePath("dice/dice_1.jpeg").getPath();
                 break;

@@ -1,7 +1,5 @@
 package cabernet1.monopoly.ui.buttons;
 
-import cabernet1.monopoly.utils.Observable;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -36,10 +34,9 @@ public class RollDiceButton extends BaseButton {
     @Override
     public void onValueChanged(Boolean value) {
         // Change visibility
-        if(value) {
+        if (value) {
             setVisible(true);
-        }
-        else {
+        } else {
             setVisible(false);
         }
     }
