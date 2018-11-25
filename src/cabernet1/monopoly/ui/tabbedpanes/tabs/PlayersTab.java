@@ -45,8 +45,8 @@ public class PlayersTab extends JScrollPane implements Observer<List<IPlayer>> {
                 }
         );*/
 
-        DefaultTableModel model = (DefaultTableModel)playerTable.getModel();
-        for(IPlayer p: controller.playerList()) {
+        DefaultTableModel model = (DefaultTableModel) playerTable.getModel();
+        for (IPlayer p : controller.playerList()) {
             String money = "" + p.getMoney();
             model.addRow(new Object[]{p.getName(), p.getCurrentTile().getName(), money});
         }
@@ -62,13 +62,13 @@ public class PlayersTab extends JScrollPane implements Observer<List<IPlayer>> {
     @Override
     public void onValueChanged(List<IPlayer> playerList) {
         logger.d("Value changed");
-        DefaultTableModel model = (DefaultTableModel)playerTable.getModel();
+        DefaultTableModel model = (DefaultTableModel) playerTable.getModel();
         int rowCount = model.getRowCount();
         //Remove rows one by one from the end of the table
         for (int i = rowCount - 1; i >= 0; i--) {
             model.removeRow(i);
         }
-        for(IPlayer p: playerList) {
+        for (IPlayer p : playerList) {
             String money = "" + p.getMoney();
             model.addRow(new Object[]{p.getName(), p.getCurrentTile().getName(), money});
         }

@@ -3,7 +3,6 @@ package cabernet1.monopoly.domain.game.player;
 import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.board.tile.actiontile.PayDay;
 import cabernet1.monopoly.domain.game.bot.BotPlayer;
 import cabernet1.monopoly.domain.game.bot.BotStrategyFactory;
 import cabernet1.monopoly.domain.game.bot.IStrategy;

@@ -8,12 +8,12 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 public class IncNumConsDoubleRollsCommand extends ICommand {
     private IPlayer player;
 
-    public IPlayer getPlayer() {
-        return player;
-    }
-
     public IncNumConsDoubleRollsCommand(IPlayer player) {
         this.player = player;
+    }
+
+    public IPlayer getPlayer() {
+        return player;
     }
 
     @Override

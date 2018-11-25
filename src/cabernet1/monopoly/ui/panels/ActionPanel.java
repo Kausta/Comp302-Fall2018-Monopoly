@@ -1,9 +1,10 @@
 package cabernet1.monopoly.ui.panels;
 
-import cabernet1.monopoly.ui.buttons.*;
+import cabernet1.monopoly.ui.buttons.BuyPropertyButton;
+import cabernet1.monopoly.ui.buttons.EndTurnButton;
+import cabernet1.monopoly.ui.buttons.RollDiceButton;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 

@@ -1,6 +1,5 @@
 package cabernet1.monopoly.domain.network;
 
-import cabernet1.monopoly.domain.network.command.ConnectedCommand;
 import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.domain.network.command.NetworkCommand;
 import cabernet1.monopoly.domain.network.command.WelcomeCommand;

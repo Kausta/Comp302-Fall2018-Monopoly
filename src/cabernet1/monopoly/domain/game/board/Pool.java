@@ -3,7 +3,7 @@ package cabernet1.monopoly.domain.game.board;
 public class Pool {
     private int totalMoney;
 
-    public Pool(){
+    public Pool() {
         totalMoney = 0;
     }
 
@@ -15,7 +15,7 @@ public class Pool {
         totalMoney /= 2;
     }
 
-    public void addMoney(int amount){
+    public void addMoney(int amount) {
         totalMoney += amount;
     }
 }

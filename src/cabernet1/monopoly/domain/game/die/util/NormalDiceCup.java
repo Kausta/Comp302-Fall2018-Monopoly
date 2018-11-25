@@ -1,22 +1,21 @@
 package cabernet1.monopoly.domain.game.die.util;
 
-import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
-import cabernet1.monopoly.utils.Observable;
 
 public class NormalDiceCup implements DiceCup {
-	private static volatile NormalDiceCup _instance = null;
-    
+    private static volatile NormalDiceCup _instance = null;
+
     public RegularDie die1 = new RegularDie();
     public RegularDie die2 = new RegularDie();
     public SpeedDie die3 = new SpeedDie();
 
-  	private NormalDiceCup() {
-  		
-  	}
+    private NormalDiceCup() {
+
+    }
+
     public static synchronized NormalDiceCup getInstance() {
         if (_instance == null) {
             _instance = new NormalDiceCup();

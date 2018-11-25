@@ -3,8 +3,8 @@ package cabernet1.monopoly.domain.game.board.tile.actiontile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 
-public class Go extends ActionTile{
-    public Go(){
+public class Go extends ActionTile {
+    public Go() {
         super("Go", TileType.Go);
     }
 

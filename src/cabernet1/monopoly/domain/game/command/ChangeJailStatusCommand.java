@@ -9,17 +9,17 @@ public class ChangeJailStatusCommand extends ICommand {
     private boolean inJail;
     private IPlayer player;
 
+    public ChangeJailStatusCommand(IPlayer player, boolean inJail) {
+        this.player = player;
+        this.inJail = inJail;
+    }
+
     public IPlayer getPlayer() {
         return player;
     }
 
     public boolean getJailStatus() {
         return inJail;
-    }
-
-    public ChangeJailStatusCommand(IPlayer player, boolean inJail) {
-        this.player = player;
-        this.inJail = inJail;
     }
 
     @Override

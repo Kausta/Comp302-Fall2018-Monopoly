@@ -7,23 +7,23 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class CommunityChestTile extends ActionTile {
 
-    public CommunityChestTile(){
+    public CommunityChestTile() {
         super("Community Chest", TileType.CommunityChest);
     }
-    
+
     @Override
     public void landingAction(IPlayer player) {
         CommunityChestCard card = board.getCommunityChestCard();
-        if (card instanceof IimmediateAction){
+        if (card instanceof IimmediateAction) {
             ((IimmediateAction) card).action(player);
-        }else{
+        } else {
             // TODO cards that are storeable
         }
     }
 
     @Override
     public void passingAction(IPlayer player) {
-		
-	}
+
+    }
 
 }
