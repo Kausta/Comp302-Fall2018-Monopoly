@@ -16,11 +16,11 @@ import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.util.JailDiceCup;
 import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
-import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
-import cabernet1.monopoly.domain.network.command.commands.ChangeJailStatusCommand;
-import cabernet1.monopoly.domain.network.command.commands.ChangeMovementStatusCommand;
-import cabernet1.monopoly.domain.network.command.commands.IncNumConsDoubleRollsCommand;
-import cabernet1.monopoly.domain.network.command.commands.MovePlayerCommand;
+import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.ChangeJailStatusCommand;
+import cabernet1.monopoly.domain.game.command.ChangeMovementStatusCommand;
+import cabernet1.monopoly.domain.game.command.IncNumConsDoubleRollsCommand;
+import cabernet1.monopoly.domain.game.command.MovePlayerCommand;
 
 public class Player extends IPlayer {
     public Player(int ID, String name, int money, int defaultOrder, Tile currentTile) {
@@ -98,7 +98,7 @@ public class Player extends IPlayer {
 		board.handleTile(this, newTile);
 
 	}
-	
+
 
 	@Override
 	protected void handleMrMonopolyMove() {
@@ -186,7 +186,7 @@ public class Player extends IPlayer {
 		nc.sendCommand(new MovePlayerCommand(this, newTile));
 		String message = getName() + " has transposed immediately from " + previousTile + " to " + curTile.getName();
 		nc.sendCommand(new AnnounceMessageCommand(message));
-		
+
 		Board.getInstance().handleTile(this, newTile);
 	}
 

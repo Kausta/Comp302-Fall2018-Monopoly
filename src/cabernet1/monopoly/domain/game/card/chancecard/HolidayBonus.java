@@ -4,11 +4,11 @@ import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.card.IimmediateAction;
 import cabernet1.monopoly.domain.game.player.IPlayer;
-import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
-import cabernet1.monopoly.domain.network.command.commands.GainMoneyCommand;
+import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.GainMoneyCommand;
 
 public class HolidayBonus extends ChanceCard implements IimmediateAction{
-    
+
     public HolidayBonus(){
         super("Holiday Bonus");
     }

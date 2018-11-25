@@ -1,32 +1,33 @@
-package cabernet1.monopoly.domain.network.command.commands;
+package cabernet1.monopoly.domain.game.command;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
-import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
-public class ChangeJailStatusCommand extends ICommand {
-    private boolean inJail;
+public class MovePlayerCommand extends ICommand {
     private IPlayer player;
+    private Tile newTile;
 
     public IPlayer getPlayer() {
         return player;
     }
 
-    public boolean getJailStatus() {
-        return inJail;
+    public Tile getNewTile() {
+        return newTile;
     }
 
-    public ChangeJailStatusCommand(IPlayer player, boolean inJail) {
+    public MovePlayerCommand(IPlayer player, Tile newTile) {
         this.player = player;
-        this.inJail = inJail;
+        this.newTile = newTile;
     }
 
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.changeJailStatus(player, inJail);
-
+        game.movePlayer(player, newTile);
+        game.playerListObservable.setValue(game.playerList());
     }
+
 }

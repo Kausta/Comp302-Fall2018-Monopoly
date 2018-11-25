@@ -22,11 +22,11 @@ import cabernet1.monopoly.domain.game.card.communitycard.CommunityChestCard;
 import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
-import cabernet1.monopoly.domain.network.command.commands.AnnounceMessageCommand;
-import cabernet1.monopoly.domain.network.command.commands.ChangeJailStatusCommand;
-import cabernet1.monopoly.domain.network.command.commands.GainMoneyCommand;
-import cabernet1.monopoly.domain.network.command.commands.PayRentCommand;
-import cabernet1.monopoly.domain.network.command.commands.UpgradePropertyCommand;
+import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.ChangeJailStatusCommand;
+import cabernet1.monopoly.domain.game.command.GainMoneyCommand;
+import cabernet1.monopoly.domain.game.command.PayRentCommand;
+import cabernet1.monopoly.domain.game.command.UpgradePropertyCommand;
 
 public class Board {
 	private static volatile Board _instance = null;
@@ -217,7 +217,7 @@ public class Board {
 
 	/**
 	 * This method will only be called when it's possible to do so
-	 * 
+	 *
 	 * @param player
 	 * @param property
 	 */
