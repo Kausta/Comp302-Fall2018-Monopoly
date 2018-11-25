@@ -1,4 +1,4 @@
-package cabernet1.monopoly.domain.network.command.commands;
+package cabernet1.monopoly.domain.game.command;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
@@ -10,17 +10,17 @@ public class MovePlayerCommand extends ICommand {
     private IPlayer player;
     private Tile newTile;
 
+    public MovePlayerCommand(IPlayer player, Tile newTile) {
+        this.player = player;
+        this.newTile = newTile;
+    }
+
     public IPlayer getPlayer() {
         return player;
     }
 
     public Tile getNewTile() {
         return newTile;
-    }
-
-    public MovePlayerCommand(IPlayer player, Tile newTile) {
-        this.player = player;
-        this.newTile = newTile;
     }
 
     @Override

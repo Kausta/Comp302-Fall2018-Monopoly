@@ -1,6 +1,5 @@
 package cabernet1.monopoly.ui.scrollpanes;
 
-import cabernet1.monopoly.utils.Observable;
 import cabernet1.monopoly.utils.Observer;
 
 import javax.swing.*;

@@ -5,6 +5,7 @@ import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
 public class SpeedDie extends IDie {
 
     private int value = diceGen.nextInt(6) + 1;
+
     @Override
     public void rollDice() {
         switch (value) {
@@ -28,7 +29,7 @@ public class SpeedDie extends IDie {
         value = diceGen.nextInt(6) + 1;
     }
 
-    public int speedDieValue(){
+    public int speedDieValue() {
         return this.value;
     }
 
