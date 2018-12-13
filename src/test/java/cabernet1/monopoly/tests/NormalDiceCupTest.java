@@ -23,19 +23,6 @@ public class NormalDiceCupTest {
   }
 
   @Test
-  public void test2RollCup() {
-    NormalDiceCup n = NormalDiceCup.getInstance();
-    n.rollCup();
-    DieFaces d1 = n.die1.getDiceValue();
-    DieFaces d2 = n.die2.getDiceValue();
-    DieFaces d3 = n.die3.getDiceValue();
-    n.rollCup();
-    assertTrue(d1 == n.die1.getDiceValue()
-            || d2 == n.die2.getDiceValue()
-            || d3 == n.die3.getDiceValue());
-  }
-
-  @Test
   public void test3RollCup() {
     NormalDiceCup n = NormalDiceCup.getInstance();
     n.rollCup();
