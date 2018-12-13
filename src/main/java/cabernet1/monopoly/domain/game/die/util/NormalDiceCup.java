@@ -72,6 +72,15 @@ public class NormalDiceCup implements DiceCup {
      * @return the type of move.
      */
     public NormalDiceCupStatus rollCup() {
+        // REQUIRES: die1, die2 and die3 are initialized
+        // MODIFIES: die1, die2, die3
+        // EFFECTS: roll dice die1, die2 and die3.
+        //      If dice are triples, returns TRIPLE_MOVE,
+        //      If dice are doubles, returns DOUBLE_MOVE,
+        //      If third die's face is Mr. Monopoly, returns MR_MONOPOLY_MOVE,
+        //      If third die's face is bus icon, returns BUS_MOVE.
+        //      Otherwise, returns NORMAL_MOVE
+
         die1.rollDice();
         die2.rollDice();
         die3.rollDice();
@@ -93,6 +102,8 @@ public class NormalDiceCup implements DiceCup {
      * @return the sum of the face values of dice.
      */
     public int getFacesValue() {
+        // REQUIRES: die1, die2 and die3 has values
+        // EFFECTS: returns the sum of the dice values
         return die1.getDiceValue().getValue() + die2.getDiceValue().getValue() + die3.getDiceValue().getValue();
     }
 
