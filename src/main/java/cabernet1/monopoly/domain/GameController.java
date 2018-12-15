@@ -175,7 +175,7 @@ public class GameController {
     }
 
     public void increasePool(int amount) {
-        Board.getInstance().getPoolTile().addMoney(amount);
+        Board.getInstance().getPool().addMoney(amount);
 
     }
 
