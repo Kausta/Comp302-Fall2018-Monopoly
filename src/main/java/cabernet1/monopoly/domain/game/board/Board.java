@@ -19,19 +19,20 @@ import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.command.*;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.utils.RepresentationInvariant;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Board {
+public class Board implements RepresentationInvariant {
     private static volatile Board _instance = null;
     private Pool poolTile;
 
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
     private Random r = new Random();
-    private List<Tile> boardTiles;
+    public  List<Tile> boardTiles; //made public for testing purposes
 
     private Board() {
     }
@@ -92,11 +93,11 @@ public class Board {
         return communityChestCards.get(r.nextInt(communityChestCards.size()));
     }
 
-    private int getNumberOfTiles() {
+    public int getNumberOfTiles() {
         return boardTiles.size();
-    }
+    } //made public for testing
 
-    private int getPositionOfTile(Tile tile) {
+    public int getPositionOfTile(Tile tile) { //made public for testing
         int counter = 0;
         for (Tile singleTile : boardTiles) {
             if (singleTile.equals(tile))
@@ -106,9 +107,9 @@ public class Board {
         return -1;
     }
 
-    private Tile getTileAtPosition(int position) {
+    public Tile getTileAtPosition(int position) {
         return boardTiles.get(position);
-    }
+    } //made public for testing
 
     public Tile getNextTile(Tile curTile, int numberOfSteps) {
         // TODO: re-implement this function to support the multi-layer board, based on
@@ -119,7 +120,7 @@ public class Board {
     }
 
     public Tile getJailTile() {
-        return boardTiles.get(80);
+        return boardTiles.get(10);
     }
 
     public Pool getPool() {
@@ -223,5 +224,15 @@ public class Board {
         String message = player.getName() + " has bought " + property.getName();
         NetworkController nc = Network.getInstance().getNetworkController();
         nc.sendCommand(new AnnounceMessageCommand(message));
+    }
+
+    public boolean repOK(){
+        return _instance != null;
+    }
+
+    public String toString(){
+        return "Board{" +
+                "" +
+                "}";
     }
 }
