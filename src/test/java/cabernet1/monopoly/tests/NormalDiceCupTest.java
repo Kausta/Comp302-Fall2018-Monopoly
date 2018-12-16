@@ -61,4 +61,16 @@ public class NormalDiceCupTest extends TestBase {
         assertEquals(expected, cup.isEven());
         testRepOK(cup);
     }
+
+    @Test
+    public void testRollIsTriples() {
+        NormalDiceCup cup = NormalDiceCup.getInstance();
+        cup.rollCup();
+        int d1 = cup.die1.getDiceValue().getValue();
+        int d2 = cup.die2.getDiceValue().getValue();
+        int d3 = cup.die3.getDiceValue().getValue();
+        boolean expected = (d1 == d2 && d1 == d3);
+        assertEquals(expected, cup.isTriples());
+        testRepOK(cup);
+    }
 }

@@ -33,7 +33,9 @@ public class GroupColoredProperty extends Property {
 
     /**
      * Adds a house to the property
-     *
+     * @modifies house
+     * @requires to have less than maximum houses
+     * @effects house number on the property increases
      * @return status message to be shown
      */
     public String buyHouse() {
@@ -42,7 +44,9 @@ public class GroupColoredProperty extends Property {
 
     /**
      * Removes a house from the property
-     *
+     * @modifies house
+     * @requires to have more than 0 houses
+     * @effects house number on the property decreases
      * @return status message to be shown
      */
     public String demolishHouse() {
@@ -124,7 +128,12 @@ public class GroupColoredProperty extends Property {
         }
         return house.getPrice();
     }
-
+    /**
+     * upgrades the buildings 
+     * @modifies house, hotel or skyscraper
+     * @requires to not have a skyscraper
+     * @effects increases the house, hotel or the scyscraper number
+     */
     public void upgrade() {
         if (house.limitReached()) {
             if (hotel.limitReached()) {
@@ -133,6 +142,18 @@ public class GroupColoredProperty extends Property {
             buyHotel();
         }
         buyHouse();
+    }
+
+    public House getHouse(){
+        return house;
+    }
+
+    public Hotel getHotel(){
+        return hotel;
+    }
+
+    public Skyscraper getSkyscraper(){
+        return skyscraper;
     }
 
 
