@@ -3,10 +3,13 @@ package cabernet1.monopoly.domain.game.board;
 import cabernet1.monopoly.TestBase;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.PayDay;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -57,6 +60,7 @@ public class BoardTest extends TestBase {
         // test with preset tiles with known positions
         assertEquals(board.getPositionOfTile(board.getJailTile()), 10);
         assertEquals(board.getPositionOfTile(board.getInitialTile()), 0);
+        assertEquals(board.getPositionOfTile(new PayDay()), -1);
     }
 
     @Test
