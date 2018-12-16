@@ -19,19 +19,20 @@ import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.command.*;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.utils.RepresentationInvariant;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Board {
+public class Board implements RepresentationInvariant {
     private static volatile Board _instance = null;
     private Pool poolTile;
 
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
     private Random r = new Random();
-    private List<Tile> boardTiles;
+    public  List<Tile> boardTiles; //made public for testing purposes
 
     private Board() {
     }
@@ -92,11 +93,17 @@ public class Board {
         return communityChestCards.get(r.nextInt(communityChestCards.size()));
     }
 
-    private int getNumberOfTiles() {
+    /**
+     * Return the number of tiles on the board.
+     * @return the number of tiles on the board, i.e the size of the boardTiles list.*/
+    public int getNumberOfTiles() {
         return boardTiles.size();
-    }
+    } //made public for testing
 
-    private int getPositionOfTile(Tile tile) {
+    /**
+     * Returns the position of a specified tile on the board.
+     * @return the position of the tile if the tile exists on the board, -1 otherwise.*/
+    public int getPositionOfTile(Tile tile) { //made public for testing
         int counter = 0;
         for (Tile singleTile : boardTiles) {
             if (singleTile.equals(tile))
@@ -106,10 +113,16 @@ public class Board {
         return -1;
     }
 
-    private Tile getTileAtPosition(int position) {
+    /**
+     * Returns the tile at an indicated position
+     * @return the tile at the "position"th index of the boardTiles list.*/
+    public Tile getTileAtPosition(int position) {
         return boardTiles.get(position);
-    }
+    } //made public for testing
 
+    /**
+     * Returns the tile, indicated number of steps after an indicated starting point.
+     * @return the tile numberOfSteps steps after curTile.*/
     public Tile getNextTile(Tile curTile, int numberOfSteps) {
         // TODO: re-implement this function to support the multi-layer board, based on
         // the parity of number of steps
@@ -118,14 +131,20 @@ public class Board {
         return getTileAtPosition(currentIdx);
     }
 
+    /**
+     * Returns the jail tile.
+     * @return the jail tile on the board.*/
     public Tile getJailTile() {
-        return boardTiles.get(80);
+        return boardTiles.get(10);
     }
 
-    public Pool getPoolTile() {
+    public Pool getPool() {
         return poolTile;
     }
 
+    /**
+     * Return the starting tile, namely the "GO" Tile.
+     * @return the tile at the initial position, i.e. 0th index of the boardTiles list.*/
     public Tile getInitialTile() {
         return boardTiles.get(0);
     }
@@ -223,5 +242,15 @@ public class Board {
         String message = player.getName() + " has bought " + property.getName();
         NetworkController nc = Network.getInstance().getNetworkController();
         nc.sendCommand(new AnnounceMessageCommand(message));
+    }
+
+    public boolean repOK(){
+        return _instance != null;
+    }
+
+    public String toString(){
+        return "Board{" +
+                "" +
+                "}";
     }
 }
