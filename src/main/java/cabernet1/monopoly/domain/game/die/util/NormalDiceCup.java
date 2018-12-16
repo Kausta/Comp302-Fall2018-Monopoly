@@ -49,8 +49,10 @@ public class NormalDiceCup implements DiceCup, RepresentationInvariant {
      * Checks whether die1, die2 and die3 are equal or not.
      *
      * @return true if die1, die2 and die3 are equal, false otherwise.
+     * @requires die1, die2 and die3 are initialized
+     * @effects If dice values are all equal, returns true, otherwise false.
      */
-    private boolean isTriples() {
+    public boolean isTriples() {
         return die1.getDiceValue().getValue() == die2.getDiceValue().getValue() && die1.getDiceValue().getValue() == die3.getDiceValue().getValue();
     }
 
