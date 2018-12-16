@@ -47,7 +47,7 @@ public class NormalDiceCupTest extends TestBase {
     public void testFacesValueIsInCorrectRange() {
         NormalDiceCup cup = NormalDiceCup.getInstance();
         cup.rollCup();
-        assertTrue(cup.getFacesValue() >= 3 || cup.getFacesValue() <= 18);
+        assertTrue(cup.getFacesValue() >= 3 && cup.getFacesValue() <= 18);
         testRepOK(cup);
     }
 
