@@ -14,7 +14,7 @@ public class Skyscraper extends Building {
         return rent;
     }
 
-    public boolean repOk(){
+    public boolean repOk() {
         return super.repOK() && rent > 0;
     }
 }

@@ -1,4 +1,4 @@
-package cabernet1.monopoly.domain.game.die.util;
+package cabernet1.monopoly.domain.game.die.cup;
 
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.enumerators.RollThreeCupStatus;

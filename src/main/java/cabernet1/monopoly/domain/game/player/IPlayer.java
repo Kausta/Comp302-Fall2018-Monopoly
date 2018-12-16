@@ -16,10 +16,7 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * This class represents the player in monopoly, which can be either normal
@@ -32,7 +29,6 @@ public abstract class IPlayer implements RepresentationInvariant {
     protected Tile curTile;
 
 
-
     protected int numberOfConsecutiveDoublesRolls;
     protected PlayerMovementStatus movementStatus;
     protected int ID;
@@ -42,38 +38,23 @@ public abstract class IPlayer implements RepresentationInvariant {
     private int money;
 
 
-
     private boolean isActive;
     private int playerOrder;
     private boolean inJail;
     private int numberOfSteps = 1;
 
-    @Override
-    public String toString() {
-        return "IPlayer{" +
-                "ID: "+ID +
-                ", name: "+name+
-                ", money: "+money+
-                ", order: "+playerOrder+
-                ", Active: "+isActive+
-                ", inJail: "+inJail+
-                ", N.Owned Properties"+ownedProperty.size()+
-                "}";
-    }
-
     /**
      * Class Constructor
      *
-     * @param ID the ID of the player, unique for each player
-     * @param name the name of the player
-     * @param money the initial money
+     * @param ID           the ID of the player, unique for each player
+     * @param name         the name of the player
+     * @param money        the initial money
      * @param defaultOrder the initial order of playing, [1,N.Players]
-     * @param currentTile the initial tile that stands on
-     *
+     * @param currentTile  the initial tile that stands on
      * @requires ID to be unique for each player
-     * @modifies this.ID,this.name,this.money,this.isActive,this.playerOrder,
-     *  this.curTile,this.numberOfConsecutiveDoublesRolls,this.inJail,
-     *  this.ownedProperty,this.direction
+     * @modifies this.ID, this.name, this.money, this.isActive, this.playerOrder,
+     * this.curTile,this.numberOfConsecutiveDoublesRolls,this.inJail,
+     * this.ownedProperty,this.direction
      * @effects register the information of this player
      */
     public IPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile) {
@@ -87,14 +68,26 @@ public abstract class IPlayer implements RepresentationInvariant {
         this.inJail = false;
         this.ownedProperty = new HashSet<>();
         this.direction = 1;
-        this.movementStatus=PlayerMovementStatus.NORMAL_MOVE;
+        this.movementStatus = PlayerMovementStatus.NORMAL_MOVE;
+    }
+
+    @Override
+    public String toString() {
+        return "IPlayer{" +
+                "ID: " + ID +
+                ", name: " + name +
+                ", money: " + money +
+                ", order: " + playerOrder +
+                ", Active: " + isActive +
+                ", inJail: " + inJail +
+                ", N.Owned Properties" + ownedProperty.size() +
+                "}";
     }
 
     /**
      * Gets the movement status of this player, like normalMove,DoubleMove..
      *
      * @return the movement status of the current player
-     *
      * @effects the movement status of the current player
      */
     public PlayerMovementStatus getMovementStatus() {
@@ -104,8 +97,8 @@ public abstract class IPlayer implements RepresentationInvariant {
     /**
      * Change the movement status of this player
      * used when the player plays a dice
-     * @param newStatus the new movement status of this player
      *
+     * @param newStatus the new movement status of this player
      * @modifies this.movementStatus
      * @effects change the current movement status of this player to a new one
      */
@@ -123,29 +116,33 @@ public abstract class IPlayer implements RepresentationInvariant {
     public void increaseNumberOfConsecutiveDoublesRolls() {
         ++numberOfConsecutiveDoublesRolls;
     }
+
     /**
      * gets the number of consecutive double rolls this player has player until now
+     *
      * @return numberOfConsecutiveDoublesRolls
      * @effects gets the number of consecutive double rolls this player has player until now
      */
     public int getNumberOfConsecutiveDoublesRolls() {
         return numberOfConsecutiveDoublesRolls;
     }
+
     /**
      * Checks if this player own a property
+     *
      * @param property the property to be checked
      * @return true if the player own the given property, false otherwise
-     *
      * @effects if property is owned by this player, return true
-     *  otherwise return false
+     * otherwise return false
      */
     public boolean isOwningProperty(Property property) {
         return ownedProperty.contains(property);
     }
+
     /**
      * Own the property by the player
-     * @param property the property to be added
      *
+     * @param property the property to be added
      * @effects Add a property to the list properties owned by this player
      */
     public void ownProperty(Property property) {
@@ -153,17 +150,8 @@ public abstract class IPlayer implements RepresentationInvariant {
     }
 
     /**
-     * Change the current Tile that the player standing on
-     * @param newTile the new tile that player stands on
-     *
-     * @effects change the current tile of this player to a given new tile
-     */
-    public void setCurrentTile(Tile newTile) {
-        this.curTile = newTile;
-    }
-
-    /**
      * gets the current tile that the player is standing on
+     *
      * @return the current standing tile of this player
      * @effects gets the current tile that the player is standing on
      */
@@ -171,11 +159,20 @@ public abstract class IPlayer implements RepresentationInvariant {
         return curTile;
     }
 
+    /**
+     * Change the current Tile that the player standing on
+     *
+     * @param newTile the new tile that player stands on
+     * @effects change the current tile of this player to a given new tile
+     */
+    public void setCurrentTile(Tile newTile) {
+        this.curTile = newTile;
+    }
 
     /**
      * Gets the ID of this player
-     * @return the ID if this player
      *
+     * @return the ID if this player
      * @effects returns the ID of this player
      */
     public int getID() {
@@ -184,17 +181,18 @@ public abstract class IPlayer implements RepresentationInvariant {
 
     /**
      * Gets the money that this player has
-     * @return the money of this player
      *
+     * @return the money of this player
      * @effects return the money that this player has
      */
     public int getMoney() {
         return money;
     }
+
     /**
      * Gets the name of this player
-     * @return the name of this player
      *
+     * @return the name of this player
      * @effects return the name of this player
      */
     public String getName() {
@@ -218,11 +216,11 @@ public abstract class IPlayer implements RepresentationInvariant {
 
     /**
      * Checks if the given string holds an integer
-     *    that is, can be parsed as integer
+     * that is, can be parsed as integer
+     *
      * @param value the string variable to be checked
      * @return true if the string can be parsed as integer,
-     *      false otherwise
-     *
+     * false otherwise
      * @effects returns true if value can be parsed to integer, and false otherwise
      */
     protected boolean isInteger(String value) {
@@ -241,13 +239,13 @@ public abstract class IPlayer implements RepresentationInvariant {
     /**
      * Change the jail status of this player
      * (got into jail/got out of jail)
+     *
      * @param inJail the new status of this player, whether to become inJail(true)
      *               or get out of jail (false)
-     *
-     * @modifies this.inJail,this.numberOfConsecutiveDoublesRolls
+     * @modifies this.inJail, this.numberOfConsecutiveDoublesRolls
      * @effects change the current jail status of the player(becomes in jail,
-     *   got out of jail, and reset the numberOfConsecutiveDoublesRolls
-     *   if he/she gets in jail
+     * got out of jail, and reset the numberOfConsecutiveDoublesRolls
+     * if he/she gets in jail
      */
     public void changeJailStatus(boolean inJail) {
         this.inJail = inJail;
@@ -261,16 +259,16 @@ public abstract class IPlayer implements RepresentationInvariant {
         if (money >= amountOfMoney) {
             money -= amountOfMoney;
         } else {
-            int moneyLeftToPay=amountOfMoney-money;
-            money=0;
+            int moneyLeftToPay = amountOfMoney - money;
+            money = 0;
             // TODO: handle selling houses and mortgage property
         }
     }
 
     /**
      * Increase this player money by the amount given
-     * @param amountOfMoney the amount of money to add to this player money
      *
+     * @param amountOfMoney the amount of money to add to this player money
      * @requires amountOfMoney>=0
      * @modifies this.money
      * @effects increase this player money by amountOfMoney
@@ -278,10 +276,11 @@ public abstract class IPlayer implements RepresentationInvariant {
     public void gainMoney(int amountOfMoney) {
         money += amountOfMoney;
     }
+
     /**
      * Decrease this player money by the amount given
-     * @param amountOfMoney the amount of money to subtract from this player money
      *
+     * @param amountOfMoney the amount of money to subtract from this player money
      * @requires amountOfMoney>=0, money>=amountOfMoney
      * @modifies this.money
      * @effects decrease this player money by amountOfMoney
@@ -294,22 +293,22 @@ public abstract class IPlayer implements RepresentationInvariant {
      * Checks if this player in jail
      *
      * @return true if this player is in jail, false otherwise
-     *
      * @effects returns true if this player in jail, and false otherwise
      */
     public boolean isInJail() {
         return inJail;
     }
+
     /**
      * Checks if this player in active (still playing)
      *
      * @return true if this player is active
-     *
      * @effects returns true if this player hasn't resigned or got into bankrupt
      */
     public boolean isActive() {
         return isActive;
     }
+
     public int getNumSteps() {
         return this.numberOfSteps;
     }
@@ -321,16 +320,17 @@ public abstract class IPlayer implements RepresentationInvariant {
     public void resetSteps() {
         numberOfSteps = 1;
     }
-    public boolean repOK(){
-        boolean res=true;
-        res&=curTile!=null;
-        res&=direction==0||direction==1;
-        res&=ID>=0;
-        res&=movementStatus!=null;
-        res&=name!=null && !name.equals("");
-        res&=money>=0;
-        res&=playerOrder>=0;
-        res&= ownedProperty != null;
+
+    public boolean repOK() {
+        boolean res = true;
+        res &= curTile != null;
+        res &= direction == 0 || direction == 1;
+        res &= ID >= 0;
+        res &= movementStatus != null;
+        res &= name != null && !name.equals("");
+        res &= money >= 0;
+        res &= playerOrder >= 0;
+        res &= ownedProperty != null;
         return res;
     }
 

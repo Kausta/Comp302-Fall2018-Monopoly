@@ -2,7 +2,7 @@ package cabernet1.monopoly.domain.game.board.tile.property.building;
 
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
-public abstract class Building implements RepresentationInvariant{
+public abstract class Building implements RepresentationInvariant {
 
     protected int price, sellPrice;
     protected int amount, limit;
@@ -91,11 +91,24 @@ public abstract class Building implements RepresentationInvariant{
      */
     public abstract int getRent();
 
-    public int getAmount(){
+    public int getAmount() {
         return amount;
     }
 
-    public boolean repOK(){
+    @Override
+    public boolean repOK() {
         return price > 0 && sellPrice > 0 && amount >= 0 && limit >= 1 && singularName != null && pluralName != null;
+    }
+
+    @Override
+    public String toString() {
+        return "Building{ " +
+                "price: " + price +
+                ", sellPrice: " + sellPrice +
+                ", amount: " + amount +
+                ", limit: " + limit +
+                ", singularName: '" + singularName + '\'' +
+                ", pluralName: '" + pluralName + '\'' +
+                " }";
     }
 }

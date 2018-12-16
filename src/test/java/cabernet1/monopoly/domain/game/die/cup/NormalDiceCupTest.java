@@ -1,7 +1,7 @@
-package cabernet1.monopoly.tests;
+package cabernet1.monopoly.domain.game.die.cup;
 
+import cabernet1.monopoly.TestBase;
 import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
-import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

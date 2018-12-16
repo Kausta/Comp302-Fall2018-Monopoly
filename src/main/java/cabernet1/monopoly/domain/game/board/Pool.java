@@ -4,6 +4,7 @@ import cabernet1.monopoly.utils.RepresentationInvariant;
 
 /**
  * Pool class represents the pool at the middle of the board, holding money from cards
+ *
  * @overview Holds and handles the pool money
  */
 public class Pool implements RepresentationInvariant {
@@ -14,6 +15,7 @@ public class Pool implements RepresentationInvariant {
 
     /**
      * Creates the pool with no money in it
+     *
      * @modifies totalMoney
      * @effects Sets the money of the pool to zero
      */
@@ -23,6 +25,7 @@ public class Pool implements RepresentationInvariant {
 
     /**
      * Returns the total amount of money in the pool
+     *
      * @return The total amount of money in the pool, always >= 0
      */
     public int getTotalMoney() {
@@ -31,6 +34,7 @@ public class Pool implements RepresentationInvariant {
 
     /**
      * Reduces the money in the pool to half
+     *
      * @modifies totalMoney
      * @effects Reduces totalMoney to half, rounded down
      */
@@ -40,6 +44,7 @@ public class Pool implements RepresentationInvariant {
 
     /**
      * Adds the specified amount of money to the pool
+     *
      * @param amount Amount of money to add
      * @requires amount >= 1
      * @modifies totalMoney

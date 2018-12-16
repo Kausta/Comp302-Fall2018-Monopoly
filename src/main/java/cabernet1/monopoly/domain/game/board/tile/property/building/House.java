@@ -21,7 +21,7 @@ public class House extends Building {
         return rents.get(amount);
     }
 
-    public boolean repOk(){
+    public boolean repOk() {
         return super.repOK() && rents != null;
     }
 

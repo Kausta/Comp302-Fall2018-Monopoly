@@ -10,7 +10,6 @@ import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
 import java.util.ArrayList;
 
 public class GroupColoredProperty extends Property {
-
     private ColorGroup color;
 
     private int mortgageValue;
@@ -33,10 +32,11 @@ public class GroupColoredProperty extends Property {
 
     /**
      * Adds a house to the property
+     *
+     * @return status message to be shown
      * @modifies house
      * @requires to have less than maximum houses
      * @effects house number on the property increases
-     * @return status message to be shown
      */
     public String buyHouse() {
         return house.increaseAmount();
@@ -44,10 +44,11 @@ public class GroupColoredProperty extends Property {
 
     /**
      * Removes a house from the property
+     *
+     * @return status message to be shown
      * @modifies house
      * @requires to have more than 0 houses
      * @effects house number on the property decreases
-     * @return status message to be shown
      */
     public String demolishHouse() {
         return house.decreaseAmount();
@@ -128,8 +129,10 @@ public class GroupColoredProperty extends Property {
         }
         return house.getPrice();
     }
+
     /**
-     * upgrades the buildings 
+     * upgrades the buildings
+     *
      * @modifies house, hotel or skyscraper
      * @requires to not have a skyscraper
      * @effects increases the house, hotel or the scyscraper number
@@ -144,21 +147,31 @@ public class GroupColoredProperty extends Property {
         buyHouse();
     }
 
-    public House getHouse(){
+    public House getHouse() {
         return house;
     }
 
-    public Hotel getHotel(){
+    public Hotel getHotel() {
         return hotel;
     }
 
-    public Skyscraper getSkyscraper(){
+    public Skyscraper getSkyscraper() {
         return skyscraper;
     }
 
-    public boolean repOK(){
+    @Override
+    public boolean repOK() {
         return super.repOK() && color != null && mortgageValue > 0 && house.repOK() && hotel.repOK() && skyscraper.repOK();
     }
 
-
+    @Override
+    public String toString() {
+        return "GroupColoredProperty{ " +
+                "color: " + color +
+                ", mortgageValue: " + mortgageValue +
+                ", house: " + house +
+                ", hotel: " + hotel +
+                ", skyscraper: " + skyscraper +
+                ", " + super.toString() + " }";
+    }
 }

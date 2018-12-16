@@ -1,6 +1,5 @@
 package cabernet1.monopoly.domain.game.die;
 
-import cabernet1.monopoly.domain.game.die.enumerators.RegularDieFaces;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
 
 public class SpeedDie extends IDie {
@@ -41,7 +40,7 @@ public class SpeedDie extends IDie {
 
     @Override
     public boolean repOK() {
-        if(!super.repOK()) {
+        if (!super.repOK()) {
             return false;
         }
         int value = getValue();

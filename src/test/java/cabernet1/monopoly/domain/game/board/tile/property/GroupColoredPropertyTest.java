@@ -1,37 +1,34 @@
-package cabernet1.monopoly.tests;
+package cabernet1.monopoly.domain.game.board.tile.property;
 
+import cabernet1.monopoly.TestBase;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
-import cabernet1.monopoly.domain.game.board.tile.property.MediterraneanAvenue;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GroupColoredPropertyTest extends TestBase {
 
     public GroupColoredProperty p;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         p = new MediterraneanAvenue();
     }
 
     @Test
     public void testBuyHouseBlackBox() {
-        assertEquals(p.getHouse().getAmount(), 0); 
+        assertEquals(p.getHouse().getAmount(), 0);
         p.buyHouse();
-        assertEquals(p.getHouse().getAmount(), 1); 
+        assertEquals(p.getHouse().getAmount(), 1);
     }
 
     @Test
     public void testDemolishHouseBlackBox() {
         p.buyHouse();
-        assertEquals(p.getHouse().getAmount(), 1); 
+        assertEquals(p.getHouse().getAmount(), 1);
         p.demolishHouse();
-        assertEquals(p.getHouse().getAmount(), 0); 
+        assertEquals(p.getHouse().getAmount(), 0);
     }
 
     @Test
@@ -62,7 +59,7 @@ public class GroupColoredPropertyTest extends TestBase {
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         testRepOK(p);
     }
 
