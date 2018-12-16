@@ -9,6 +9,7 @@
 
 package cabernet1.monopoly.domain.game.player;
 
+import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
@@ -254,13 +255,21 @@ public abstract class IPlayer implements RepresentationInvariant {
     }
 
     protected abstract void goJail();
-
+    /**
+     * Pay the rent causing by this player standing on a square owned by another player
+     *
+     * @param amountOfMoney the amount of money to add to this player money
+     * @modifies this.money
+     * @effects decrease the money with amount equal to the amount given,
+     *  and sell buildings and properties if the money is not enough
+     */
     public void payRent(int amountOfMoney) {
         if (money >= amountOfMoney) {
-            money -= amountOfMoney;
+            loseMoney(amountOfMoney);
         } else {
             int moneyLeftToPay = amountOfMoney - money;
-            money = 0;
+            // losing all the money
+            loseMoney(money);
             // TODO: handle selling houses and mortgage property
         }
     }
@@ -329,7 +338,7 @@ public abstract class IPlayer implements RepresentationInvariant {
         res &= movementStatus != null;
         res &= name != null && !name.equals("");
         res &= money >= 0;
-        res &= playerOrder >= 0;
+
         res &= ownedProperty != null;
         return res;
     }

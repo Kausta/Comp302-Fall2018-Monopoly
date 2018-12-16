@@ -26,8 +26,8 @@ public class NormalDiceCupTest extends TestBase {
         NormalDiceCup cup = NormalDiceCup.getInstance();
         cup.rollCup();
         assertTrue((cup.die1.getValue() >= 1 && cup.die1.getValue() <= 6)
-                || (cup.die2.getValue() >= 1 && cup.die2.getValue() <= 6)
-                || (cup.die3.getValue() >= 1 && cup.die3.getValue() <= 6));
+                && (cup.die2.getValue() >= 1 && cup.die2.getValue() <= 6)
+                && (cup.die3.getValue() >= 0 && cup.die3.getValue() <= 3));
         testRepOK(cup);
     }
 
