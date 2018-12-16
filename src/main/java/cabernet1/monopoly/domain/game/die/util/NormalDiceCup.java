@@ -4,11 +4,12 @@ import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
+import cabernet1.monopoly.utils.RepresentationInvariant;
 
 /**
  * A dice cup class for normal dice
  */
-public class NormalDiceCup implements DiceCup {
+public class NormalDiceCup implements DiceCup, RepresentationInvariant {
     private static volatile NormalDiceCup _instance = null;
 
     public RegularDie die1 = new RegularDie();
@@ -24,6 +25,7 @@ public class NormalDiceCup implements DiceCup {
 
     /**
      * Method for getting the singleton NormalDiceCup object
+     *
      * @return the instance of NormalDiceCup
      */
     public static synchronized NormalDiceCup getInstance() {
@@ -35,6 +37,7 @@ public class NormalDiceCup implements DiceCup {
 
     /**
      * Checks whether die1 and die2 are equal or not.
+     *
      * @return true if die1 and die2 are equal, false otherwise.
      */
     private boolean isDoubles() {
@@ -44,6 +47,7 @@ public class NormalDiceCup implements DiceCup {
 
     /**
      * Checks whether die1, die2 and die3 are equal or not.
+     *
      * @return true if die1, die2 and die3 are equal, false otherwise.
      */
     private boolean isTriples() {
@@ -52,6 +56,7 @@ public class NormalDiceCup implements DiceCup {
 
     /**
      * Checks whether die3 is MrMonopoly or not.
+     *
      * @return true if die3 is MrMonopoly, false otherwise.
      */
     private boolean isMrMonopolyMove() {
@@ -60,6 +65,7 @@ public class NormalDiceCup implements DiceCup {
 
     /**
      * Checks whether die3 is BusIcon or not.
+     *
      * @return true if die3 is BusIcon, false otherwise.
      */
     private boolean isBusMove() {
@@ -69,17 +75,18 @@ public class NormalDiceCup implements DiceCup {
     /**
      * Roll the dice and returns the move type according the new dice values.
      * To determine the move type, it checks every possible move types in order.
+     *
      * @return the type of move.
+     * @requires die1, die2 and die3 are initialized
+     * @modifies die1, die2, die3
+     * @effects roll dice die1, die2 and die3
+     * If dice are triples, returns TRIPLE_MOVE,
+     * If dice are doubles, returns DOUBLE_MOVE,
+     * If third die's face is Mr. Monopoly, returns MR_MONOPOLY_MOVE,
+     * If third die's face is bus icon, returns BUS_MOVE.
+     * Otherwise, returns NORMAL_MOVE
      */
     public NormalDiceCupStatus rollCup() {
-        // REQUIRES: die1, die2 and die3 are initialized
-        // MODIFIES: die1, die2, die3
-        // EFFECTS: roll dice die1, die2 and die3.
-        //      If dice are triples, returns TRIPLE_MOVE,
-        //      If dice are doubles, returns DOUBLE_MOVE,
-        //      If third die's face is Mr. Monopoly, returns MR_MONOPOLY_MOVE,
-        //      If third die's face is bus icon, returns BUS_MOVE.
-        //      Otherwise, returns NORMAL_MOVE
 
         die1.rollDice();
         die2.rollDice();
@@ -99,19 +106,37 @@ public class NormalDiceCup implements DiceCup {
 
     /**
      * Method for getting the total of the face values of dice.
+     *
      * @return the sum of the face values of dice.
+     * @requires die1, die2 and die3 has values
+     * @effects returns the sum of the dice values
      */
     public int getFacesValue() {
-        // REQUIRES: die1, die2 and die3 has values
-        // EFFECTS: returns the sum of the dice values
-        return die1.getDiceValue().getValue() + die2.getDiceValue().getValue() + die3.getDiceValue().getValue();
+        return die1.getValue() + die2.getValue() + die3.getValue();
     }
 
     /**
      * Checks whether the sum of die1 and die2 is even or not.
+     *
      * @return true if sum of die1 and die2 is even, false otherwise.
+     * @requires die1, die2 and die3 has values
+     * @effects returns whether the sum of the dice values is even
      */
     public boolean isEven() {
-        return (die1.getDiceValue().getValue() + die2.getDiceValue().getValue()) % 2 == 0;
+        return (die1.getValue() + die2.getValue()) % 2 == 0;
+    }
+
+    @Override
+    public boolean repOK() {
+        return die1.repOK() && die2.repOK() && die3.repOK();
+    }
+
+    @Override
+    public String toString() {
+        return "NormalDiceCup{ " +
+                "die1: " + die1 +
+                ", die2: " + die2 +
+                ", die3: " + die3 +
+                " }";
     }
 }

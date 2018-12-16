@@ -63,9 +63,9 @@ public abstract class Building {
      */
     public String decreaseAmount() {
         if (exists()) {
+            amount--;
             return "Successfully demolished the " + getSingularName() + ".";
         }
-        amount--;
         return "There are no " + getPluralName() + " to demolish.";
     }
 
@@ -89,4 +89,8 @@ public abstract class Building {
      * @return the rent
      */
     public abstract int getRent();
+
+    public int getAmount(){
+        return amount;
+    }
 }
