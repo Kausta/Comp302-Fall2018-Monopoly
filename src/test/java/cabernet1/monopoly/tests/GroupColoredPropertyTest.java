@@ -8,7 +8,9 @@ import cabernet1.monopoly.domain.game.board.tile.property.MediterraneanAvenue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GroupColoredPropertyTest {
+import org.junit.jupiter.api.AfterEach;
+
+public class GroupColoredPropertyTest extends TestBase {
 
     public GroupColoredProperty p;
 
@@ -57,6 +59,11 @@ public class GroupColoredPropertyTest {
         assertEquals(p.getHouse().getAmount(), 4);
         assertEquals(p.getHotel().getAmount(), 1);
         assertEquals(p.getSkyscraper().getAmount(), 1);
+    }
+
+    @AfterEach
+    public void tearDown(){
+        testRepOK(p);
     }
 
 
