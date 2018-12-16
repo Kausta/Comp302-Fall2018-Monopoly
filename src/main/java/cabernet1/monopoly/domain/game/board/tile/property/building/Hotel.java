@@ -13,4 +13,8 @@ public class Hotel extends Building {
     public int getRent() {
         return rent;
     }
+
+    public boolean repOk(){
+        return super.repOK() && rent > 0;
+    }
 }

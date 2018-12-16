@@ -93,4 +93,8 @@ public abstract class Building {
     public int getAmount(){
         return amount;
     }
+
+    public boolean repOK(){
+        return price > 0 && sellPrice > 0 && amount >= 0 && limit > 1 && singularName != null && pluralName != null;
+    }
 }

@@ -40,4 +40,8 @@ public abstract class Property extends Tile {
     }
 
     public abstract int getRent();
+
+    public boolean repOK(){
+        return price > 0 && owner.repOK();
+    }
 }

@@ -156,5 +156,9 @@ public class GroupColoredProperty extends Property {
         return skyscraper;
     }
 
+    public boolean repOK(){
+        return super.repOK() && color != null && mortgageValue > 0 && house.repOK() && hotel.repOK() && skyscraper.repOK();
+    }
+
 
 }
