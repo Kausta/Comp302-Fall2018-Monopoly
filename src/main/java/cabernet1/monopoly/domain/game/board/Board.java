@@ -122,7 +122,7 @@ public class Board {
         return boardTiles.get(80);
     }
 
-    public Pool getPoolTile() {
+    public Pool getPool() {
         return poolTile;
     }
 
