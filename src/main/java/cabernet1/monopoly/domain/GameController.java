@@ -9,7 +9,7 @@ import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
-import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
+import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
@@ -82,7 +82,7 @@ public class GameController {
     }
 
     public void changeCurrentTile(Player player, Tile newTile) {
-        player.changeCurrentTile(newTile);
+        player.setCurrentTile(newTile);
     }
 
     public void changeJailStatus(IPlayer player, boolean inJail) {
@@ -175,7 +175,7 @@ public class GameController {
     }
 
     public void increasePool(int amount) {
-        Board.getInstance().getPoolTile().addMoney(amount);
+        Board.getInstance().getPool().addMoney(amount);
 
     }
 
