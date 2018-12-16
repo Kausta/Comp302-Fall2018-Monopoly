@@ -1,0 +1,40 @@
+image: java:8-jdk
+
+stages:
+- build
+- test
+
+before_script:
+#  - echo `pwd` # debug
+#  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
+- chmod u+x gradlew
+- export GRADLE_USER_HOME=`pwd`/.gradle
+- rm -f  .gradle/caches/modules-2/modules-2.lock
+- rm -fr .gradle/caches/*/plugin-resolution/
+
+cache:
+  paths:
+  - .gradle/wrapper
+  - .gradle/caches
+
+build:
+  stage: build
+  script:
+  - ./gradlew assemble
+  artifacts:
+    paths:
+    - build/libs/*.jar
+    expire_in: 1 week
+  only:
+  - master
+
+test:
+  stage: test
+  script:
+  - ./gradlew check
+  artifacts:
+    reports:
+      junit: build/test-results/test/TEST-*.xml
+
+after_script:
+- echo "End CI"
