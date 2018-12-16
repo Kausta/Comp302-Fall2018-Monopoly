@@ -93,10 +93,16 @@ public class Board implements RepresentationInvariant {
         return communityChestCards.get(r.nextInt(communityChestCards.size()));
     }
 
+    /**
+     * Return the number of tiles on the board.
+     * @return the number of tiles on the board, i.e the size of the boardTiles list.*/
     public int getNumberOfTiles() {
         return boardTiles.size();
     } //made public for testing
 
+    /**
+     * Returns the position of a specified tile on the board.
+     * @return the position of the tile if the tile exists on the board, -1 otherwise.*/
     public int getPositionOfTile(Tile tile) { //made public for testing
         int counter = 0;
         for (Tile singleTile : boardTiles) {
@@ -107,10 +113,16 @@ public class Board implements RepresentationInvariant {
         return -1;
     }
 
+    /**
+     * Returns the tile at an indicated position
+     * @return the tile at the "position"th index of the boardTiles list.*/
     public Tile getTileAtPosition(int position) {
         return boardTiles.get(position);
     } //made public for testing
 
+    /**
+     * Returns the tile, indicated number of steps after an indicated starting point.
+     * @return the tile numberOfSteps steps after curTile.*/
     public Tile getNextTile(Tile curTile, int numberOfSteps) {
         // TODO: re-implement this function to support the multi-layer board, based on
         // the parity of number of steps
@@ -119,6 +131,9 @@ public class Board implements RepresentationInvariant {
         return getTileAtPosition(currentIdx);
     }
 
+    /**
+     * Returns the jail tile.
+     * @return the jail tile on the board.*/
     public Tile getJailTile() {
         return boardTiles.get(10);
     }
@@ -127,6 +142,9 @@ public class Board implements RepresentationInvariant {
         return poolTile;
     }
 
+    /**
+     * Return the starting tile, namely the "GO" Tile.
+     * @return the tile at the initial position, i.e. 0th index of the boardTiles list.*/
     public Tile getInitialTile() {
         return boardTiles.get(0);
     }
