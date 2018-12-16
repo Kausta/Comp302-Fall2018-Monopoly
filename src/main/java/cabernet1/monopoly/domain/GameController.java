@@ -82,7 +82,7 @@ public class GameController {
     }
 
     public void changeCurrentTile(Player player, Tile newTile) {
-        player.changeCurrentTile(newTile);
+        player.setCurrentTile(newTile);
     }
 
     public void changeJailStatus(IPlayer player, boolean inJail) {

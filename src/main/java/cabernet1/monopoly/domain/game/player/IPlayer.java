@@ -14,30 +14,52 @@ import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
+import cabernet1.monopoly.utils.RepresentationInvariant;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
  * This class represents the player in monopoly, which can be either normal
  * player or bot
  */
-public abstract class IPlayer {
+public abstract class IPlayer implements RepresentationInvariant {
     //OVERVIEW: IPLayer is the abstract player of the monopoly game
     // a player can be either normal player, or a bot player
     private static final Logger logger = LoggerFactory.getInstance().getLogger(IPlayer.class);
     protected Tile curTile;
+
+
+
     protected int numberOfConsecutiveDoublesRolls;
     protected PlayerMovementStatus movementStatus;
     protected int ID;
     protected int direction;
-    List<Property> ownedProperty;
+    HashSet<Property> ownedProperty;
     private String name;
     private int money;
+
+
+
     private boolean isActive;
     private int playerOrder;
     private boolean inJail;
     private int numberOfSteps = 1;
+
+    @Override
+    public String toString() {
+        return "IPlayer{" +
+                "ID: "+ID +
+                ", name: "+name+
+                ", money: "+money+
+                ", order: "+playerOrder+
+                ", Active: "+isActive+
+                ", inJail: "+inJail+
+                ", N.Owned Properties"+ownedProperty.size()+
+                "}";
+    }
 
     /**
      * Class Constructor
@@ -47,13 +69,14 @@ public abstract class IPlayer {
      * @param money the initial money
      * @param defaultOrder the initial order of playing, [1,N.Players]
      * @param currentTile the initial tile that stands on
+     *
+     * @requires ID to be unique for each player
+     * @modifies this.ID,this.name,this.money,this.isActive,this.playerOrder,
+     *  this.curTile,this.numberOfConsecutiveDoublesRolls,this.inJail,
+     *  this.ownedProperty,this.direction
+     * @effects register the information of this player
      */
     public IPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile) {
-        //REQUIRES: ID to be unique for each player
-        //MODIFIES: this.ID,this.name,this.money,this.isActive,this.playerOrder,
-        //  this.curTile,this.numberOfConsecutiveDoublesRolls,this.inJail,
-        //  this.ownedProperty,this.direction
-        //EFFECTS: register the information of this player
         this.ID = ID;
         this.name = name;
         this.money = money;
@@ -62,17 +85,19 @@ public abstract class IPlayer {
         this.curTile = currentTile;
         this.numberOfConsecutiveDoublesRolls = 0;
         this.inJail = false;
-        this.ownedProperty = new ArrayList<>();
+        this.ownedProperty = new HashSet<>();
         this.direction = 1;
+        this.movementStatus=PlayerMovementStatus.NORMAL_MOVE;
     }
 
     /**
      * Gets the movement status of this player, like normalMove,DoubleMove..
      *
      * @return the movement status of the current player
+     *
+     * @effects the movement status of the current player
      */
     public PlayerMovementStatus getMovementStatus() {
-        //EFFECTS: the movement status of the current player
         return movementStatus;
     }
 
@@ -80,66 +105,98 @@ public abstract class IPlayer {
      * Change the movement status of this player
      * used when the player plays a dice
      * @param newStatus the new movement status of this player
+     *
+     * @modifies this.movementStatus
+     * @effects change the current movement status of this player to a new one
      */
     public void setMovementStatus(PlayerMovementStatus newStatus) {
-        //MODIFIES: this.movementStatus
-        //EFFECTS: change the current movement status of this player
-        // to a new one
         this.movementStatus = newStatus;
     }
 
     /**
      * Increases the times the player has rolled Doubles
      * used to detect if player will go into jail due to three Double moves
+     *
+     * @modifies this.numberOfConsecutiveDoublesRolls
+     * @effects track the number of doubles rolled by increasing its counter
      */
     public void increaseNumberOfConsecutiveDoublesRolls() {
-        //MODIFIES: this.numberOfConsecutiveDoublesRolls
-        //EFFECTS: track the number of doubles rolled by increasing its counter
         ++numberOfConsecutiveDoublesRolls;
     }
-
+    /**
+     * gets the number of consecutive double rolls this player has player until now
+     * @return numberOfConsecutiveDoublesRolls
+     * @effects gets the number of consecutive double rolls this player has player until now
+     */
+    public int getNumberOfConsecutiveDoublesRolls() {
+        return numberOfConsecutiveDoublesRolls;
+    }
     /**
      * Checks if this player own a property
      * @param property the property to be checked
      * @return true if the player own the given property, false otherwise
+     *
+     * @effects if property is owned by this player, return true
+     *  otherwise return false
      */
     public boolean isOwningProperty(Property property) {
-        //EFFECTS: if property is owned by this player, return true,
-        // otherwise return false
-
-        for (Property prop : ownedProperty) {
-            if (prop.equals(property))
-                return true;
-        }
-        return false;
+        return ownedProperty.contains(property);
     }
-
+    /**
+     * Own the property by the player
+     * @param property the property to be added
+     *
+     * @effects Add a property to the list properties owned by this player
+     */
     public void ownProperty(Property property) {
         ownedProperty.add(property);
-
     }
 
-    public void changeCurrentTile(Tile newTile) {
+    /**
+     * Change the current Tile that the player standing on
+     * @param newTile the new tile that player stands on
+     *
+     * @effects change the current tile of this player to a given new tile
+     */
+    public void setCurrentTile(Tile newTile) {
         this.curTile = newTile;
-
     }
 
+    /**
+     * gets the current tile that the player is standing on
+     * @return the current standing tile of this player
+     * @effects gets the current tile that the player is standing on
+     */
     public Tile getCurrentTile() {
         return curTile;
     }
 
-    public void setCurrentTile(Tile tile) {
-        this.curTile = tile;
-    }
 
+    /**
+     * Gets the ID of this player
+     * @return the ID if this player
+     *
+     * @effects returns the ID of this player
+     */
     public int getID() {
         return ID;
     }
 
+    /**
+     * Gets the money that this player has
+     * @return the money of this player
+     *
+     * @effects return the money that this player has
+     */
     public int getMoney() {
         return money;
     }
-
+    /**
+     * Gets the name of this player
+     * @return the name of this player
+     *
+     * @effects return the name of this player
+     */
     public String getName() {
         return name;
     }
@@ -165,9 +222,10 @@ public abstract class IPlayer {
      * @param value the string variable to be checked
      * @return true if the string can be parsed as integer,
      *      false otherwise
+     *
+     * @effects returns true if value can be parsed to integer, and false otherwise
      */
     protected boolean isInteger(String value) {
-        //EFFECTS: returns true if value can be parsed to integer, and false otherwise
         try {
             Integer.valueOf(value);
             return true;
@@ -185,12 +243,13 @@ public abstract class IPlayer {
      * (got into jail/got out of jail)
      * @param inJail the new status of this player, whether to become inJail(true)
      *               or get out of jail (false)
+     *
+     * @modifies this.inJail,this.numberOfConsecutiveDoublesRolls
+     * @effects change the current jail status of the player(becomes in jail,
+     *   got out of jail, and reset the numberOfConsecutiveDoublesRolls
+     *   if he/she gets in jail
      */
     public void changeJailStatus(boolean inJail) {
-        //MODIFIES: this.inJail,this.numberOfConsecutiveDoublesRolls
-        //EFFECTS: change the current jail status of the player(becomes in jail,
-        //         got out of jail, and reset the numberOfConsecutiveDoublesRolls
-        //         if he/she gets in jail
         this.inJail = inJail;
         if (inJail)
             numberOfConsecutiveDoublesRolls = 0;
@@ -202,7 +261,8 @@ public abstract class IPlayer {
         if (money >= amountOfMoney) {
             money -= amountOfMoney;
         } else {
-
+            int moneyLeftToPay=amountOfMoney-money;
+            money=0;
             // TODO: handle selling houses and mortgage property
         }
     }
@@ -210,21 +270,23 @@ public abstract class IPlayer {
     /**
      * Increase this player money by the amount given
      * @param amountOfMoney the amount of money to add to this player money
+     *
+     * @requires amountOfMoney>=0
+     * @modifies this.money
+     * @effects increase this player money by amountOfMoney
      */
     public void gainMoney(int amountOfMoney) {
-        //REQUIRES: amountOfMoney>=0
-        //MODIFIES: this.money
-        //EFFECTS: increase this player money by amountOfMoney
         money += amountOfMoney;
     }
     /**
      * Decrease this player money by the amount given
      * @param amountOfMoney the amount of money to subtract from this player money
+     *
+     * @requires amountOfMoney>=0, money>=amountOfMoney
+     * @modifies this.money
+     * @effects decrease this player money by amountOfMoney
      */
     public void loseMoney(int amountOfMoney) {
-        //REQUIRES: amountOfMoney>=0, money>=amountOfMoney
-        //MODIFIES: this.money
-        //EFFECTS: decrease this player money by amountOfMoney
         money -= amountOfMoney;
     }
 
@@ -232,12 +294,22 @@ public abstract class IPlayer {
      * Checks if this player in jail
      *
      * @return true if this player is in jail, false otherwise
+     *
+     * @effects returns true if this player in jail, and false otherwise
      */
     public boolean isInJail() {
-        //EFFECTS: returns true if this player in jail, and false otherwise
         return inJail;
     }
-
+    /**
+     * Checks if this player in active (still playing)
+     *
+     * @return true if this player is active
+     *
+     * @effects returns true if this player hasn't resigned or got into bankrupt
+     */
+    public boolean isActive() {
+        return isActive;
+    }
     public int getNumSteps() {
         return this.numberOfSteps;
     }
@@ -249,4 +321,17 @@ public abstract class IPlayer {
     public void resetSteps() {
         numberOfSteps = 1;
     }
+    public boolean repOK(){
+        boolean res=true;
+        res&=curTile!=null;
+        res&=direction==0||direction==1;
+        res&=ID>=0;
+        res&=movementStatus!=null;
+        res&=name!=null && !name.equals("");
+        res&=money>=0;
+        res&=playerOrder>=0;
+        res&= ownedProperty != null;
+        return res;
+    }
+
 }

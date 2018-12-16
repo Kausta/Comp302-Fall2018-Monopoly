@@ -17,14 +17,14 @@ import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.util.JailDiceCup;
 import cabernet1.monopoly.domain.game.die.util.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.utils.RepresentationInvariant;
 
 /**
  * This class represents the normal (human) player in the monopoly game
  */
-public class Player extends IPlayer {
+public class Player extends IPlayer implements RepresentationInvariant {
     //OVERVIEW: Player represents the normal player in the monopoly game
     // Player is a mutable object
-
 
     /**
      * Class Constructor
@@ -34,23 +34,25 @@ public class Player extends IPlayer {
      * @param money the initial money
      * @param defaultOrder the initial order of playing, [1,N.Players]
      * @param currentTile the initial tile that stands on
+     *
+     * @effects register the player's information
      */
     public Player(int ID, String name, int money, int defaultOrder, Tile currentTile) {
-        //EFFECTS: register the player's information
         super(ID, name, money, defaultOrder, currentTile);
     }
 
     /**
      * handles the turn of this player, by rolling a dice and move accordingly
+     *
+     * @modifies this.numberOfConsecutiveDoublesRolls, this.PlayerMovementStatus,
+     *   this.inJail, this.curTile, this.ownedProperty,this.money
+     *
+     * @effects simulate playing the turn for this player, by rolling the
+     *  cup, and moving based on its results, player might get into jail,
+     *  if he/she plays Double for the third time in row
      */
     @Override
     public void playTurn() {
-        //MODIFIES: this.numberOfConsecutiveDoublesRolls,this.PlayerMovementStatus,
-        //  this.inJail, this.curTile, this.ownedProperty,this.money
-        //EFFECTS: simulate playing the turn for this player, by rolling the
-        // cup, and moving based on its results, player might get into jail,
-        // if he/she plays Double for the third time in row
-
         NormalDiceCup cup = NormalDiceCup.getInstance();
         NormalDiceCupStatus rollStatus = cup.rollCup();
         NetworkController nc = Network.getInstance().getNetworkController();
@@ -109,14 +111,14 @@ public class Player extends IPlayer {
      * simulates moving this player when playing a normal move
      * @see PlayerMovementStatus
      *
+     * @requires cupStatus of NormalDiceCup is NORMAL_MOVE
+     * @modifies this.curTile, this.ownedProperty,this.money
+     * @effects move the player to a newTile based on the sum of faceValues
+     *  on the dice, and handle the events of standing on the dest tile
+     *  (like pay rent, buying tile, upgrading building,draw card)
      */
     @Override
     protected void handleNormalMove() {
-        //REQUIRES: cupStatus of NormalDiceCup is NORMAL_MOVE
-        //MODIFIES:  this.curTile, this.ownedProperty,this.money
-        //EFFECTS: move the player to a newTile based on the sum of faceValues
-        //  on the dice, and handle the events of standing on the dest tile
-        //  (like pay rent, buying tile, upgrading building,draw card)
         Board board = Board.getInstance();
         NormalDiceCup cup = NormalDiceCup.getInstance();
         Tile newTile = board.getNextTile(curTile, cup.getFacesValue());
@@ -133,18 +135,18 @@ public class Player extends IPlayer {
     /**
      * simulate moving this player when playing a Mr.Monopoly move
      * @see PlayerMovementStatus
+     *
+     * @requires cupStatus of NormalDiceCup is MRMONOPOLY_MOVE
+     *   player already played the normal move part of the Mr.Monopoly move
+     * @modifies this.inJail, this.curTile, this.ownedProperty,this.money
+     * @effects move this player to the next unowned property if available,
+     *   if not, try to move to the next rent-able property
+     *   in either case: handle the events of standing on the dest tile
+     *   (like pay rent, buying tile, upgrading building,draw card)
+     *   if neither happened, stay in your place and do nothing
      */
     @Override
     protected void handleMrMonopolyMove() {
-        //REQUIRES: cupStatus of NormalDiceCup is MRMONOPOLY_MOVE
-        //          player already played the normal move part of the Mr.Monopoly move
-        //MODIFIES: this.inJail, this.curTile, this.ownedProperty,this.money
-        //EFFECTS: move this player to the next unowned property if available,
-        // if not, try to move to the next rent-able property
-        // in either case: handle the events of standing on the dest tile
-        //  (like pay rent, buying tile, upgrading building,draw card)
-        // if neither happened, stay in your place and do nothing
-
         Board board = Board.getInstance();
         NormalDiceCup cup = NormalDiceCup.getInstance();
         NetworkController nc = Network.getInstance().getNetworkController();
@@ -172,18 +174,17 @@ public class Player extends IPlayer {
      * simulate moving this player when playing a bus move
      *  (speed die has bus icon shown on it)
      * @see PlayerMovementStatus
+     * @requires cupStatus of NormalDiceCup is BUS_MOVE
+     *     player already played the normal move part of the bus move
+     * @modifies this.inJail, this.curTile, this.ownedProperty,this.money
+     * @effects move this player to the nearest community chest or chance tile
+     *  (which ever nearest), if available
+     *  if the nearest is a community chest tile: draw a card from the community chest cards, and act accordingly
+     *  if the nearest is a chance tile: draw a card from the chance cards, and act accordingly
+     *  if neither is available, stay in your place and do nothing
      */
     @Override
     protected void handleBusMove() {
-        //REQUIRES: cupStatus of NormalDiceCup is BUS_MOVE
-        //          player already played the normal move part of the bus move
-        //MODIFIES: this.inJail, this.curTile, this.ownedProperty,this.money
-        //EFFECTS: move this player to the nearest community chest or chance tile
-        // (which ever nearest), if available
-        // if the nearest is a community chest tile: draw a card from the community chest cards, and act accordingly
-        // if the nearest is a chance tile: draw a card from the chance cards, and act accordingly
-        // if neither is available, stay in your place and do nothing
-
         NetworkController nc = Network.getInstance().getNetworkController();
         Board board = Board.getInstance();
         NormalDiceCup cup = NormalDiceCup.getInstance();
@@ -211,15 +212,15 @@ public class Player extends IPlayer {
      * simulate moving this player when playing a DOUBLE move
      *  (the two normal dice has the same number shown on their top faces)
      * @see PlayerMovementStatus
+     *
+     * @requires cupStatus of NormalDiceCup is DOUBLE_MOVE
+     * @modifies this.inJail, this.curTile, this.ownedProperty,this.money
+     * @effects check if the player has played three Double moves in a row,
+     *  if so, move this player to jail, otherwise increase the
+     *  number of consecutive double moves, and play a normal move
      */
     @Override
     protected void handleDoubleMove() {
-        //REQUIRES: cupStatus of NormalDiceCup is DOUBLE_MOVE
-        //MODIFIES: this.inJail, this.curTile, this.ownedProperty,this.money
-        //EFFECTS: check if the player has played three Double moves in a row,
-        //      if so, move this player to jail, otherwise increase the
-        //      number of consecutive double moves, and play a normal move
-
         NetworkController nc = Network.getInstance().getNetworkController();
         nc.sendCommand(new IncNumConsDoubleRollsCommand(this));
         ++numberOfConsecutiveDoublesRolls;
@@ -234,11 +235,13 @@ public class Player extends IPlayer {
      * Gets this player into Jail
      *
      * @see Player#handleDoubleMove()
+     *
+     *  @modifies this.inJail, this.curTile
+     *  @effects move the player into jail tile, and change its status to be in jail
+     *
      */
     @Override
     protected void goJail() {
-        //MODIFIES: this.inJail, this.curTile
-        //EFFECTS: move the player into jail tile, and change its status to be in jail
         NetworkController nc = Network.getInstance().getNetworkController();
         Board board = Board.getInstance();
         String message = getName() + " has got into jail";
@@ -255,14 +258,16 @@ public class Player extends IPlayer {
      * transport the player immediately to a given tile
      * that is, player doesn't pass by any other tile on the way
      * @param newTile the new tile to move this player into
+     *
+     *  @requires newTile should belong to Board
+     *  @modifies this.inJail, this.curTile, this.ownedProperty,this.money
+     *  @effects moves the player immediately to newTile with passing through any
+     *    intermediary tiles, and handle the actions on landing on this tile
+     *    (like pay rent, buying tile, upgrading building,draw card)
+     *
      */
     @Override
     public void jumpToTile(Tile newTile) {
-        //REQUIRES: newTile should belong to Board
-        //MODIFIES: this.inJail, this.curTile, this.ownedProperty,this.money
-        //EFFECTS: moves the player immediately to newTile with passing through any
-        //  intermediary tiles, and handle the actions on landing on this tile
-        //  (like pay rent, buying tile, upgrading building,draw card)
         NetworkController nc = Network.getInstance().getNetworkController();
         String previousTile = curTile.getName();
         nc.sendCommand(new MovePlayerCommand(this, newTile));
@@ -270,5 +275,13 @@ public class Player extends IPlayer {
         nc.sendCommand(new AnnounceMessageCommand(message));
         Board.getInstance().handleTile(this, newTile);
     }
+    @Override
+    public boolean repOK() {
+        return super.repOK();
+    }
 
+    @Override
+    public String toString() {
+        return "Player{"+super.toString()+"}";
+    }
 }

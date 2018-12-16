@@ -96,7 +96,7 @@ public class GameView extends BaseView {
     public void movePlayer(Player player, Tile newTile) {
         //TODO implement movePlayer method
         //		move the corresponding player to the corresponding tile (just transporting for this phase)
-        // call controller.changeCurrentTile(player,newTile)
+        // call controller.setCurrentTile(player,newTile)
     }
 
     public void chooseTile(Player player) {
