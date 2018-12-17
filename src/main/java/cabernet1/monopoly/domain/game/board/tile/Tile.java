@@ -26,4 +26,12 @@ public abstract class Tile {
     public TileType getTileType() {
         return tileType;
     }
+
+    @Override
+    public String toString() {
+        return "Tile{ " +
+                "name: " + name + '\'' +
+                ", tileType: " + tileType +
+                " }";
+    }
 }
