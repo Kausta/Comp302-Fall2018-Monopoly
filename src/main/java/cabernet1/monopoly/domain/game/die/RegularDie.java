@@ -37,7 +37,7 @@ public class RegularDie extends IDie {
 
     @Override
     public boolean repOK() {
-        if(!super.repOK()) {
+        if (!super.repOK()) {
             return false;
         }
         int value = getValue();

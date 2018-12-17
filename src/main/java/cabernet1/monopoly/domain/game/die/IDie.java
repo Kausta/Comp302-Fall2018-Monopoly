@@ -14,6 +14,10 @@ public abstract class IDie extends Observable<Integer> implements Representation
         rollDice();
     }
 
+    protected static synchronized int generateRollResult() {
+        return diceGen.nextInt(6) + 1;
+    }
+
     public DieFaces getDiceValue() {
         return faceValue;
     }
@@ -27,10 +31,6 @@ public abstract class IDie extends Observable<Integer> implements Representation
     }
 
     public abstract void rollDice();
-
-    protected static synchronized int generateRollResult() {
-        return diceGen.nextInt(6) + 1;
-    }
 
     @Override
     public boolean repOK() {

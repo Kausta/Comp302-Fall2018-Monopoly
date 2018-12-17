@@ -3,8 +3,9 @@ package cabernet1.monopoly.domain.game.board.tile.property;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.utils.RepresentationInvariant;
 
-public abstract class Property extends Tile {
+public abstract class Property extends Tile implements RepresentationInvariant {
     private int price;
     private Player owner;
 
@@ -40,4 +41,20 @@ public abstract class Property extends Tile {
     }
 
     public abstract int getRent();
+
+    @Override
+    public boolean repOK() {
+        if (owner == null) {
+            return price > 0;
+        }
+        return price > 0 && owner.repOK();
+    }
+
+    @Override
+    public String toString() {
+        return "Property{ " +
+                "price: " + price +
+                ", owner: " + owner +
+                ", " + super.toString() + " }";
+    }
 }
