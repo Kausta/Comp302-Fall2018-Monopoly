@@ -17,16 +17,18 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * This class represents the player in monopoly, which can be either normal
  * player or bot
  */
-public abstract class IPlayer implements RepresentationInvariant {
+public abstract class IPlayer implements RepresentationInvariant, Serializable {
     //OVERVIEW: IPLayer is the abstract player of the monopoly game
     // a player can be either normal player, or a bot player
     private static final Logger logger = LoggerFactory.getInstance().getLogger(IPlayer.class);
+    private static final long serialVersionUID = 7190182886453386040L;
     protected Tile curTile;
 
 
@@ -331,8 +333,7 @@ public abstract class IPlayer implements RepresentationInvariant {
     }
 
     public boolean repOK() {
-        boolean res = true;
-        res &= curTile != null;
+        boolean res = curTile != null;
         res &= direction == 0 || direction == 1;
         res &= ID >= 0;
         res &= movementStatus != null;

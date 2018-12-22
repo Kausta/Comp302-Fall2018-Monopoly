@@ -2,8 +2,11 @@ package cabernet1.monopoly.domain.game.board.tile.property.building;
 
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
-public abstract class Building implements RepresentationInvariant {
+import java.io.Serializable;
 
+public abstract class Building implements RepresentationInvariant, Serializable {
+
+    private static final long serialVersionUID = 2144896538766746755L;
     protected int price, sellPrice;
     protected int amount, limit;
     protected String singularName, pluralName;

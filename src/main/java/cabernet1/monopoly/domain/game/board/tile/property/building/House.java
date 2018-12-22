@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class House extends Building {
 
+    private static final long serialVersionUID = -1394962669198997832L;
     private HashMap<Integer, Integer> rents;
 
     public House(int price, int sellPrice, ArrayList<Integer> rents) {

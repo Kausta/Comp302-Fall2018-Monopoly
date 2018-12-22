@@ -6,6 +6,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public abstract class ActionTile extends Tile {
 
+    private static final long serialVersionUID = 3426134948066241573L;
+
     public ActionTile(String name, TileType tileType) {
         super(name, tileType);
     }

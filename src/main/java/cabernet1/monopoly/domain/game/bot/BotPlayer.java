@@ -4,6 +4,7 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class BotPlayer extends IPlayer {
+    private static final long serialVersionUID = 8098497332098671670L;
     private IStrategy botStrategy;
 
     public BotPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile, IStrategy botStrategy) {

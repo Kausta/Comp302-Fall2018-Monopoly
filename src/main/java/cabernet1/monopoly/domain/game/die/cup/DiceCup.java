@@ -1,5 +1,7 @@
 package cabernet1.monopoly.domain.game.die.cup;
 
-public interface DiceCup {
+import java.io.Serializable;
+
+public interface DiceCup extends Serializable {
     public int getFacesValue();
 }

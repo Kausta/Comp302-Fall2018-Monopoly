@@ -3,6 +3,8 @@ package cabernet1.monopoly.domain.game.die;
 import cabernet1.monopoly.domain.game.die.enumerators.RegularDieFaces;
 
 public class RegularDie extends IDie {
+    private static final long serialVersionUID = 5446477803100561978L;
+
     public RegularDie() {
         super();
     }

@@ -6,6 +6,7 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class GainMoneyCommand extends ICommand {
+    private static final long serialVersionUID = 788397073206883375L;
     private int amount;
     private IPlayer player;
 

@@ -3,7 +3,10 @@ package cabernet1.monopoly.domain.game.board.tile;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 
-public abstract class Tile {
+import java.io.Serializable;
+
+public abstract class Tile implements Serializable {
+    private static final long serialVersionUID = -4643593178838420041L;
     protected Board board = Board.getInstance();
     private String name;
     private TileType tileType;

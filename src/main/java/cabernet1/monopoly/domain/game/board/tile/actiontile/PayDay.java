@@ -5,6 +5,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class PayDay extends ActionTile {
 
+    private static final long serialVersionUID = -3488567340960688710L;
+
     public PayDay() {
         super("PayDay", TileType.PayDay);
     }

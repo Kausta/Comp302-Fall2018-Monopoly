@@ -2,8 +2,11 @@ package cabernet1.monopoly.domain.game.die.cup;
 
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.enumerators.JailDiceCupStatus;
+import cabernet1.monopoly.lib.persistence.Saveable;
 
+@Saveable
 public class JailDiceCup implements DiceCup {
+    private static final long serialVersionUID = 4303390132933155513L;
     private static volatile JailDiceCup _instance = null;
 
     RegularDie die1;

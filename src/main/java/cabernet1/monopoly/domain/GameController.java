@@ -17,9 +17,11 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GameController {
+public class GameController implements Serializable {
+    private static final long serialVersionUID = 8999488415439250201L;
     // To add announcements to UI
     public Observable<String> announcement = new Observable<>();
     public Observable<Integer> die1Observeable = new Observable<>();

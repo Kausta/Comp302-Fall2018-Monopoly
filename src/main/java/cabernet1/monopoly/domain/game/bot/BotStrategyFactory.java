@@ -1,6 +1,12 @@
 package cabernet1.monopoly.domain.game.bot;
 
-public class BotStrategyFactory {
+import cabernet1.monopoly.lib.persistence.Saveable;
+
+import java.io.Serializable;
+
+@Saveable
+public class BotStrategyFactory implements Serializable {
+    private static final long serialVersionUID = -5855733850792751579L;
     private static volatile BotStrategyFactory _instance = null;
 
     private BotStrategyFactory() {
