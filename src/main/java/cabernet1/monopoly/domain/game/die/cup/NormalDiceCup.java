@@ -4,11 +4,13 @@ import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
+import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
 /**
  * A dice cup class for normal dice
  */
+@Saveable
 public class NormalDiceCup implements DiceCup, RepresentationInvariant {
     private static volatile NormalDiceCup _instance = null;
 

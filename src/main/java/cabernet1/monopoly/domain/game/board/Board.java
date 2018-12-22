@@ -19,12 +19,14 @@ import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.command.*;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Saveable
 public class Board implements RepresentationInvariant {
     private static volatile Board _instance = null;
     private Pool poolTile;

@@ -1,5 +1,8 @@
 package cabernet1.monopoly.domain.game.bot;
 
+import cabernet1.monopoly.lib.persistence.Saveable;
+
+@Saveable
 public class BotStrategyFactory {
     private static volatile BotStrategyFactory _instance = null;
 

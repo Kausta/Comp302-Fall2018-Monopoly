@@ -6,12 +6,14 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.PlayerFactory;
+import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Saveable
 public class Game {
     private static volatile Game _instance = null;
     private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
