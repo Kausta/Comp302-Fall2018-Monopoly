@@ -2,11 +2,11 @@ package cabernet1.monopoly.lib.persistance;
 
 import cabernet1.monopoly.TestBase;
 import cabernet1.monopoly.lib.persistence.GameSaverRegistry;
-import cabernet1.monopoly.lib.persistence.Saveable;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,24 +22,15 @@ public class GameSaverRegistryTests extends TestBase {
     }
 
     @Test
-    public void saveableClassesAreMarkedSuchAndAreSingleton() {
+    public void gettingClassInstancesDoesntThrow() {
         GameSaverRegistry instance = GameSaverRegistry.getInstance();
-        HashMap<String, Class<? extends Serializable>> classes = instance.getAllSaveableClasses();
-        for (Class<? extends Serializable> clazz : classes.values()) {
-            assertNotNull(clazz.getDeclaredAnnotation(Saveable.class));
-            assertTrue(isSingleton(clazz));
+        Set<String> instanceNames = instance.getSaveableClassNames();
+        for (String instanceName : instanceNames) {
+            assertDoesNotThrow(() -> {
+                instance.getClassInstance(instanceName);
+            });
         }
-    }
-
-    private static boolean isSingleton(Class<?> clazz) {
-        try {
-            if (clazz.getDeclaredField("_instance") == null) {
-                return false;
-            }
-            return clazz.getDeclaredConstructor() != null;
-        } catch (NoSuchFieldException | NoSuchMethodException e) {
-            return false;
-        }
+        testRepOK(instance);
     }
 
 }

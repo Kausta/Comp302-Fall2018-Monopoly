@@ -10,10 +10,13 @@ import cabernet1.monopoly.domain.game.player.PlayerFactory;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Set;
 
 public class GameSaverRegistry implements RepresentationInvariant {
+    public static final String INSTANCE_VAR_NAME = "_instance";
     private static GameSaverRegistry _instance = null;
     private final HashMap<String, Class<? extends Serializable>> saveableClasses = new HashMap<>();
 
@@ -47,6 +50,17 @@ public class GameSaverRegistry implements RepresentationInvariant {
     }
 
     @SuppressWarnings("unchecked")
+    public <T extends Serializable> T getClassInstance(String name) throws NoSuchFieldException, IllegalAccessException {
+        Class<T> clazz = getSaveableClassByType(name);
+        Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
+        if (!Modifier.isStatic(instanceField.getModifiers())) {
+            throw new NoSuchFieldException();
+        }
+        instanceField.setAccessible(true);
+        return (T) instanceField.get(null);
+    }
+
+    @SuppressWarnings("unchecked")
     public <T extends Serializable> Class<T> getSaveableClassByType(String name) {
         return (Class<T>) getSaveableClass(name);
     }
@@ -56,7 +70,7 @@ public class GameSaverRegistry implements RepresentationInvariant {
     public boolean repOK() {
         // Return whether all saveable class are marked so
         return saveableClasses.values().stream()
-                .allMatch(clazz -> clazz.getDeclaredAnnotation(Saveable.class) != null);
+                .allMatch(clazz -> clazz.getDeclaredAnnotation(Saveable.class) != null && isSingleton(clazz));
     }
 
     @Override
@@ -64,5 +78,20 @@ public class GameSaverRegistry implements RepresentationInvariant {
         return "GameSaverRegistry{ " +
                 "saveableClasses: " + saveableClasses +
                 " }";
+    }
+
+    private static boolean isSingleton(Class<?> clazz) {
+        try {
+            Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
+            if (instanceField == null) {
+                return false;
+            }
+            if (!Modifier.isStatic(instanceField.getModifiers())) {
+                return false;
+            }
+            return clazz.getDeclaredConstructor() != null;
+        } catch (NoSuchFieldException | NoSuchMethodException e) {
+            return false;
+        }
     }
 }
