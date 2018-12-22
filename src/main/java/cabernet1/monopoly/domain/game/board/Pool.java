@@ -2,12 +2,15 @@ package cabernet1.monopoly.domain.game.board;
 
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
+import java.io.Serializable;
+
 /**
  * Pool class represents the pool at the middle of the board, holding money from cards
  *
  * @overview Holds and handles the pool money
  */
-public class Pool implements RepresentationInvariant {
+public class Pool implements RepresentationInvariant, Serializable {
+    private static final long serialVersionUID = -1288174310744044354L;
     /**
      * The total money in the pool
      */

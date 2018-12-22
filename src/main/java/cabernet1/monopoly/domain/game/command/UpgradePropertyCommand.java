@@ -6,6 +6,7 @@ import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class UpgradePropertyCommand extends ICommand {
+    private static final long serialVersionUID = 4221944484673831040L;
     private GroupColoredProperty property;
 
     public UpgradePropertyCommand(GroupColoredProperty property) {

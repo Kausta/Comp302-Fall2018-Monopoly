@@ -12,6 +12,7 @@ import cabernet1.monopoly.utils.RepresentationInvariant;
  */
 @Saveable
 public class NormalDiceCup implements DiceCup, RepresentationInvariant {
+    private static final long serialVersionUID = 3788659624701431052L;
     private static volatile NormalDiceCup _instance = null;
 
     public RegularDie die1 = new RegularDie();

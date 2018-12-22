@@ -4,10 +4,12 @@ import cabernet1.monopoly.domain.game.die.enumerators.DieFaces;
 import cabernet1.monopoly.utils.Observable;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public abstract class IDie extends Observable<Integer> implements RepresentationInvariant {
+public abstract class IDie extends Observable<Integer> implements RepresentationInvariant, Serializable {
     private static final Random diceGen = new Random();
+    private static final long serialVersionUID = 8200686369181780262L;
     private DieFaces faceValue;
 
     public IDie() {

@@ -8,6 +8,7 @@ import java.util.List;
 
 public class InformNamesCommand extends ICommand {
     private final static Logger logger = LoggerFactory.getInstance().getLogger(InformNamesCommand.class);
+    private static final long serialVersionUID = 9197415461653787882L;
 
     private final String clientIdentifier;
     private final List<String> playerNames;

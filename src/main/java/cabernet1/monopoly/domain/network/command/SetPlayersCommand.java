@@ -6,6 +6,7 @@ import cabernet1.monopoly.domain.Network;
 import java.util.List;
 
 public class SetPlayersCommand extends ICommand {
+    private static final long serialVersionUID = 2652773731900771898L;
     private final String clientIdentifier;
     private final List<String> playerNames;
 

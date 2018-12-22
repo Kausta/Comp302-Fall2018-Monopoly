@@ -7,6 +7,7 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class PayRentCommand extends ICommand {
 
+    private static final long serialVersionUID = -3201844977371445437L;
     private int rentAmount;
     private IPlayer player;
 

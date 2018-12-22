@@ -7,6 +7,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class ChanceTile extends ActionTile {
 
+    private static final long serialVersionUID = 6497731286751407759L;
+
     public ChanceTile() {
         super("Chance", TileType.Chance);
     }

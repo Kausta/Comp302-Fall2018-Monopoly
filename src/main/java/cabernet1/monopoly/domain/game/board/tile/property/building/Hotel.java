@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property.building;
 
 public class Hotel extends Building {
+    private static final long serialVersionUID = 5154645883176335341L;
     private int rent;
 
     public Hotel(int price, int sellPrice, int rent) {

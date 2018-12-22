@@ -7,6 +7,7 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class MovePlayerCommand extends ICommand {
+    private static final long serialVersionUID = 7516943243199598634L;
     private IPlayer player;
     private Tile newTile;
 

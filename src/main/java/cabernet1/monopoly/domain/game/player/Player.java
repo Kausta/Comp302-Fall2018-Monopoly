@@ -25,6 +25,8 @@ import cabernet1.monopoly.utils.RepresentationInvariant;
  * @overview Player represents the normal player in the monopoly game
  */
 public class Player extends IPlayer implements RepresentationInvariant {
+    private static final long serialVersionUID = -3520681199167071025L;
+
     /**
      * Class Constructor
      *

@@ -10,11 +10,13 @@ import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Saveable
-public class Game {
+public class Game implements Serializable {
+    private static final long serialVersionUID = -3452240765331746220L;
     private static volatile Game _instance = null;
     private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;

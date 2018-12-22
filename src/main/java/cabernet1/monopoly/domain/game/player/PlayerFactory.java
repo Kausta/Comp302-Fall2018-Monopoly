@@ -8,8 +8,11 @@ import cabernet1.monopoly.domain.game.bot.BotStrategyFactory;
 import cabernet1.monopoly.domain.game.bot.IStrategy;
 import cabernet1.monopoly.lib.persistence.Saveable;
 
+import java.io.Serializable;
+
 @Saveable
-public class PlayerFactory {
+public class PlayerFactory implements Serializable {
+    private static final long serialVersionUID = -6221995932713839216L;
     private static volatile PlayerFactory _instance = null;
 
     private int numberOfInstances = 0;

@@ -10,6 +10,7 @@ import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
 import java.util.ArrayList;
 
 public class GroupColoredProperty extends Property {
+    private static final long serialVersionUID = 1582062981898061771L;
     private ColorGroup color;
 
     private int mortgageValue;
