@@ -2,6 +2,7 @@ package cabernet1.monopoly.lib.persistance;
 
 import cabernet1.monopoly.TestBase;
 import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.game.bot.BotStrategyFactory;
 import cabernet1.monopoly.domain.game.die.cup.JailDiceCup;
 import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.die.cup.RollThreeDiceCup;
@@ -27,6 +28,7 @@ public class GameSerializerTests extends TestBase {
         RollThreeDiceCup.getInstance();
         NormalDiceCup.getInstance();
         JailDiceCup.getInstance();
+        BotStrategyFactory.getInstance();
         // Test serialization
         assertDoesNotThrow(() -> {
             Map<String, String> serialized = GameSerializer.getInstance().serializeGame();
