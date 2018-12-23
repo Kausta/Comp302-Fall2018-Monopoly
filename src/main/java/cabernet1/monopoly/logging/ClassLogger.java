@@ -3,6 +3,7 @@ package cabernet1.monopoly.logging;
 import java.time.Instant;
 
 public class ClassLogger extends Logger {
+    private static final long serialVersionUID = -5912565034684272404L;
     private Class<?> clazz;
 
     public ClassLogger(Class<?> clazz) {
