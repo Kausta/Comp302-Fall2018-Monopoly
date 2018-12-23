@@ -24,6 +24,7 @@ public abstract class IPlayer {
     protected int numberOfConsecutiveDoublesRolls;
     protected PlayerMovementStatus movementStatus;
     protected int ID;
+
     protected int direction;
     List<Property> ownedProperty;
     private String name;
@@ -46,6 +47,9 @@ public abstract class IPlayer {
         this.direction = 1;
     }
 
+    public int getDirection() {
+        return direction;
+    }
     public PlayerMovementStatus getMovementStatus() {
         return movementStatus;
     }
@@ -165,5 +169,25 @@ public abstract class IPlayer {
 
     public void resetSteps() {
         numberOfSteps = 1;
+    }
+    public int xShift(){
+        switch (ID){
+            case 0: case 1: case 2:
+                return 0;
+            case 3: case 4: case 5:
+                return 1;
+            case 6: case 7: case 8: default:
+                return -1;
+        }
+    }
+    public int yShift(){
+        switch (ID){
+            case 0: case 3: case 6:
+                return 0;
+            case 1: case 4: case 7:
+                return 1;
+            case 2: case 5: case 8: default:
+                return -1;
+        }
     }
 }
