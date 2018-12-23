@@ -26,7 +26,9 @@ public class RollThreeDiceCup implements DiceCup {
     public int getFacesValue() {
         return die1.getDiceValue().getValue() + die2.getDiceValue().getValue() + die3.getDiceValue().getValue();
     }
-
+    public boolean isEven() {
+        return (die1.getDiceValue().getValue() + die2.getDiceValue().getValue()+die3.getDiceValue().getValue()) % 2 == 0;
+    }
     public RollThreeCupStatus rollCup() {
         die1.rollDice();
         die2.rollDice();
