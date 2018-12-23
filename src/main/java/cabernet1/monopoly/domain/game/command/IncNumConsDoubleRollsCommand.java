@@ -6,20 +6,20 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class IncNumConsDoubleRollsCommand extends ICommand {
-    private IPlayer player;
+    private int playerId;
 
-    public IncNumConsDoubleRollsCommand(IPlayer player) {
-        this.player = player;
+    public IncNumConsDoubleRollsCommand(int playerId) {
+        this.playerId = playerId;
     }
 
-    public IPlayer getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.increaseNumberOfConsecutiveDoubleRolls(player);
+        game.increaseNumberOfConsecutiveDoubleRolls(playerId);
     }
 
 }

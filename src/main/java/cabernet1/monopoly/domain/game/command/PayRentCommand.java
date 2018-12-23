@@ -8,21 +8,21 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 public class PayRentCommand extends ICommand {
 
     private int rentAmount;
-    private IPlayer player;
+    private int playerId;
 
-    public PayRentCommand(IPlayer player, int rentAmount) {
-        this.player = player;
+    public PayRentCommand(int playerId, int rentAmount) {
+        this.playerId = playerId;
         this.rentAmount = rentAmount;
     }
 
-    public IPlayer getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.playerPayRent(player, rentAmount);
+        game.playerPayRent(playerId, rentAmount);
 
     }
 }

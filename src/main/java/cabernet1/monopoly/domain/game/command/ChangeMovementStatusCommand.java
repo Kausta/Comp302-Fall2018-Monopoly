@@ -9,15 +9,15 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 public class ChangeMovementStatusCommand extends ICommand {
 
     private PlayerMovementStatus movementStatus;
-    private IPlayer player;
+    private int playerId;
 
-    public ChangeMovementStatusCommand(IPlayer player, PlayerMovementStatus status) {
-        this.player = player;
+    public ChangeMovementStatusCommand(int playerId, PlayerMovementStatus status) {
+        this.playerId = playerId;
         this.movementStatus = status;
     }
 
-    public IPlayer getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
     public PlayerMovementStatus getmovementStatus() {
@@ -27,6 +27,6 @@ public class ChangeMovementStatusCommand extends ICommand {
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.changeMovementStatus(player, movementStatus);
+        game.changeMovementStatus(playerId, movementStatus);
     }
 }

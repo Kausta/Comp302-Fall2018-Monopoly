@@ -6,16 +6,16 @@ import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class UpgradePropertyCommand extends ICommand {
-    private GroupColoredProperty property;
+    private int propertyId;
 
-    public UpgradePropertyCommand(GroupColoredProperty property) {
-        this.property = property;
+    public UpgradePropertyCommand(int propertyId) {
+        this.propertyId = propertyId;
     }
 
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.completeUpgradeBuilding(property);
+        game.completeUpgradeBuilding(propertyId);
 
     }
 }
