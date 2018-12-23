@@ -51,13 +51,15 @@ public class GameSaverRegistry implements RepresentationInvariant {
 
     @SuppressWarnings("unchecked")
     public <T extends Serializable> T getClassInstance(String name) throws NoSuchFieldException, IllegalAccessException {
-        Class<T> clazz = getSaveableClassByType(name);
-        Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
-        if (!Modifier.isStatic(instanceField.getModifiers())) {
-            throw new NoSuchFieldException();
-        }
-        instanceField.setAccessible(true);
+        final Class<T> clazz = getSaveableClassByType(name);
+        final Field instanceField = getSingletonInstanceField(clazz);
         return (T) instanceField.get(null);
+    }
+
+    public void setClassInstance(String name, Serializable instance) throws NoSuchFieldException, IllegalAccessException {
+        final Class<? extends Serializable> clazz = getSaveableClass(name);
+        final Field instanceField = getSingletonInstanceField(clazz);
+        instanceField.set(null, instance);
     }
 
     @SuppressWarnings("unchecked")
@@ -80,9 +82,18 @@ public class GameSaverRegistry implements RepresentationInvariant {
                 " }";
     }
 
+    private Field getSingletonInstanceField(Class<? extends Serializable> clazz) throws NoSuchFieldException {
+        final Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
+        if (!Modifier.isStatic(instanceField.getModifiers())) {
+            throw new NoSuchFieldException();
+        }
+        instanceField.setAccessible(true);
+        return instanceField;
+    }
+
     private static boolean isSingleton(Class<?> clazz) {
         try {
-            Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
+            final Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
             if (instanceField == null) {
                 return false;
             }

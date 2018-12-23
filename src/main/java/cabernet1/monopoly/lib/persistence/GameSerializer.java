@@ -5,6 +5,7 @@ import cabernet1.monopoly.logging.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,16 +25,16 @@ public class GameSerializer {
     }
 
     public Map<String, String> serializeGame() {
-        GameSaverRegistry registry = GameSaverRegistry.getInstance();
-        Set<String> serializableClassNames = registry.getSaveableClassNames();
+        final GameSaverRegistry registry = GameSaverRegistry.getInstance();
+        final Set<String> serializableClassNames = registry.getSaveableClassNames();
         return serializableClassNames.stream()
                 .collect(Collectors.toMap(name -> name, name -> {
                     try {
-                        Serializable instance = registry.getClassInstance(name);
+                        final Serializable instance = registry.getClassInstance(name);
                         if(instance == null) {
                             return "null";
                         }
-                        String serialized = ObjectSerializer.serializeObject(instance);
+                        final String serialized = ObjectSerializer.serializeObject(instance);
                         if (serialized == null) {
                             throw new NullPointerException("Input/Output Exception while serializing");
                         }
@@ -43,5 +44,28 @@ public class GameSerializer {
                         throw new RuntimeException("Serialization error for class " + name);
                     }
                 }));
+    }
+
+    public void deserializeGameAndLoad(final Map<String, String> serialized) {
+        final GameSaverRegistry registry = GameSaverRegistry.getInstance();
+        final Set<String> serializableClassNames = registry.getSaveableClassNames();
+        for(final String className: serializableClassNames) {
+            if(!serialized.containsKey(className)) {
+                // Wasn't saved
+                continue;
+            }
+            final String serializedValue = serialized.get(className);
+            if(Objects.equals(serializedValue, "null")) {
+                // Wasn't saved
+                continue;
+            }
+            final Serializable instance = ObjectSerializer.deserializeObject(serializedValue);
+            try {
+                registry.setClassInstance(className, instance);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                logger.e("Cannot deserialize class " + className + ": " + e.getMessage());
+                throw new RuntimeException("Serialization error for class " + className);
+            }
+        }
     }
 }

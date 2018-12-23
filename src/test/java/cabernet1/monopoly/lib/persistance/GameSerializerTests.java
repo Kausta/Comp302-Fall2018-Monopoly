@@ -38,4 +38,25 @@ public class GameSerializerTests extends TestBase {
         });
     }
 
+    @Test
+    public void gameSerializesAndDeserializesCorrectly() {
+        // Create all instances
+        List<InitialPlayerData> initialPlayerData = new ArrayList<>();
+        initialPlayerData.add(new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false));
+        Game.getInstance().initialize(initialPlayerData);
+        RollThreeDiceCup.getInstance();
+        NormalDiceCup.getInstance();
+        JailDiceCup.getInstance();
+        BotStrategyFactory.getInstance();
+        // Test serialization
+        assertDoesNotThrow(() -> {
+            Map<String, String> serialized = GameSerializer.getInstance().serializeGame();
+            assertNotNull(serialized);
+            System.out.println("Serialized into: ");
+            System.out.println(serialized);
+            GameSerializer.getInstance().deserializeGameAndLoad(serialized);
+            System.out.print("Deserialized successfully");
+        });
+    }
+
 }
