@@ -6,8 +6,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public abstract class ActionTile extends Tile {
 
-    public ActionTile(String name, TileType tileType) {
-        super(name, tileType);
+    public ActionTile(String name, TileType tileType, int x, int y) {
+        super(name, tileType, x ,y );
     }
 
     public abstract void landingAction(IPlayer player);

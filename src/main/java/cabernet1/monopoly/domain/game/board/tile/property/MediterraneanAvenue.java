@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class MediterraneanAvenue extends GroupColoredProperty {
 
-    public MediterraneanAvenue() {
-        super("Mediterranean Avenue", 60, 30, ColorGroup.Purple,
+    public MediterraneanAvenue(int x,int y) {
+        super("Mediterranean Avenue", 60,x,y, 30, ColorGroup.Purple,
                 50, 25, new ArrayList<Integer>() {{
                     add(2);
                     add(10);

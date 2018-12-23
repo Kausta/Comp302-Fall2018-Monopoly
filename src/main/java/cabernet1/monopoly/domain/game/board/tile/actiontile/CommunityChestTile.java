@@ -1,5 +1,6 @@
 package cabernet1.monopoly.domain.game.board.tile.actiontile;
 
+import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import cabernet1.monopoly.domain.game.card.IimmediateAction;
 import cabernet1.monopoly.domain.game.card.communitycard.CommunityChestCard;
@@ -7,8 +8,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class CommunityChestTile extends ActionTile {
 
-    public CommunityChestTile() {
-        super("Community Chest", TileType.CommunityChest);
+    public CommunityChestTile(int x, int y) {
+        super("Community Chest", TileType.CommunityChest, x,y);
     }
 
     @Override
