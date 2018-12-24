@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ClientSocket extends BaseSocket {
-    private String ipAddress;
-    private int port;
+    private final String ipAddress;
+    private final int port;
     private Socket socket;
 
     /**

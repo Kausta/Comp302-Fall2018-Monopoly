@@ -12,12 +12,12 @@ import java.net.Socket;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class ClientSocketAdapter implements INetworkAdapter {
-    private Observable<NetworkCommand> commandObservable = new Observable<>();
+    private final Observable<NetworkCommand> commandObservable = new Observable<>();
     /**
      * Thread pool for waiting commands
      */
-    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-    private ClientSocket clientSocket;
+    private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+    private final ClientSocket clientSocket;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
 

@@ -9,8 +9,8 @@ import cabernet1.monopoly.utils.Observer;
 import javax.swing.*;
 
 public abstract class BaseButton extends JButton implements Observer<Boolean> {
-    public Logger logger = LoggerFactory.getInstance().getLogger(getClass());
-    public GameController controller = Game.getInstance().getGameController();
+    public final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    public final GameController controller = Game.getInstance().getGameController();
 
     public BaseButton() {
 

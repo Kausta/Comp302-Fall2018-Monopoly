@@ -7,7 +7,7 @@ public enum RegularDieFaces implements DieFaces {
     Four(4),
     Five(5),
     Six(6);
-    private int value;
+    private final int value;
 
     RegularDieFaces(int value) {
         this.value = value;

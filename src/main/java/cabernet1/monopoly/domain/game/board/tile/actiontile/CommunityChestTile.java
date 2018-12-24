@@ -7,8 +7,10 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class CommunityChestTile extends ActionTile {
 
-    public CommunityChestTile() {
-        super("Community Chest", TileType.CommunityChest);
+    private static final long serialVersionUID = -7335170086860824724L;
+
+    public CommunityChestTile(int x, int y) {
+        super("Community Chest", TileType.CommunityChest, x, y);
     }
 
     @Override
