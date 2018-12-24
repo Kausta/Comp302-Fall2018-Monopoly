@@ -6,7 +6,7 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class IncNumConsDoubleRollsCommand extends ICommand {
     private static final long serialVersionUID = 5144914910873534063L;
-    private int playerId;
+    private final int playerId;
 
     public IncNumConsDoubleRollsCommand(int playerId) {
         this.playerId = playerId;

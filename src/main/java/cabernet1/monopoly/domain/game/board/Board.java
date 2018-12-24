@@ -33,11 +33,11 @@ import java.util.Random;
 public class Board implements RepresentationInvariant, Serializable {
     private static final long serialVersionUID = 5361865266782383461L;
     private static volatile Board _instance = null;
+    private final Random r = new Random();
     List<Tile> boardTiles; //made package-private for testing purposes
     private Pool poolTile;
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
-    private Random r = new Random();
 
     private Board() {
     }

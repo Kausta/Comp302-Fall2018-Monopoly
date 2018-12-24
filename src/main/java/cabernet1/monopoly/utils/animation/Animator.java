@@ -1,6 +1,5 @@
 package cabernet1.monopoly.utils.animation;
 
-import javax.swing.*;
 import java.util.Enumeration;
 import java.util.Vector;
 

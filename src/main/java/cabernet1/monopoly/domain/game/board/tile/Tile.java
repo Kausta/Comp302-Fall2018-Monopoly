@@ -7,22 +7,24 @@ import java.io.Serializable;
 
 public abstract class Tile implements Serializable {
     private static final long serialVersionUID = -4643593178838420041L;
-    static int IDCounter = 0;
-    protected Board board = Board.getInstance();
-    int ID;
-    private String name;
-    private TileType tileType;
+    private static volatile int IDCounter = 0;
+    protected final Board board = Board.getInstance();
+    final int ID;
+    private final String name;
+    private final TileType tileType;
+    private final int x;
+    private final int y;
     private Tile nextTile;
     private Tile prevTile;
-    private int x;
-    private int y;
 
     public Tile(String name, TileType tileType, int x, int y) {
         this.name = name;
         this.tileType = tileType;
         this.x = x;
         this.y = y;
-        this.ID = IDCounter++;
+        synchronized (Tile.class) {
+            this.ID = IDCounter++;
+        }
     }
 
     public int getX() {

@@ -25,7 +25,7 @@ import java.awt.*;
 
 public class GameView extends BaseView {
     private static volatile GameView _instance = null;
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;
     private JPanel root;
 

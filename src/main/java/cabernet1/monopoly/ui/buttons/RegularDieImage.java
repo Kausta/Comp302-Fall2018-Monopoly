@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class RegularDieImage extends JPanel implements Observer<Integer> {
 
-    public Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
+    public final Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
     private BufferedImage dieImage;
     private JLabel dieImageLabel = new JLabel();
 
@@ -66,6 +66,7 @@ public class RegularDieImage extends JPanel implements Observer<Integer> {
             dieImageLabel = new JLabel(new ImageIcon(scaledDie));
             add(dieImageLabel);
         } catch (IOException ex) {
+            logger.e(ex.getMessage());
         }
     }
 

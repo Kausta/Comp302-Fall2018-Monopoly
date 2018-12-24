@@ -12,16 +12,18 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toCollection;
 
 @Saveable
 public class Game implements Serializable {
     private static final long serialVersionUID = -3452240765331746220L;
     private static volatile Game _instance = null;
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;
-    private List<IPlayer> player;
+    private ArrayList<IPlayer> player;
     private int playerPointer = 0;
 
     private Game() {
@@ -42,7 +44,7 @@ public class Game implements Serializable {
         this.player = initialPlayerData.stream().map(playerData -> {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
-        }).collect(Collectors.toList());
+        }).collect(toCollection(ArrayList::new));
     }
 
     public synchronized GameController getGameController() {
@@ -72,7 +74,7 @@ public class Game implements Serializable {
         return (Player) player.get(playerPointer);
     }
 
-    public List<IPlayer> getPlayers() {
+    public ArrayList<IPlayer> getPlayers() {
         return this.player;
     }
 

@@ -6,9 +6,9 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class MovePlayerCommand extends ICommand {
     private static final long serialVersionUID = 7516943243199598634L;
-    private int playerId;
-    private int newTileId;
-    private boolean takeRailRoads;
+    private final int playerId;
+    private final int newTileId;
+    private final boolean takeRailRoads;
 
     public MovePlayerCommand(int playerId, int newTileId, boolean takeRailRoads) {
         this.playerId = playerId;

@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public class GroupColoredProperty extends Property {
     private static final long serialVersionUID = 1582062981898061771L;
-    private ColorGroup color;
+    private final ColorGroup color;
 
-    private int mortgageValue;
-    private House house;
-    private Hotel hotel;
-    private Skyscraper skyscraper;
+    private final int mortgageValue;
+    private final House house;
+    private final Hotel hotel;
+    private final Skyscraper skyscraper;
 
 
     public GroupColoredProperty(String name, int price, int x, int y, int mortgageValue, ColorGroup color,

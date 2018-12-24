@@ -7,8 +7,8 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 public class PayRentCommand extends ICommand {
 
     private static final long serialVersionUID = -3201844977371445437L;
-    private int rentAmount;
-    private int playerId;
+    private final int rentAmount;
+    private final int playerId;
 
     public PayRentCommand(int playerId, int rentAmount) {
         this.playerId = playerId;

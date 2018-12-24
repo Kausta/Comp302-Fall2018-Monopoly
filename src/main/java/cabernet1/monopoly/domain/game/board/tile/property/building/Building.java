@@ -7,9 +7,9 @@ import java.io.Serializable;
 public abstract class Building implements RepresentationInvariant, Serializable {
 
     private static final long serialVersionUID = 2144896538766746755L;
-    protected int price, sellPrice;
-    protected int amount, limit;
-    protected String singularName, pluralName;
+    private final int price, sellPrice;
+    private final String singularName, pluralName;
+    int amount, limit;
 
     public Building(int price, int sellPrice, String singularName, String pluralName) {
         this.price = price;

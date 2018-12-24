@@ -6,7 +6,7 @@ public enum SpeedDieFaces implements DieFaces {
     Three(3),
     MrMonopoly(0),
     BusIcon(0);
-    private int value;
+    private final int value;
 
     SpeedDieFaces(int value) {
         this.value = value;

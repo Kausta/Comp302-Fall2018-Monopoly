@@ -18,27 +18,28 @@ import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameController implements Serializable {
     private static final long serialVersionUID = 8999488415439250201L;
     // To add announcements to UI
-    public Observable<String> announcement = new Observable<>();
-    public Observable<Integer> die1Observeable = new Observable<>();
-    public Observable<Integer> die2Observeable = new Observable<>();
-    public Observable<Integer> speedDieObserveable = new Observable<>();
-    public Observable<movePlayerObservableInfo> movePlayerObserveable = new Observable<>();
-    public Observable<Boolean> upgradeButton = new Observable<>();
-    public Observable<Boolean> buyButton = new Observable<>();
-    public Observable<Boolean> specialButton = new Observable<>();
-    public Observable<Boolean> endButton = new Observable<>();
-    public Observable<Boolean> rollButton = new Observable<>();
-    public Observable<Player> playerObserver = new Observable<>();
-    public Observable<List<IPlayer>> playerListObservable = new Observable<>();
-    RegularDie die1 = NormalDiceCup.getInstance().die1;
-    RegularDie die2 = NormalDiceCup.getInstance().die2;
-    SpeedDie die3 = NormalDiceCup.getInstance().die3;
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    public final Observable<String> announcement = new Observable<>();
+    public final Observable<Integer> die1Observable = new Observable<>();
+    public final Observable<Integer> die2Observable = new Observable<>();
+    public final Observable<Integer> speedDieObservable = new Observable<>();
+    public final Observable<MovePlayerObservableInfo> movePlayerObservable = new Observable<>();
+    public final Observable<Boolean> upgradeButton = new Observable<>();
+    public final Observable<Boolean> buyButton = new Observable<>();
+    public final Observable<Boolean> specialButton = new Observable<>();
+    public final Observable<Boolean> endButton = new Observable<>();
+    public final Observable<Boolean> rollButton = new Observable<>();
+    public final Observable<Player> playerObserver = new Observable<>();
+    public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
+    private final RegularDie die1 = NormalDiceCup.getInstance().die1;
+    private final RegularDie die2 = NormalDiceCup.getInstance().die2;
+    private final SpeedDie die3 = NormalDiceCup.getInstance().die3;
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     public GameController() {
         logger.i("Created Game Controller");
@@ -69,8 +70,7 @@ public class GameController implements Serializable {
                 return player;
             }
         }
-        assert (false);
-        return null;
+        throw new RuntimeException("Player with given ID not found!");
     }
 
     private Tile getTile(int ID) {
@@ -83,13 +83,13 @@ public class GameController implements Serializable {
     }
 
     public void showDiceValue() {
-        die1Observeable.setValue(die1.getDiceValue().getValue());
-        die2Observeable.setValue(die2.getDiceValue().getValue());
-        speedDieObserveable.setValue(die3.speedDieValue());
+        die1Observable.setValue(die1.getDiceValue().getValue());
+        die2Observable.setValue(die2.getDiceValue().getValue());
+        speedDieObservable.setValue(die3.speedDieValue());
     }
 
     public void movePlayer(int playerId, int newTileId, boolean takeRailRoads) {
-        movePlayerObserveable.setValue(new movePlayerObservableInfo(getTile(newTileId), takeRailRoads));//make the command send the dice cup instead and calculate on all devices
+        movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads));//make the command send the dice cup instead and calculate on all devices
         // make arrays of movePlayerObservable each
         getPlayer(playerId).setCurrentTile(getTile(newTileId));
     }
@@ -138,7 +138,7 @@ public class GameController implements Serializable {
         upgradeButton.setValue(true);
     }
 
-    public void UpgradeBuilding() {
+    public void upgradeBuilding() {
         Board.getInstance().upgradeBuilding(getCurrentPlayer(), (GroupColoredProperty) getCurrentPlayer().getCurrentTile());
     }
 
@@ -191,25 +191,24 @@ public class GameController implements Serializable {
         playerObserver.setValue(player);
     }
 
-    public List<IPlayer> playerList() {
+    public ArrayList<IPlayer> playerList() {
         return Game.getInstance().getPlayers();
     }
 
     public void increasePool(int amount) {
         Board.getInstance().getPool().addMoney(amount);
-
     }
 
     public void completeUpgradeBuilding(int propertyId) {
         ((GroupColoredProperty) getTile(propertyId)).upgrade();
-
     }
 
-    public class movePlayerObservableInfo {
+    public static class MovePlayerObservableInfo implements Serializable {
+        private static final long serialVersionUID = 1495053868551960438L;
         public Tile tile;
         public boolean takeRailRoads;
 
-        public movePlayerObservableInfo(Tile tile, boolean takeRailRoads) {
+        private MovePlayerObservableInfo(Tile tile, boolean takeRailRoads) {
             this.tile = tile;
             this.takeRailRoads = takeRailRoads;
         }

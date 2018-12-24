@@ -16,9 +16,14 @@ import java.awt.*;
  */
 
 public class StraightLinePath implements Path {
-    private int startX, startY, endX, endY, steps;
+    private final int startX;
+    private final int startY;
+    private final int endX;
+    private final int endY;
+    private final int steps;
+    private final double deltaX;
+    private final double deltaY;
     private int currentStep = -1;      // This makes the first step 0
-    private double deltaX, deltaY;
 
     /**
      * Constructor Stores the points, and builds the information

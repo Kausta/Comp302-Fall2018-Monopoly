@@ -13,7 +13,7 @@ public class BoardPanel extends BasePanel {
     private static final double HEIGHT_COEFFICIENT = 8.25;
     private static final double WIDTH_COEFFICIENT = 8.25;
     private static volatile BoardPanel _instance = null;
-    public JPanel insidePanel;
+    public final JPanel insidePanel;
     private BufferedImage board;
 
     private BoardPanel(String path) {
@@ -72,6 +72,7 @@ public class BoardPanel extends BasePanel {
             boardImageLabel.setVisible(true);
             logger.d("dimension of board are x=" + insidePanel.getWidth() + " y=" + insidePanel.getHeight());
         } catch (IOException ex) {
+            logger.e(ex.getMessage());
         }
     }
 }

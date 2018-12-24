@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 public class InitializationView extends BaseView {
     private static volatile InitializationView _instance = null;
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private InitializationController controller;
     private JPanel root;
 

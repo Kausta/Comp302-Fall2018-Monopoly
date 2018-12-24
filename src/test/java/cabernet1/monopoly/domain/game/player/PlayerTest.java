@@ -79,7 +79,7 @@ class PlayerTest extends TestBase {
         assertFalse(player.isInJail());
         assertTrue(player.isActive());
         assertEquals(Board.getInstance().getInitialTile(), player.getCurrentTile());
-        assertEquals(true, player.direction);
+        assertTrue(player.direction);
 
     }
 

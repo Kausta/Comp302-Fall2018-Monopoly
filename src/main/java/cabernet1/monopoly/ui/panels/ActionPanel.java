@@ -40,15 +40,15 @@ public class ActionPanel extends BasePanel {
 
         /*
         RegularDieImage die1 = new RegularDieImage();
-        die1.startObserving(controller.die1Observeable);
+        die1.startObserving(controller.die1Observable);
         add(die1);
 
         RegularDieImage die2 = new RegularDieImage();
-        die2.startObserving(controller.die2Observeable);
+        die2.startObserving(controller.die2Observable);
         add(die2);
 
         SpeedDieImage die3 = new SpeedDieImage();
-        die3.startObserving(controller.speedDieObserveable);
+        die3.startObserving(controller.speedDieObservable);
         add(die3);
         */
     }
