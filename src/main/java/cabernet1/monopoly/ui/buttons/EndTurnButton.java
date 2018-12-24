@@ -1,8 +1,5 @@
 package cabernet1.monopoly.ui.buttons;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class EndTurnButton extends BaseButton {
 
     private static volatile EndTurnButton _instance = null;
@@ -22,11 +19,9 @@ public class EndTurnButton extends BaseButton {
     private void initialize() {
         controller.endButton.addObserver(this);
 
-        addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // TODO: Add a rollDice function to GameController
-                controller.endTurn();
-            }
+        addActionListener(e -> {
+            // TODO: Add a rollDice function to GameController
+            controller.endTurn();
         });
     }
 

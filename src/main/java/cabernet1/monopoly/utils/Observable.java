@@ -1,10 +1,12 @@
 package cabernet1.monopoly.utils;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Observable<T> {
-    private Set<Observer<T>> observers = new HashSet<>();
+public class Observable<T extends Serializable> implements Serializable {
+    private static final long serialVersionUID = -3305024786301652216L;
+    private final Set<Observer<T>> observers = new HashSet<>();
     private T value;
 
     public Observable() {

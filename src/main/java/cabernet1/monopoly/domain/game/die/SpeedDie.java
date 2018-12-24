@@ -3,6 +3,8 @@ package cabernet1.monopoly.domain.game.die;
 import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
 
 public class SpeedDie extends IDie {
+    private static final long serialVersionUID = -2706407479654611703L;
+
     public SpeedDie() {
         super();
     }

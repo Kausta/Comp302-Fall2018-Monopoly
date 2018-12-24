@@ -66,7 +66,7 @@ class PlayerTest extends TestBase {
 
     @Test
     void ownProperty() {
-        Property property = new MediterraneanAvenue();
+        Property property = new MediterraneanAvenue(1, 1);
         assertFalse(player.isOwningProperty(property));
         player.ownProperty(property);
         assertTrue(player.isOwningProperty(property));
@@ -79,7 +79,7 @@ class PlayerTest extends TestBase {
         assertFalse(player.isInJail());
         assertTrue(player.isActive());
         assertEquals(Board.getInstance().getInitialTile(), player.getCurrentTile());
-        assertEquals(1, player.direction);
+        assertTrue(player.direction);
 
     }
 
@@ -88,7 +88,7 @@ class PlayerTest extends TestBase {
         Tile curTile = Board.getInstance().getInitialTile();
         player.setCurrentTile(curTile);
         assertEquals(curTile, player.getCurrentTile());
-        curTile = Board.getInstance().getNextTile(curTile, 1);
+        curTile = Board.getInstance().getNextTile(curTile, true, 1, false);
         player.setCurrentTile(curTile);
         assertEquals(curTile, player.getCurrentTile());
         curTile = Board.getInstance().getJailTile();

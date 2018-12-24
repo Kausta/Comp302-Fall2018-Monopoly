@@ -41,8 +41,8 @@ public class Form implements ActionListener {
     }
 
     public static class Builder {
-        private List<Component> components = new ArrayList<>();
-        private Form form;
+        private final List<Component> components = new ArrayList<>();
+        private final Form form;
 
         public Builder() {
             form = new Form();
