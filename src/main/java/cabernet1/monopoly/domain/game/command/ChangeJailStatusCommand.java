@@ -2,10 +2,10 @@ package cabernet1.monopoly.domain.game.command;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
-import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class ChangeJailStatusCommand extends ICommand {
+    private static final long serialVersionUID = -4319110759036699314L;
     private boolean inJail;
     private int playerId;
 

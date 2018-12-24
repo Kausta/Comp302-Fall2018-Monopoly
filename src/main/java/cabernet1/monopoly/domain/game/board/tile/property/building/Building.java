@@ -1,8 +1,12 @@
 package cabernet1.monopoly.domain.game.board.tile.property.building;
 
+import cabernet1.monopoly.utils.RepresentationInvariant;
 
-public abstract class Building {
+import java.io.Serializable;
 
+public abstract class Building implements RepresentationInvariant, Serializable {
+
+    private static final long serialVersionUID = 2144896538766746755L;
     protected int price, sellPrice;
     protected int amount, limit;
     protected String singularName, pluralName;
@@ -63,9 +67,9 @@ public abstract class Building {
      */
     public String decreaseAmount() {
         if (exists()) {
+            amount--;
             return "Successfully demolished the " + getSingularName() + ".";
         }
-        amount--;
         return "There are no " + getPluralName() + " to demolish.";
     }
 
@@ -89,4 +93,25 @@ public abstract class Building {
      * @return the rent
      */
     public abstract int getRent();
+
+    public int getAmount() {
+        return amount;
+    }
+
+    @Override
+    public boolean repOK() {
+        return price > 0 && sellPrice > 0 && amount >= 0 && limit >= 1 && singularName != null && pluralName != null;
+    }
+
+    @Override
+    public String toString() {
+        return "Building{ " +
+                "price: " + price +
+                ", sellPrice: " + sellPrice +
+                ", amount: " + amount +
+                ", limit: " + limit +
+                ", singularName: '" + singularName + '\'' +
+                ", pluralName: '" + pluralName + '\'' +
+                " }";
+    }
 }

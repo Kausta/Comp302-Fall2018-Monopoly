@@ -10,6 +10,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class PayHospitalBills extends CommunityChestCard implements IimmediateAction {
 
+    private static final long serialVersionUID = -6021063949315616757L;
+
     public PayHospitalBills() {
         super("Pay Hospital Bills");
     }

@@ -1,7 +1,6 @@
 package cabernet1.monopoly.domain.game.board.tile.property;
 
 import cabernet1.monopoly.domain.game.Constants;
-import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Hotel;
@@ -11,7 +10,7 @@ import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
 import java.util.ArrayList;
 
 public class GroupColoredProperty extends Property {
-
+    private static final long serialVersionUID = 1582062981898061771L;
     private ColorGroup color;
 
     private int mortgageValue;
@@ -24,7 +23,7 @@ public class GroupColoredProperty extends Property {
                                 int housePrice, int houseSellPrice, ArrayList<Integer> houseRents,
                                 int hotelPrice, int hotelSellPrice, int hotelRent,
                                 int skyscraperPrice, int skyscraperSellPrice, int skyscraperRent) {
-        super(name, TileType.ColoredGroupProperty, price,x,y);
+        super(name, TileType.ColoredGroupProperty, price, x, y);
         this.mortgageValue = mortgageValue;
         this.color = color;
         house = new House(housePrice, houseSellPrice, houseRents);
@@ -36,6 +35,9 @@ public class GroupColoredProperty extends Property {
      * Adds a house to the property
      *
      * @return status message to be shown
+     * @modifies house
+     * @requires to have less than maximum houses
+     * @effects house number on the property increases
      */
     public String buyHouse() {
         return house.increaseAmount();
@@ -45,6 +47,9 @@ public class GroupColoredProperty extends Property {
      * Removes a house from the property
      *
      * @return status message to be shown
+     * @modifies house
+     * @requires to have more than 0 houses
+     * @effects house number on the property decreases
      */
     public String demolishHouse() {
         return house.decreaseAmount();
@@ -126,6 +131,13 @@ public class GroupColoredProperty extends Property {
         return house.getPrice();
     }
 
+    /**
+     * upgrades the buildings
+     *
+     * @modifies house, hotel or skyscraper
+     * @requires to not have a skyscraper
+     * @effects increases the house, hotel or the scyscraper number
+     */
     public void upgrade() {
         if (house.limitReached()) {
             if (hotel.limitReached()) {
@@ -136,5 +148,31 @@ public class GroupColoredProperty extends Property {
         buyHouse();
     }
 
+    public House getHouse() {
+        return house;
+    }
 
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public Skyscraper getSkyscraper() {
+        return skyscraper;
+    }
+
+    @Override
+    public boolean repOK() {
+        return super.repOK() && color != null && mortgageValue > 0 && house.repOK() && hotel.repOK() && skyscraper.repOK();
+    }
+
+    @Override
+    public String toString() {
+        return "GroupColoredProperty{ " +
+                "color: " + color +
+                ", mortgageValue: " + mortgageValue +
+                ", house: " + house +
+                ", hotel: " + hotel +
+                ", skyscraper: " + skyscraper +
+                ", " + super.toString() + " }";
+    }
 }

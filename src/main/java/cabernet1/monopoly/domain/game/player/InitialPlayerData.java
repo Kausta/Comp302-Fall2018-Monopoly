@@ -3,8 +3,7 @@ package cabernet1.monopoly.domain.game.player;
 import java.io.Serializable;
 
 public class InitialPlayerData implements Serializable {
-    private final static int serialVersionUID = 1;
-
+    private static final long serialVersionUID = 297984012968679918L;
     private final int id;
     private final String name;
     private final String origin;

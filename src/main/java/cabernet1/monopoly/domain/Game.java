@@ -7,17 +7,20 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.PlayerFactory;
+import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Game {
+@Saveable
+public class Game implements Serializable {
+    private static final long serialVersionUID = -3452240765331746220L;
     private static volatile Game _instance = null;
     private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;
-    private List<InitialPlayerData> initialPlayerData;
     private List<IPlayer> player;
     private int playerPointer = 0;
 
@@ -36,7 +39,6 @@ public class Game {
 
     public void initialize(List<InitialPlayerData> initialPlayerData) {
         logger.i("Registering players to the game");
-        this.initialPlayerData = initialPlayerData;
         this.player = initialPlayerData.stream().map(playerData -> {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
@@ -56,7 +58,8 @@ public class Game {
         nc.sendCommand(new AnnounceMessageCommand(message));
         nc.sendCommand(new NextTurnCommand());
     }
-    public void nextTurn(){
+
+    public void nextTurn() {
         playerPointer = (playerPointer + 1) % player.size();
         configureTurn();
     }

@@ -2,12 +2,12 @@ package cabernet1.monopoly.domain.game.command;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
-import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class ChangeMovementStatusCommand extends ICommand {
 
+    private static final long serialVersionUID = 3665536248343449718L;
     private PlayerMovementStatus movementStatus;
     private int playerId;
 

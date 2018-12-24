@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class MouseOverPanel extends BasePanel {
 
-    private static volatile MouseOverPanel _instance = null;
     // Height and width coefficient constants
-    private final double HEIGHT_COEFFICIENT = 2;
-    private final double WIDTH_COEFFICIENT = 7.5;
+    private static final double HEIGHT_COEFFICIENT = 2;
+    private static final double WIDTH_COEFFICIENT = 7.5;
+    private static volatile MouseOverPanel _instance = null;
 
     private MouseOverPanel() {
         setBackground(new Color(237, 240, 244));

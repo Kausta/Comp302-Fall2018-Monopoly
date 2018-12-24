@@ -23,6 +23,7 @@ public class PropertiesTab extends JScrollPane {
         setViewportView(propertiesTable);
         propertiesTable.setModel(
                 new DefaultTableModel(new Object[][]{}, new String[]{"Property Name", "Owner", "Group", "Rent"}) {
+                    private static final long serialVersionUID = -108853936982726066L;
                     Class[] columnTypes = new Class[]{String.class, String.class, Integer.class};
 
                     public Class getColumnClass(int columnIndex) {

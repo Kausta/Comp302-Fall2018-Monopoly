@@ -9,6 +9,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class HolidayBonus extends ChanceCard implements IimmediateAction {
 
+    private static final long serialVersionUID = -2856669947155490126L;
+
     public HolidayBonus() {
         super("Holiday Bonus");
     }
