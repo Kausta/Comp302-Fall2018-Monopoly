@@ -33,7 +33,9 @@ public class JailDiceCup implements DiceCup {
         die2.rollDice();
         return JailDiceCupStatus.NOT_DOUBLES;
     }
-
+    public boolean isEven() {
+        return (die1.getDiceValue().getValue() + die2.getDiceValue().getValue()) % 2 == 0;
+    }
     public int getFacesValue() {
         return die1.getDiceValue().getValue() + die2.getDiceValue().getValue();
     }

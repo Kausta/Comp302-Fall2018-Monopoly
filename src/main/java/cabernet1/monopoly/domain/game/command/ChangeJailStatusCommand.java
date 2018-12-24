@@ -8,15 +8,15 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 public class ChangeJailStatusCommand extends ICommand {
     private static final long serialVersionUID = -4319110759036699314L;
     private boolean inJail;
-    private IPlayer player;
+    private int playerId;
 
-    public ChangeJailStatusCommand(IPlayer player, boolean inJail) {
-        this.player = player;
+    public ChangeJailStatusCommand(int playerId, boolean inJail) {
+        this.playerId = playerId;
         this.inJail = inJail;
     }
 
-    public IPlayer getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
     public boolean getJailStatus() {
@@ -26,7 +26,7 @@ public class ChangeJailStatusCommand extends ICommand {
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.changeJailStatus(player, inJail);
+        game.changeJailStatus(playerId, inJail);
 
     }
 }

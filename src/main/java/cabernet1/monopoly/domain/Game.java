@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.NextTurnCommand;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 import cabernet1.monopoly.domain.game.player.Player;
@@ -57,9 +58,11 @@ public class Game implements Serializable {
         String message = getCurrentPlayer().getName() + " turn has ended";
         NetworkController nc = Network.getInstance().getNetworkController();
         nc.sendCommand(new AnnounceMessageCommand(message));
+        nc.sendCommand(new NextTurnCommand());
+    }
+    public void nextTurn(){
         playerPointer = (playerPointer + 1) % player.size();
         configureTurn();
-
     }
 
     public void configureTurn() {

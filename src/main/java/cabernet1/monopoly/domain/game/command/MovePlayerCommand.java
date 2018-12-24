@@ -3,31 +3,33 @@ package cabernet1.monopoly.domain.game.command;
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class MovePlayerCommand extends ICommand {
     private static final long serialVersionUID = 7516943243199598634L;
-    private IPlayer player;
-    private Tile newTile;
+    private int playerId;
+    private int newTileId;
+    private boolean takeRailRoads;
 
-    public MovePlayerCommand(IPlayer player, Tile newTile) {
-        this.player = player;
-        this.newTile = newTile;
+    public MovePlayerCommand(int playerId, int newTileId, boolean takeRailRoads) {
+        this.playerId = playerId;
+        this.newTileId = newTileId;
+        this.takeRailRoads=takeRailRoads;
+        System.out.println("Move playerId command is initialized");
     }
 
-    public IPlayer getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
-    public Tile getNewTile() {
-        return newTile;
+    public int getNewTileId() {
+        return newTileId;
     }
 
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.movePlayer(player, newTile);
+        game.movePlayer(playerId, newTileId,takeRailRoads);
         game.playerListObservable.setValue(game.playerList());
     }
 

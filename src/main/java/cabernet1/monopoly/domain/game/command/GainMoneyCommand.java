@@ -8,21 +8,21 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 public class GainMoneyCommand extends ICommand {
     private static final long serialVersionUID = 788397073206883375L;
     private int amount;
-    private IPlayer player;
+    private int playerId;
 
-    public GainMoneyCommand(IPlayer player, int amount) {
-        this.player = player;
+    public GainMoneyCommand(int playerId, int amount) {
+        this.playerId = playerId;
         this.amount = amount;
     }
 
-    public IPlayer getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.playerGainMoney(player, amount);
+        game.playerGainMoney(playerId, amount);
 
     }
 }

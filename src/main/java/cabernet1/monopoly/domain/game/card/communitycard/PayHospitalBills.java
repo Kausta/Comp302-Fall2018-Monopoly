@@ -21,7 +21,7 @@ public class PayHospitalBills extends CommunityChestCard implements IimmediateAc
         NetworkController nc = Network.getInstance().getNetworkController();
 
         nc.sendCommand(new PoolIncreaseCommand(100));
-        nc.sendCommand(new PayRentCommand(player, 100));
+        nc.sendCommand(new PayRentCommand(player.getID(), 100));
 
         String message = player.getName() + " has to pay 100 for the hospital bills";
         nc.sendCommand(new AnnounceMessageCommand(message));

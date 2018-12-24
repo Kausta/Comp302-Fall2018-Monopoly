@@ -27,7 +27,15 @@ public class GameController implements Serializable {
     public Observable<Integer> die1Observeable = new Observable<>();
     public Observable<Integer> die2Observeable = new Observable<>();
     public Observable<Integer> speedDieObserveable = new Observable<>();
-    public Observable<Tile> movePlayerObserveable = new Observable<>();
+    public class movePlayerObservableInfo{
+        public Tile tile;
+        public boolean takeRailRoads;
+        public movePlayerObservableInfo(Tile tile,boolean takeRailRoads){
+            this.tile=tile;
+            this.takeRailRoads=takeRailRoads;
+        }
+    }
+    public Observable<movePlayerObservableInfo> movePlayerObserveable = new Observable<>();
     public Observable<Boolean> upgradeButton = new Observable<>();
     public Observable<Boolean> buyButton = new Observable<>();
     public Observable<Boolean> specialButton = new Observable<>();
@@ -62,7 +70,19 @@ public class GameController implements Serializable {
         }
         // showDiceValue();
     }
-
+    private IPlayer getPlayer(int ID){
+        List<IPlayer> players=playerList();
+        for (IPlayer player:players){
+            if (player.getID()==ID){
+                return player;
+            }
+        }
+        assert (false);
+        return null;
+    }
+    private Tile getTile(int ID){
+       return Board.getInstance().getTileById(ID);
+    }
     public void chooseTile(Player player) {
         // TODO implement the chooseTile method
         // call the chooseTile method in the UI using observer
@@ -74,9 +94,10 @@ public class GameController implements Serializable {
         speedDieObserveable.setValue(die3.speedDieValue());
     }
 
-    public void movePlayer(IPlayer player, Tile newTile) {
-        movePlayerObserveable.setValue(newTile);
-        player.setCurrentTile(newTile);
+    public void movePlayer(int playerId, int newTileId,boolean takeRailRoads) {
+        movePlayerObserveable.setValue(new movePlayerObservableInfo(getTile(newTileId),takeRailRoads));//make the command send the dice cup instead and calculate on all devices
+        // make arrays of movePlayerObservable each
+        getPlayer(playerId).setCurrentTile(getTile(newTileId));
     }
 
     public void jumpToTile(Player player, Tile newTile) {
@@ -87,34 +108,36 @@ public class GameController implements Serializable {
         player.setCurrentTile(newTile);
     }
 
-    public void changeJailStatus(IPlayer player, boolean inJail) {
-        player.changeJailStatus(inJail);
+    public void changeJailStatus(int playerId, boolean inJail) {
+        getPlayer(playerId).changeJailStatus(inJail);
     }
 
-    public void changeMovementStatus(IPlayer player, PlayerMovementStatus status) {
-        player.setMovementStatus(status);
+    public void changeMovementStatus(int playerId, PlayerMovementStatus status) {
+        getPlayer(playerId).setMovementStatus(status);
     }
 
-    public void increaseNumberOfConsecutiveDoubleRolls(IPlayer player) {
-        player.increaseNumberOfConsecutiveDoublesRolls();
+    public void increaseNumberOfConsecutiveDoubleRolls(int playerId) {
+        getPlayer(playerId).increaseNumberOfConsecutiveDoublesRolls();
     }
 
     public void playTurn() {
         getCurrentPlayer().playTurn();
     }
 
-    public void playerPayRent(IPlayer player, int rentAmount) {
-        player.payRent(rentAmount);
+    public void playerPayRent(int playerId, int rentAmount) {
+        getPlayer(playerId).payRent(rentAmount);
     }
 
-    public void playerGainMoney(IPlayer player, int amount) {
-        player.gainMoney(amount);
+    public void playerGainMoney(int playerId, int amount) {
+        getPlayer(playerId).gainMoney(amount);
     }
 
     public void endTurn() {
         Game.getInstance().endTurn();
     }
-
+    public void nextTurn(){
+        Game.getInstance().nextTurn();
+    }
     public void enableUpgradeBuilding() {
         upgradeButton.setValue(true);
     }
@@ -181,8 +204,8 @@ public class GameController implements Serializable {
 
     }
 
-    public void completeUpgradeBuilding(GroupColoredProperty property) {
-        property.upgrade();
+    public void completeUpgradeBuilding(int propertyId) {
+        ((GroupColoredProperty)getTile(propertyId)).upgrade();
 
     }
 }

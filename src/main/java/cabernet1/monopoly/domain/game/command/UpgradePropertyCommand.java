@@ -7,16 +7,16 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class UpgradePropertyCommand extends ICommand {
     private static final long serialVersionUID = 4221944484673831040L;
-    private GroupColoredProperty property;
+    private int propertyId;
 
-    public UpgradePropertyCommand(GroupColoredProperty property) {
-        this.property = property;
+    public UpgradePropertyCommand(int propertyId) {
+        this.propertyId = propertyId;
     }
 
     @Override
     public void execute() {
         GameController game = Game.getInstance().getGameController();
-        game.completeUpgradeBuilding(property);
+        game.completeUpgradeBuilding(propertyId);
 
     }
 }

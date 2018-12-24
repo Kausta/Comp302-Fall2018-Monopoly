@@ -10,8 +10,8 @@ public abstract class Property extends Tile implements RepresentationInvariant {
     private int price;
     private Player owner;
 
-    public Property(String name, TileType tileType, int price) {
-        super(name, tileType);
+    public Property(String name, TileType tileType, int price, int x, int y) {
+        super(name, tileType, x , y);
         this.price = price;
         owner = null;
     }

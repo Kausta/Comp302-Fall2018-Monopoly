@@ -35,6 +35,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
     protected int numberOfConsecutiveDoublesRolls;
     protected PlayerMovementStatus movementStatus;
     protected int ID;
+
     protected int direction;
     HashSet<Property> ownedProperty;
     private String name;
@@ -96,6 +97,11 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
     public PlayerMovementStatus getMovementStatus() {
         return movementStatus;
     }
+
+    public int getDirection() {
+        return direction;
+    }
+    
 
     /**
      * Change the movement status of this player
@@ -344,4 +350,24 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         return res;
     }
 
+    public int xShift(){
+        switch (ID){
+            case 0: case 1: case 2:
+                return 0;
+            case 3: case 4: case 5:
+                return 1;
+            case 6: case 7: case 8: default:
+                return -1;
+        }
+    }
+    public int yShift(){
+        switch (ID){
+            case 0: case 3: case 6:
+                return 0;
+            case 1: case 4: case 7:
+                return 1;
+            case 2: case 5: case 8: default:
+                return -1;
+        }
+    }
 }
