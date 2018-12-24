@@ -31,7 +31,7 @@ public class GameSerializer {
                 .collect(Collectors.toMap(name -> name, name -> {
                     try {
                         final Serializable instance = registry.getClassInstance(name);
-                        if(instance == null) {
+                        if (instance == null) {
                             return "null";
                         }
                         final String serialized = ObjectSerializer.serializeObject(instance);
@@ -49,13 +49,13 @@ public class GameSerializer {
     public void deserializeGameAndLoad(final Map<String, String> serialized) {
         final GameSaverRegistry registry = GameSaverRegistry.getInstance();
         final Set<String> serializableClassNames = registry.getSaveableClassNames();
-        for(final String className: serializableClassNames) {
-            if(!serialized.containsKey(className)) {
+        for (final String className : serializableClassNames) {
+            if (!serialized.containsKey(className)) {
                 // Wasn't saved
                 continue;
             }
             final String serializedValue = serialized.get(className);
-            if(Objects.equals(serializedValue, "null")) {
+            if (Objects.equals(serializedValue, "null")) {
                 // Wasn't saved
                 continue;
             }

@@ -37,6 +37,21 @@ public class GameSaverRegistry implements RepresentationInvariant {
         return _instance;
     }
 
+    private static boolean isSingleton(Class<?> clazz) {
+        try {
+            final Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
+            if (instanceField == null) {
+                return false;
+            }
+            if (!Modifier.isStatic(instanceField.getModifiers())) {
+                return false;
+            }
+            return clazz.getDeclaredConstructor() != null;
+        } catch (NoSuchFieldException | NoSuchMethodException e) {
+            return false;
+        }
+    }
+
     public HashMap<String, Class<? extends Serializable>> getAllSaveableClasses() {
         return saveableClasses;
     }
@@ -67,7 +82,6 @@ public class GameSaverRegistry implements RepresentationInvariant {
         return (Class<T>) getSaveableClass(name);
     }
 
-
     @Override
     public boolean repOK() {
         // Return whether all saveable class are marked so
@@ -89,20 +103,5 @@ public class GameSaverRegistry implements RepresentationInvariant {
         }
         instanceField.setAccessible(true);
         return instanceField;
-    }
-
-    private static boolean isSingleton(Class<?> clazz) {
-        try {
-            final Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
-            if (instanceField == null) {
-                return false;
-            }
-            if (!Modifier.isStatic(instanceField.getModifiers())) {
-                return false;
-            }
-            return clazz.getDeclaredConstructor() != null;
-        } catch (NoSuchFieldException | NoSuchMethodException e) {
-            return false;
-        }
     }
 }

@@ -9,7 +9,6 @@
 
 package cabernet1.monopoly.domain.game.player;
 
-import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
@@ -36,7 +35,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
     protected PlayerMovementStatus movementStatus;
     protected int ID;
 
-    protected int direction;
+    boolean direction;
     HashSet<Property> ownedProperty;
     private String name;
     private int money;
@@ -71,7 +70,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         this.numberOfConsecutiveDoublesRolls = 0;
         this.inJail = false;
         this.ownedProperty = new HashSet<>();
-        this.direction = 1;
+        this.direction = true;
         this.movementStatus = PlayerMovementStatus.NORMAL_MOVE;
     }
 
@@ -98,11 +97,6 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         return movementStatus;
     }
 
-    public int getDirection() {
-        return direction;
-    }
-    
-
     /**
      * Change the movement status of this player
      * used when the player plays a dice
@@ -113,6 +107,10 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
      */
     public void setMovementStatus(PlayerMovementStatus newStatus) {
         this.movementStatus = newStatus;
+    }
+
+    public boolean getDirection() {
+        return direction;
     }
 
     /**
@@ -263,13 +261,14 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
     }
 
     protected abstract void goJail();
+
     /**
      * Pay the rent causing by this player standing on a square owned by another player
      *
      * @param amountOfMoney the amount of money to add to this player money
      * @modifies this.money
      * @effects decrease the money with amount equal to the amount given,
-     *  and sell buildings and properties if the money is not enough
+     * and sell buildings and properties if the money is not enough
      */
     public void payRent(int amountOfMoney) {
         if (money >= amountOfMoney) {
@@ -340,7 +339,6 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
 
     public boolean repOK() {
         boolean res = curTile != null;
-        res &= direction == 0 || direction == 1;
         res &= ID >= 0;
         res &= movementStatus != null;
         res &= name != null && !name.equals("");
@@ -350,23 +348,38 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         return res;
     }
 
-    public int xShift(){
-        switch (ID){
-            case 0: case 1: case 2:
+    public int xShift() {
+        switch (ID) {
+            case 0:
+            case 1:
+            case 2:
                 return 0;
-            case 3: case 4: case 5:
+            case 3:
+            case 4:
+            case 5:
                 return 1;
-            case 6: case 7: case 8: default:
+            case 6:
+            case 7:
+            case 8:
+            default:
                 return -1;
         }
     }
-    public int yShift(){
-        switch (ID){
-            case 0: case 3: case 6:
+
+    public int yShift() {
+        switch (ID) {
+            case 0:
+            case 3:
+            case 6:
                 return 0;
-            case 1: case 4: case 7:
+            case 1:
+            case 4:
+            case 7:
                 return 1;
-            case 2: case 5: case 8: default:
+            case 2:
+            case 5:
+            case 8:
+            default:
                 return -1;
         }
     }

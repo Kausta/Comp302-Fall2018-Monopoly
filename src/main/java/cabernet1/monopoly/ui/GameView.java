@@ -56,11 +56,11 @@ public class GameView extends BaseView {
 
         // Board panel covers the left side of the frame.
         BoardPanel bP = BoardPanel.getInstance(boardImage);
-        JPanel insidePanel= bP.insidePanel;
-        PlayersPanel pP= PlayersPanel.getInstance();
+        JPanel insidePanel = bP.insidePanel;
+        PlayersPanel pP = PlayersPanel.getInstance();
 
-        pP.setBounds(0,0,insidePanel.getWidth(), insidePanel.getHeight());
-        insidePanel.add(pP,0);
+        pP.setBounds(0, 0, insidePanel.getWidth(), insidePanel.getHeight());
+        insidePanel.add(pP, 0);
 
         // Right panel covers the right side of the frame.
         // In addition, it contains some other panels

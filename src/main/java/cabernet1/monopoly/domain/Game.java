@@ -21,7 +21,6 @@ public class Game implements Serializable {
     private static volatile Game _instance = null;
     private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;
-    private List<InitialPlayerData> initialPlayerData;
     private List<IPlayer> player;
     private int playerPointer = 0;
 
@@ -40,7 +39,6 @@ public class Game implements Serializable {
 
     public void initialize(List<InitialPlayerData> initialPlayerData) {
         logger.i("Registering players to the game");
-        this.initialPlayerData = initialPlayerData;
         this.player = initialPlayerData.stream().map(playerData -> {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
@@ -60,7 +58,8 @@ public class Game implements Serializable {
         nc.sendCommand(new AnnounceMessageCommand(message));
         nc.sendCommand(new NextTurnCommand());
     }
-    public void nextTurn(){
+
+    public void nextTurn() {
         playerPointer = (playerPointer + 1) % player.size();
         configureTurn();
     }

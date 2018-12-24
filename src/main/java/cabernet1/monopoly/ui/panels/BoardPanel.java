@@ -1,7 +1,5 @@
 package cabernet1.monopoly.ui.panels;
 
-import javafx.scene.Parent;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -11,31 +9,32 @@ import java.io.IOException;
 
 public class BoardPanel extends BasePanel {
 
-    private static volatile BoardPanel _instance = null;
     // Height and width coefficient constants
-    private final double HEIGHT_COEFFICIENT = 8.25;
-    private final double WIDTH_COEFFICIENT = 8.25;
-    private BufferedImage board;
+    private static final double HEIGHT_COEFFICIENT = 8.25;
+    private static final double WIDTH_COEFFICIENT = 8.25;
+    private static volatile BoardPanel _instance = null;
     public JPanel insidePanel;
+    private BufferedImage board;
+
     private BoardPanel(String path) {
         setLayout(new BorderLayout());
         setBackground(new Color(212, 216, 221));
-       // setBackground(new Color(0, 216, 221));
+        // setBackground(new Color(0, 216, 221));
         // Adjusting the size of panel with the coefficients
         adjustSize(HEIGHT_COEFFICIENT, WIDTH_COEFFICIENT);
-        insidePanel=new JPanel();
+        insidePanel = new JPanel();
         insidePanel.setBackground(new Color(0, 216, 221));
         insidePanel.setLayout(null);
         insidePanel.setOpaque(false);
-        insidePanel.setBounds(0,0,this.getWidth(),this.getHeight());
+        insidePanel.setBounds(0, 0, this.getWidth(), this.getHeight());
 
-        this.add(insidePanel,BorderLayout.CENTER);
+        this.add(insidePanel, BorderLayout.CENTER);
 
         // Drawing board to screen
 
         drawBoard(path);
-       // drawBoard("D:/gitLab/302_2018_project_cabarnet1/build/resources/main/player/player_1.png",0);
-        logger.i("path isv "+path);
+        // drawBoard("D:/gitLab/302_2018_project_cabarnet1/build/resources/main/player/player_1.png",0);
+        logger.i("path isv " + path);
 
     }
 
@@ -71,7 +70,7 @@ public class BoardPanel extends BasePanel {
             insidePanel.add(boardImageLabel);
             boardImageLabel.setBounds(insidePanel.getBounds());
             boardImageLabel.setVisible(true);
-            logger.d("dimension of board are x="+insidePanel.getWidth()+" y="+insidePanel.getHeight());
+            logger.d("dimension of board are x=" + insidePanel.getWidth() + " y=" + insidePanel.getHeight());
         } catch (IOException ex) {
         }
     }

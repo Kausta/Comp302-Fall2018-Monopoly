@@ -26,9 +26,7 @@ public class GameSaverTests extends TestBase {
         GameSerializerTests tests = new GameSerializerTests();
         // Make sure the serialization runs correctly before testing this
         tests.gameSerializesCorrectly();
-        assertDoesNotThrow(() -> {
-            GameSaver.getInstance().saveToFile(TEST_SAVE_NAME);
-        });
+        assertDoesNotThrow(() -> GameSaver.getInstance().saveToFile(TEST_SAVE_NAME));
         assertTrue(Files.exists(filePath));
     }
 

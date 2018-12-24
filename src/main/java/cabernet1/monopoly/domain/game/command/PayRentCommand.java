@@ -2,7 +2,6 @@ package cabernet1.monopoly.domain.game.command;
 
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
-import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class PayRentCommand extends ICommand {

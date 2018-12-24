@@ -138,9 +138,7 @@ public class InitializationView extends BaseView {
                 .addLabel("Waiting for clients to connect")
                 .addVerticalSpace(5)
                 .addLabel("You can start the game at any point as the server")
-                .addButton("Start The Game", () -> {
-                    controller.startGame();
-                })
+                .addButton("Start The Game", () -> controller.startGame())
                 .build();
 
         addToCenter(form.getContent());

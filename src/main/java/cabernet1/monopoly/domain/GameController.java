@@ -27,14 +27,6 @@ public class GameController implements Serializable {
     public Observable<Integer> die1Observeable = new Observable<>();
     public Observable<Integer> die2Observeable = new Observable<>();
     public Observable<Integer> speedDieObserveable = new Observable<>();
-    public class movePlayerObservableInfo{
-        public Tile tile;
-        public boolean takeRailRoads;
-        public movePlayerObservableInfo(Tile tile,boolean takeRailRoads){
-            this.tile=tile;
-            this.takeRailRoads=takeRailRoads;
-        }
-    }
     public Observable<movePlayerObservableInfo> movePlayerObserveable = new Observable<>();
     public Observable<Boolean> upgradeButton = new Observable<>();
     public Observable<Boolean> buyButton = new Observable<>();
@@ -47,7 +39,6 @@ public class GameController implements Serializable {
     RegularDie die2 = NormalDiceCup.getInstance().die2;
     SpeedDie die3 = NormalDiceCup.getInstance().die3;
     private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
-
 
     public GameController() {
         logger.i("Created Game Controller");
@@ -70,19 +61,22 @@ public class GameController implements Serializable {
         }
         // showDiceValue();
     }
-    private IPlayer getPlayer(int ID){
-        List<IPlayer> players=playerList();
-        for (IPlayer player:players){
-            if (player.getID()==ID){
+
+    private IPlayer getPlayer(int ID) {
+        List<IPlayer> players = playerList();
+        for (IPlayer player : players) {
+            if (player.getID() == ID) {
                 return player;
             }
         }
         assert (false);
         return null;
     }
-    private Tile getTile(int ID){
-       return Board.getInstance().getTileById(ID);
+
+    private Tile getTile(int ID) {
+        return Board.getInstance().getTileById(ID);
     }
+
     public void chooseTile(Player player) {
         // TODO implement the chooseTile method
         // call the chooseTile method in the UI using observer
@@ -94,8 +88,8 @@ public class GameController implements Serializable {
         speedDieObserveable.setValue(die3.speedDieValue());
     }
 
-    public void movePlayer(int playerId, int newTileId,boolean takeRailRoads) {
-        movePlayerObserveable.setValue(new movePlayerObservableInfo(getTile(newTileId),takeRailRoads));//make the command send the dice cup instead and calculate on all devices
+    public void movePlayer(int playerId, int newTileId, boolean takeRailRoads) {
+        movePlayerObserveable.setValue(new movePlayerObservableInfo(getTile(newTileId), takeRailRoads));//make the command send the dice cup instead and calculate on all devices
         // make arrays of movePlayerObservable each
         getPlayer(playerId).setCurrentTile(getTile(newTileId));
     }
@@ -135,9 +129,11 @@ public class GameController implements Serializable {
     public void endTurn() {
         Game.getInstance().endTurn();
     }
-    public void nextTurn(){
+
+    public void nextTurn() {
         Game.getInstance().nextTurn();
     }
+
     public void enableUpgradeBuilding() {
         upgradeButton.setValue(true);
     }
@@ -150,12 +146,12 @@ public class GameController implements Serializable {
         Board.getInstance().buyProperty(getCurrentPlayer(), (Property) getCurrentPlayer().getCurrentTile());
         playerListObservable.setValue(playerList());
     }
-    // All the enableX methods below are set to update the observer with "true" assuming the specified buttons'
 
     //initial states are disabled.
     public void enableBuyProperty() {
         buyButton.setValue(true);
     }
+    // All the enableX methods below are set to update the observer with "true" assuming the specified buttons'
 
     public void enableSpecialAction() {
         specialButton.setValue(true);
@@ -205,7 +201,17 @@ public class GameController implements Serializable {
     }
 
     public void completeUpgradeBuilding(int propertyId) {
-        ((GroupColoredProperty)getTile(propertyId)).upgrade();
+        ((GroupColoredProperty) getTile(propertyId)).upgrade();
 
+    }
+
+    public class movePlayerObservableInfo {
+        public Tile tile;
+        public boolean takeRailRoads;
+
+        public movePlayerObservableInfo(Tile tile, boolean takeRailRoads) {
+            this.tile = tile;
+            this.takeRailRoads = takeRailRoads;
+        }
     }
 }

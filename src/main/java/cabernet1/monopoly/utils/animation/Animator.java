@@ -1,25 +1,13 @@
 package cabernet1.monopoly.utils.animation;
 
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Label;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
+import javax.swing.*;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-
 /**
- *    Purpose:	This class extends the Generic Animator of
- *		Program 7.3c to add a control panel to
- *		control the speed, and add some buttons.
+ * Purpose:	This class extends the Generic Animator of
+ * Program 7.3c to add a control panel to
+ * control the speed, and add some buttons.
  */
 
 @SuppressWarnings("serial")
@@ -31,10 +19,10 @@ public class Animator extends JPanel implements Runnable {
     private boolean animatorStopped = true, firstTime = true;
 
     /**
-     *  Constructor that creates the JFrame for the animator.  Note
-     *  the JFrame is shown in the show() method because this starts
-     *  the GUI thread.  Starting the thread in the constructor
-     *  can lead to a race condition.
+     * Constructor that creates the JFrame for the animator.  Note
+     * the JFrame is shown in the show() method because this starts
+     * the GUI thread.  Starting the thread in the constructor
+     * can lead to a race condition.
      */
     public Animator() {
         // Create the control Frame.
@@ -44,20 +32,20 @@ public class Animator extends JPanel implements Runnable {
     }
 
     /**
-     *  setVisible is called to display or hide the animator.
-     *  Note that only display = true is implemented, and this
-     *  function only works at this point if it is called once.
-     *  It is left as an exercise to implement it correctly.
-     *  If display = false, the Control Thread needs to be
-     *  suspended.  If display = true, the control thread
-     *  should be started only the first time, after that it
-     *  should be unsuspended.  This can be accomplished as
-     *  using control variables in the paint method for Program
-     *  7.4 and after, and should not be done using the suspend
-     *  and resume methods.
+     * setVisible is called to display or hide the animator.
+     * Note that only display = true is implemented, and this
+     * function only works at this point if it is called once.
+     * It is left as an exercise to implement it correctly.
+     * If display = false, the Control Thread needs to be
+     * suspended.  If display = true, the control thread
+     * should be started only the first time, after that it
+     * should be unsuspended.  This can be accomplished as
+     * using control variables in the paint method for Program
+     * 7.4 and after, and should not be done using the suspend
+     * and resume methods.
      */
     public void setVisible(boolean display) {
-        if (display == true) {
+        if (display) {
             if (firstTime) {
                 firstTime = false;
 
@@ -73,12 +61,13 @@ public class Animator extends JPanel implements Runnable {
     }
 
 
-    /** Thread that runs the animator.  This thread sleeps for some
-     *  amount of time specified by sleepTime, then calls repaint
-     *  which forces a call to the paint method, but in the GUI thread.
-     *  Note that the animatorStopped button allows the animator to
-     *  single step and pause the animation.  The notify is done in
-     *  the control frame from the button.
+    /**
+     * Thread that runs the animator.  This thread sleeps for some
+     * amount of time specified by sleepTime, then calls repaint
+     * which forces a call to the paint method, but in the GUI thread.
+     * Note that the animatorStopped button allows the animator to
+     * single step and pause the animation.  The notify is done in
+     * the control frame from the button.
      */
     public void run() {
         while (true) {
@@ -99,8 +88,8 @@ public class Animator extends JPanel implements Runnable {
     }
 
     /**
-     *  addElement adds each drawable to the vector for use by the
-     *   DrawElements method.
+     * addElement adds each drawable to the vector for use by the
+     * DrawElements method.
      */
     @SuppressWarnings("unchecked")
     public void addDrawable(Animatable d) {
@@ -108,7 +97,7 @@ public class Animator extends JPanel implements Runnable {
     }
 
     /**
-     *  removeElement is used to remove drawables from the vector.
+     * removeElement is used to remove drawables from the vector.
      */
     public void removeDrawable(Animatable d) {
         elementsToDraw.removeElement(d);

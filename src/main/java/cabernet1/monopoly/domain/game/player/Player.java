@@ -165,7 +165,7 @@ public class Player extends IPlayer implements RepresentationInvariant {
         nc.sendCommand(new AnnounceMessageCommand(message));
 
         if (nextTile != null) {
-            nc.sendCommand(new MovePlayerCommand(this.getID(), nextTile.getID(),cup.isEven() ));
+            nc.sendCommand(new MovePlayerCommand(this.getID(), nextTile.getID(), cup.isEven()));
             board.handleTile(this, nextTile);
         }
     }
@@ -251,7 +251,7 @@ public class Player extends IPlayer implements RepresentationInvariant {
         nc.sendCommand(new ChangeJailStatusCommand(this.getID(), true));
 
         Tile jailTile = board.getJailTile();
-        nc.sendCommand(new MovePlayerCommand(this.getID(), jailTile.getID(),true ));
+        nc.sendCommand(new MovePlayerCommand(this.getID(), jailTile.getID(), true));
         // TODO ask about using card to get out of jail
 
     }
@@ -272,7 +272,7 @@ public class Player extends IPlayer implements RepresentationInvariant {
         NetworkController nc = Network.getInstance().getNetworkController();
         String previousTile = curTile.getName();
         //TODO implement proper direction finder or special jump player function
-        nc.sendCommand(new MovePlayerCommand(this.getID(), newTile.getID(),true ));
+        nc.sendCommand(new MovePlayerCommand(this.getID(), newTile.getID(), true));
         String message = getName() + " has transposed immediately from " + previousTile + " to " + curTile.getName();
         nc.sendCommand(new AnnounceMessageCommand(message));
         Board.getInstance().handleTile(this, newTile);

@@ -1,8 +1,5 @@
 package cabernet1.monopoly.ui.buttons;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class BuyPropertyButton extends BaseButton {
 
     private static volatile BuyPropertyButton _instance = null;
@@ -22,11 +19,9 @@ public class BuyPropertyButton extends BaseButton {
     private void initialize() {
         controller.buyButton.addObserver(this);
 
-        addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // TODO: Add a rollDice function to GameController
-                controller.buyProperty();
-            }
+        addActionListener(e -> {
+            // TODO: Add a rollDice function to GameController
+            controller.buyProperty();
         });
     }
 

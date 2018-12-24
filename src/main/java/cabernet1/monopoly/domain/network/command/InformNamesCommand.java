@@ -28,9 +28,7 @@ public class InformNamesCommand extends ICommand {
 
     @Override
     public void execute() {
-        playerNames.forEach(name -> {
-            logger.i("Player " + name + " joined from " + clientIdentifier);
-        });
+        playerNames.forEach(name -> logger.i("Player " + name + " joined from " + clientIdentifier));
         InitializationController.getInstance().initializePlayerNamesFor(clientIdentifier, playerNames);
     }
 }
