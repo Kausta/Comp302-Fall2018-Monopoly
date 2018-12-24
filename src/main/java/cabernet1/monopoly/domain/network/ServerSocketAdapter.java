@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class ServerSocketAdapter implements INetworkAdapter {
-    private Observable<NetworkCommand> commandObservable = new Observable<>();
+    private final Observable<NetworkCommand> commandObservable = new Observable<>();
     /**
      * Thread pool for waiting connections
      */
-    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-    private ServerSocket serverSocket;
-    private ArrayList<ClientSocketAdapter> connectedClients;
+    private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+    private final ServerSocket serverSocket;
+    private final ArrayList<ClientSocketAdapter> connectedClients;
 
     public ServerSocketAdapter(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;

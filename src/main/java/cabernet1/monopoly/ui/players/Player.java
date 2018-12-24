@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends JPanel implements Animatable {
-    private final int playerSideLength = 50;
+    private static final int playerSideLength = 50;
+    private static final int shiftAmount = 20;
+    final IPlayer player;
     ComplexPath path;
-    IPlayer player;
-    int shiftAmount = 20;
     boolean firstTime;
     private volatile BufferedImage playerImage;
 

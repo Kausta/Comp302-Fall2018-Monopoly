@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class House extends Building {
 
     private static final long serialVersionUID = -1394962669198997832L;
-    private HashMap<Integer, Integer> rents;
+    private final HashMap<Integer, Integer> rents;
 
     public House(int price, int sellPrice, ArrayList<Integer> rents) {
         super(price, sellPrice, "house", "houses");
@@ -22,7 +22,8 @@ public class House extends Building {
         return rents.get(amount);
     }
 
-    public boolean repOk() {
+    @Override
+    public boolean repOK() {
         return super.repOK() && rents != null;
     }
 

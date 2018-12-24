@@ -6,7 +6,7 @@ import cabernet1.monopoly.domain.network.command.ICommand;
 
 public class PoolIncreaseCommand extends ICommand {
     private static final long serialVersionUID = -19580553237329520L;
-    int amount;
+    final int amount;
 
     public PoolIncreaseCommand(int amount) {
         this.amount = amount;

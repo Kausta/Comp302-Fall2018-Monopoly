@@ -15,9 +15,9 @@ public class NormalDiceCup implements DiceCup, RepresentationInvariant {
     private static final long serialVersionUID = 3788659624701431052L;
     private static volatile NormalDiceCup _instance = null;
 
-    public RegularDie die1 = new RegularDie();
-    public RegularDie die2 = new RegularDie();
-    public SpeedDie die3 = new SpeedDie();
+    public final RegularDie die1 = new RegularDie();
+    public final RegularDie die2 = new RegularDie();
+    public final SpeedDie die3 = new SpeedDie();
 
     /**
      * NormalDiceCup class constructor

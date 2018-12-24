@@ -28,21 +28,16 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
     // a player can be either normal player, or a bot player
     private static final Logger logger = LoggerFactory.getInstance().getLogger(IPlayer.class);
     private static final long serialVersionUID = 7190182886453386040L;
+    protected final int ID;
+    final boolean direction;
+    final HashSet<Property> ownedProperty;
+    private final String name;
+    private final boolean isActive;
+    private final int playerOrder;
     protected Tile curTile;
-
-
     protected int numberOfConsecutiveDoublesRolls;
     protected PlayerMovementStatus movementStatus;
-    protected int ID;
-
-    boolean direction;
-    HashSet<Property> ownedProperty;
-    private String name;
     private int money;
-
-
-    private boolean isActive;
-    private int playerOrder;
     private boolean inJail;
     private int numberOfSteps = 1;
 

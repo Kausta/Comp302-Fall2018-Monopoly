@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ComplexPath implements Path {
-    ArrayList<StraightLinePath> path;
+    private ArrayList<StraightLinePath> path;
     private int numSteps = 10;
     private int curPathIdx;
 
@@ -35,7 +35,6 @@ public class ComplexPath implements Path {
      * the current position.
      */
     public Point nextPosition() {
-        StraightLinePath curPath = path.get(curPathIdx);
         if (!path.get(curPathIdx).hasMoreSteps() && curPathIdx + 1 < path.size())
             ++curPathIdx;
         return path.get(curPathIdx).nextPosition();

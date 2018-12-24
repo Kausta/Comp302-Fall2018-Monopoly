@@ -9,9 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class BaseTabbedPane extends JTabbedPane {
-    public Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
-    public GameController controller = Game.getInstance().getGameController();
-    private Dimension size = new Dimension();
+    public final Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
+    public final GameController controller = Game.getInstance().getGameController();
+    private final Dimension size = new Dimension();
     private int height;
     private int width;
     private double heightPiece;

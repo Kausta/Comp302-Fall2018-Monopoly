@@ -8,7 +8,7 @@ import java.awt.*;
  * next position that would occur along the path.  It is
  * first used in Program 7.1, but is used in all the
  * animation examples, and is an essential part to the
- * final aniamtor.
+ * final animator.
  * <p>
  * Note that in this case it is a simple straight line,
  * but the path could be a spline curve, or Bessel
@@ -16,9 +16,14 @@ import java.awt.*;
  */
 
 public class StraightLinePath implements Path {
-    int startX, startY, endX, endY, steps;
-    int currentStep = -1;      // This makes the first step 0
-    double deltaX, deltaY;
+    private final int startX;
+    private final int startY;
+    private final int endX;
+    private final int endY;
+    private final int steps;
+    private final double deltaX;
+    private final double deltaY;
+    private int currentStep = -1;      // This makes the first step 0
 
     /**
      * Constructor Stores the points, and builds the information

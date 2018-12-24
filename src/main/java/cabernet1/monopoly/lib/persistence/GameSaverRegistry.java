@@ -40,9 +40,6 @@ public class GameSaverRegistry implements RepresentationInvariant {
     private static boolean isSingleton(Class<?> clazz) {
         try {
             final Field instanceField = clazz.getDeclaredField(INSTANCE_VAR_NAME);
-            if (instanceField == null) {
-                return false;
-            }
             if (!Modifier.isStatic(instanceField.getModifiers())) {
                 return false;
             }

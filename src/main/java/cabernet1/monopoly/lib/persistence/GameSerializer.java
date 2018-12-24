@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class GameSerializer {
     private static GameSerializer _instance = null;
 
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     private GameSerializer() {
     }

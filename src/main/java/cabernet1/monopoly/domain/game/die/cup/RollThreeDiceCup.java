@@ -8,9 +8,9 @@ import cabernet1.monopoly.lib.persistence.Saveable;
 public class RollThreeDiceCup implements DiceCup {
     private static final long serialVersionUID = 4625366609730977059L;
     private static volatile RollThreeDiceCup _instance = null;
-    private RegularDie die1;
-    private RegularDie die2;
-    private RegularDie die3;
+    private final RegularDie die1;
+    private final RegularDie die2;
+    private final RegularDie die3;
 
     private RollThreeDiceCup() {
         die1 = new RegularDie();

@@ -1,6 +1,5 @@
 package cabernet1.monopoly.utils.animation;
 
-import javax.swing.*;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -9,12 +8,8 @@ import java.util.Vector;
  * Program 7.3c to add a control panel to
  * control the speed, and add some buttons.
  */
-
-@SuppressWarnings("serial")
-public class Animator extends JPanel implements Runnable {
-
-    @SuppressWarnings("rawtypes")
-    private Vector elementsToDraw = new Vector();
+public class Animator implements Runnable {
+    private Vector<Animatable> elementsToDraw = new Vector<>();
     private long sleepTime = 20;
     private boolean animatorStopped = true, firstTime = true;
 
@@ -25,10 +20,6 @@ public class Animator extends JPanel implements Runnable {
      * can lead to a race condition.
      */
     public Animator() {
-        // Create the control Frame.
-
-        // set up the frame to draw in.
-
     }
 
     /**
@@ -48,11 +39,6 @@ public class Animator extends JPanel implements Runnable {
         if (display) {
             if (firstTime) {
                 firstTime = false;
-
-                // Show the control Frame
-
-                // Show the animator.  This starts the GUI thread.
-
                 // Put the animator in another thread so that the
                 // calling object can continue.
                 (new Thread(this)).start();
@@ -74,24 +60,22 @@ public class Animator extends JPanel implements Runnable {
             try {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
-                System.out.println("Program Interrupted");
-                System.exit(0);
+                System.out.println("Thread Interrupted");
             }
             animate();
         }
     }
 
     public void animate() {
-        Enumeration e = elementsToDraw.elements();
+        Enumeration<Animatable> e = elementsToDraw.elements();
         while (e.hasMoreElements())
-            ((Animatable) e.nextElement()).animate();
+            e.nextElement().animate();
     }
 
     /**
      * addElement adds each drawable to the vector for use by the
      * DrawElements method.
      */
-    @SuppressWarnings("unchecked")
     public void addDrawable(Animatable d) {
         elementsToDraw.addElement(d);
     }
