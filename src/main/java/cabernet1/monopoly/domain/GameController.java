@@ -14,6 +14,7 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.PauseCommand;
+import cabernet1.monopoly.domain.network.command.ResumeCommand;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
@@ -237,5 +238,13 @@ public class GameController implements Serializable {
      */
     public void pauseGame() {
         Network.getInstance().getNetworkController().sendCommand(new PauseCommand());
+    }
+
+    /**
+     * Resumes the game via ResumeCommand.
+     * Enables all UI elements which is disabled when the game is paused.
+     */
+    public void resumeGame() {
+        Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
     }
 }
