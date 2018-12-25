@@ -13,6 +13,7 @@ import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.domain.network.command.PauseCommand;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
@@ -34,6 +35,8 @@ public class GameController implements Serializable {
     public final Observable<Boolean> specialButton = new Observable<>();
     public final Observable<Boolean> endButton = new Observable<>();
     public final Observable<Boolean> rollButton = new Observable<>();
+    public final Observable<Boolean> resumeButton = new Observable<>();
+    public final Observable<Boolean> pauseButton = new Observable<>();
     public final Observable<Player> playerObserver = new Observable<>();
     public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
     private final RegularDie die1 = NormalDiceCup.getInstance().die1;
@@ -212,5 +215,13 @@ public class GameController implements Serializable {
             this.tile = tile;
             this.takeRailRoads = takeRailRoads;
         }
+    }
+
+    /**
+     * Pauses the game via PauseCommand.
+     * Restricts all user interactions on UI.
+     */
+    public void pauseGame() {
+        Network.getInstance().getNetworkController().sendCommand(new PauseCommand());
     }
 }

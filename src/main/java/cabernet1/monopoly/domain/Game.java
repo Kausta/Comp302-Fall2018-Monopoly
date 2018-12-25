@@ -24,6 +24,7 @@ public class Game implements Serializable {
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;
     private ArrayList<IPlayer> player;
+    private List<String> playersOnDevice;
     private int playerPointer = 0;
 
     private Game() {
@@ -45,6 +46,14 @@ public class Game implements Serializable {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
         }).collect(toCollection(ArrayList::new));
+    }
+
+    public List<String> getPlayersOnDevice() {
+        return this.playersOnDevice;
+    }
+
+    public void setPlayersOnDevice(List<String> playersOnDevice) {
+        this.playersOnDevice = playersOnDevice;
     }
 
     public synchronized GameController getGameController() {
