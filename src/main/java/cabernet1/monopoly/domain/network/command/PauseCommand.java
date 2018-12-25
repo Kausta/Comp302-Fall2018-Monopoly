@@ -3,7 +3,9 @@ package cabernet1.monopoly.domain.network.command;
 import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.utils.Observable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PauseCommand extends ICommand {
@@ -23,6 +25,15 @@ public class PauseCommand extends ICommand {
     }
     else {
       gc.resumeButton.setValue(false);
+    }
+    if(gc.disabledUIElementList.isEmpty()) {
+      gc.disabledUIElementList.clear();
+    }
+    for(Observable<Boolean> o: gc.interactableUIElementList) {
+      if(o.getValue()) {
+        o.setValue(false);
+        gc.disabledUIElementList.add(o);
+      }
     }
   }
 }

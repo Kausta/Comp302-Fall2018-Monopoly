@@ -25,6 +25,8 @@ import java.util.List;
 public class GameController implements Serializable {
     private static final long serialVersionUID = 8999488415439250201L;
     // To add announcements to UI
+    public ArrayList<Observable<Boolean>> interactableUIElementList = new ArrayList<>();
+    public ArrayList<Observable<Boolean>> disabledUIElementList = new ArrayList<>();
     public final Observable<String> announcement = new Observable<>();
     public final Observable<Integer> die1Observable = new Observable<>();
     public final Observable<Integer> die2Observable = new Observable<>();
@@ -45,6 +47,7 @@ public class GameController implements Serializable {
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     public GameController() {
+        initializeInteractableUIElementList();
         logger.i("Created Game Controller");
     }
 
@@ -204,6 +207,17 @@ public class GameController implements Serializable {
 
     public void completeUpgradeBuilding(int propertyId) {
         ((GroupColoredProperty) getTile(propertyId)).upgrade();
+    }
+
+    private void initializeInteractableUIElementList() {
+        interactableUIElementList.add(upgradeButton);
+        interactableUIElementList.add(buyButton);
+        interactableUIElementList.add(specialButton);
+        interactableUIElementList.add(endButton);
+        interactableUIElementList.add(rollButton);
+        for(Observable<Boolean> o: interactableUIElementList) {
+            o.setValue(false);
+        }
     }
 
     public static class MovePlayerObservableInfo implements Serializable {
