@@ -23,7 +23,9 @@ public class Game implements Serializable {
     private static volatile Game _instance = null;
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;
-    private ArrayList<IPlayer> player;
+    private List<InitialPlayerData> initialPlayerData;
+    private String nextPossibleServer; // TODO: choose the next serverinfo from initialPlayerData
+    private List<IPlayer> player;
     private List<String> playersOnDevice;
     private int playerPointer = 0;
 
@@ -83,7 +85,7 @@ public class Game implements Serializable {
         return (Player) player.get(playerPointer);
     }
 
-    public ArrayList<IPlayer> getPlayers() {
+    public List<IPlayer> getPlayers() {
         return this.player;
     }
 

@@ -198,7 +198,7 @@ public class GameController implements Serializable {
         playerObserver.setValue(player);
     }
 
-    public ArrayList<IPlayer> playerList() {
+    public List<IPlayer> playerList() {
         return Game.getInstance().getPlayers();
     }
 
