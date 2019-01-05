@@ -13,6 +13,7 @@ import cabernet1.monopoly.logging.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.stream.Collectors.toCollection;
@@ -24,7 +25,7 @@ public class Game implements Serializable {
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;
     private List<InitialPlayerData> initialPlayerData;
-    private String nextPossibleServer; // TODO: choose the next serverinfo from initialPlayerData
+    private String nextPossibleServer;
     private List<IPlayer> player;
     private List<String> playersOnDevice;
     private int playerPointer = 0;
@@ -43,15 +44,38 @@ public class Game implements Serializable {
     }
 
     public void initialize(List<InitialPlayerData> initialPlayerData) {
+        this.initialPlayerData = initialPlayerData;
         logger.i("Registering players to the game");
         this.player = initialPlayerData.stream().map(playerData -> {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
         }).collect(toCollection(ArrayList::new));
+        setNextServer();
+    }
+
+    public void makeSelfIneligibleForServer(String identifier){
+        for(InitialPlayerData i : initialPlayerData){
+            if(i.getOrigin().equals(identifier)){
+                i.setEligibleForServer(false);
+            }
+        }
+    }
+
+    public void setNextServer(){
+        Collections.sort(initialPlayerData);
+        for(InitialPlayerData i : initialPlayerData){
+            if(i.getEligibleForServer()){
+                nextPossibleServer = i.getOrigin();
+            }
+        }
     }
 
     public List<String> getPlayersOnDevice() {
         return this.playersOnDevice;
+    }
+
+    public String getNextPossibleServer(){
+        return this.nextPossibleServer;
     }
 
     public void setPlayersOnDevice(List<String> playersOnDevice) {
