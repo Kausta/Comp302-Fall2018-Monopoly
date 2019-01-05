@@ -26,7 +26,7 @@ public class Game implements Serializable {
     private GameController controller;
     private List<InitialPlayerData> initialPlayerData;
     private String nextPossibleServer;
-    private List<IPlayer> player;
+    private ArrayList<IPlayer> player;
     private List<String> playersOnDevice;
     private int playerPointer = 0;
 
@@ -109,7 +109,7 @@ public class Game implements Serializable {
         return (Player) player.get(playerPointer);
     }
 
-    public List<IPlayer> getPlayers() {
+    public ArrayList<IPlayer> getPlayers() {
         return this.player;
     }
 
