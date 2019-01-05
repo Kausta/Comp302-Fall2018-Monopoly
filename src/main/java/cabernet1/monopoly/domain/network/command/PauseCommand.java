@@ -26,13 +26,13 @@ public class PauseCommand extends ICommand {
     else {
       gc.resumeButton.setValue(false);
     }
-    if(gc.disabledUIElementList.isEmpty()) {
-      gc.disabledUIElementList.clear();
+    if(gc.disabledObservableList.isEmpty()) {
+      gc.disabledObservableList.clear();
     }
-    for(Observable<Boolean> o: gc.interactableUIElementList) {
+    for(Observable<Boolean> o: gc.interactableObservableList) {
       if(o.getValue()) {
         o.setValue(false);
-        gc.disabledUIElementList.add(o);
+        gc.disabledObservableList.add(o);
       }
     }
   }
