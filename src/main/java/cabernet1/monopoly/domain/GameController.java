@@ -13,6 +13,8 @@ import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.domain.network.command.PauseCommand;
+import cabernet1.monopoly.domain.network.command.ResumeCommand;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
@@ -24,6 +26,8 @@ import java.util.List;
 public class GameController implements Serializable {
     private static final long serialVersionUID = 8999488415439250201L;
     // To add announcements to UI
+    public ArrayList<Observable<Boolean>> interactableUIElementList = new ArrayList<>();
+    public ArrayList<Observable<Boolean>> disabledUIElementList = new ArrayList<>();
     public final Observable<String> announcement = new Observable<>();
     public final Observable<Integer> die1Observable = new Observable<>();
     public final Observable<Integer> die2Observable = new Observable<>();
@@ -34,6 +38,8 @@ public class GameController implements Serializable {
     public final Observable<Boolean> specialButton = new Observable<>();
     public final Observable<Boolean> endButton = new Observable<>();
     public final Observable<Boolean> rollButton = new Observable<>();
+    public final Observable<Boolean> resumeButton = new Observable<>();
+    public final Observable<Boolean> pauseButton = new Observable<>();
     public final Observable<Player> playerObserver = new Observable<>();
     public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
     private final RegularDie die1 = NormalDiceCup.getInstance().die1;
@@ -42,6 +48,7 @@ public class GameController implements Serializable {
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     public GameController() {
+        initializeInteractableUIElementList();
         logger.i("Created Game Controller");
     }
 
@@ -203,6 +210,17 @@ public class GameController implements Serializable {
         ((GroupColoredProperty) getTile(propertyId)).upgrade();
     }
 
+    private void initializeInteractableUIElementList() {
+        interactableUIElementList.add(upgradeButton);
+        interactableUIElementList.add(buyButton);
+        interactableUIElementList.add(specialButton);
+        interactableUIElementList.add(endButton);
+        interactableUIElementList.add(rollButton);
+        for(Observable<Boolean> o: interactableUIElementList) {
+            o.setValue(false);
+        }
+    }
+
     public static class MovePlayerObservableInfo implements Serializable {
         private static final long serialVersionUID = 1495053868551960438L;
         public Tile tile;
@@ -212,5 +230,21 @@ public class GameController implements Serializable {
             this.tile = tile;
             this.takeRailRoads = takeRailRoads;
         }
+    }
+
+    /**
+     * Pauses the game via PauseCommand.
+     * Restricts all user interactions on UI.
+     */
+    public void pauseGame() {
+        Network.getInstance().getNetworkController().sendCommand(new PauseCommand());
+    }
+
+    /**
+     * Resumes the game via ResumeCommand.
+     * Enables all UI elements which is disabled when the game is paused.
+     */
+    public void resumeGame() {
+        Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
     }
 }
