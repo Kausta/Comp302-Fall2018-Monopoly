@@ -53,7 +53,7 @@ public class InitializationController {
 
     public void initializePlayerNames(List<String> playerNames) {
         this.playerNames = playerNames;
-
+        Game.getInstance().setPlayersOnDevice(this.playerNames); // Setting the player list on this device on Game
         Network network = Network.getInstance();
         String identifier = network.getIdentifier();
         InformNamesCommand command = new InformNamesCommand(

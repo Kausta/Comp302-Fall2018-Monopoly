@@ -4,7 +4,8 @@ package cabernet1.monopoly.domain.network.command;
  * Represents a command being sent in the network
  */
 public class NetworkCommand extends ICommand {
-    private ICommand innerCommand;
+    private static final long serialVersionUID = -5425404217326223597L;
+    private final ICommand innerCommand;
 
     public NetworkCommand(ICommand innerCommand) {
         this.innerCommand = innerCommand;

@@ -13,12 +13,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * Controller for handling sending and receiving commands
  */
 public class NetworkController implements Observer<NetworkCommand> {
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     /**
      * Thread pool for executing network related commands in another thread
      */
-    private ScheduledThreadPoolExecutor threadPool = new ScheduledThreadPoolExecutor(1);
-    private INetworkAdapter adapter;
+    private final ScheduledThreadPoolExecutor threadPool = new ScheduledThreadPoolExecutor(1);
+    private final INetworkAdapter adapter;
 
     public NetworkController(INetworkAdapter adapter) {
         logger.i("Created Network Controller");

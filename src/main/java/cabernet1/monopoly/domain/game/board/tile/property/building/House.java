@@ -5,11 +5,12 @@ import java.util.HashMap;
 
 public class House extends Building {
 
-    private HashMap<Integer, Integer> rents;
+    private static final long serialVersionUID = -1394962669198997832L;
+    private final HashMap<Integer, Integer> rents;
 
     public House(int price, int sellPrice, ArrayList<Integer> rents) {
         super(price, sellPrice, "house", "houses");
-        this.rents = new HashMap<Integer, Integer>();
+        this.rents = new HashMap<>();
         for (int i = 0; i < 5; i++) {
             this.rents.put(i, rents.get(i));
         }
@@ -21,7 +22,8 @@ public class House extends Building {
         return rents.get(amount);
     }
 
-    public boolean repOk() {
+    @Override
+    public boolean repOK() {
         return super.repOK() && rents != null;
     }
 

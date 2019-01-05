@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class Application implements Runnable {
     private static volatile Application _instance = null;
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     private Application() {
         logger.i("Created new Monopoly Instance");

@@ -15,6 +15,7 @@ import cabernet1.monopoly.ui.panels.ActionPanel;
 import cabernet1.monopoly.ui.panels.BoardPanel;
 import cabernet1.monopoly.ui.panels.MouseOverPanel;
 import cabernet1.monopoly.ui.panels.RightPanel;
+import cabernet1.monopoly.ui.players.PlayersPanel;
 import cabernet1.monopoly.ui.scrollpanes.LogScrollPane;
 import cabernet1.monopoly.ui.tabbedpanes.DetailsTabbedPane;
 import cabernet1.monopoly.utils.ResourceManager;
@@ -24,7 +25,7 @@ import java.awt.*;
 
 public class GameView extends BaseView {
     private static volatile GameView _instance = null;
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
     private GameController controller;
     private JPanel root;
 
@@ -55,6 +56,11 @@ public class GameView extends BaseView {
 
         // Board panel covers the left side of the frame.
         BoardPanel bP = BoardPanel.getInstance(boardImage);
+        JPanel insidePanel = bP.insidePanel;
+        PlayersPanel pP = PlayersPanel.getInstance();
+
+        pP.setBounds(0, 0, insidePanel.getWidth(), insidePanel.getHeight());
+        insidePanel.add(pP, 0);
 
         // Right panel covers the right side of the frame.
         // In addition, it contains some other panels
@@ -66,6 +72,7 @@ public class GameView extends BaseView {
 
         // Adding BoardPanel and RightPanel to our one big panel -which acts as frame in our case-.
         this.root.add(bP, BorderLayout.WEST);
+
         this.root.add(rP, BorderLayout.EAST);
 
         logger.d("Loading board from " + boardImage);

@@ -9,6 +9,8 @@ import cabernet1.monopoly.domain.game.player.IPlayer;
 
 public class HolidayBonus extends ChanceCard implements IimmediateAction {
 
+    private static final long serialVersionUID = -2856669947155490126L;
+
     public HolidayBonus() {
         super("Holiday Bonus");
     }
@@ -16,7 +18,7 @@ public class HolidayBonus extends ChanceCard implements IimmediateAction {
     @Override
     public void action(IPlayer player) {
         NetworkController nc = Network.getInstance().getNetworkController();
-        nc.sendCommand(new GainMoneyCommand(player, 100));
+        nc.sendCommand(new GainMoneyCommand(player.getID(), 100));
         String message = player.getName() + " has gain 100 as a holiday bonus";
         nc.sendCommand(new AnnounceMessageCommand(message));
 

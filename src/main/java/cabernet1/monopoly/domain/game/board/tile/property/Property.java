@@ -6,11 +6,12 @@ import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
 public abstract class Property extends Tile implements RepresentationInvariant {
-    private int price;
+    private static final long serialVersionUID = -8930335527754939743L;
+    private final int price;
     private Player owner;
 
-    public Property(String name, TileType tileType, int price) {
-        super(name, tileType);
+    public Property(String name, TileType tileType, int price, int x, int y) {
+        super(name, tileType, x, y);
         this.price = price;
         owner = null;
     }

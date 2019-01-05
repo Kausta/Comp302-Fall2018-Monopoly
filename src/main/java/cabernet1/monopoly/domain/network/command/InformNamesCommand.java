@@ -8,6 +8,7 @@ import java.util.List;
 
 public class InformNamesCommand extends ICommand {
     private final static Logger logger = LoggerFactory.getInstance().getLogger(InformNamesCommand.class);
+    private static final long serialVersionUID = 9197415461653787882L;
 
     private final String clientIdentifier;
     private final List<String> playerNames;
@@ -27,9 +28,7 @@ public class InformNamesCommand extends ICommand {
 
     @Override
     public void execute() {
-        playerNames.forEach(name -> {
-            logger.i("Player " + name + " joined from " + clientIdentifier);
-        });
+        playerNames.forEach(name -> logger.i("Player " + name + " joined from " + clientIdentifier));
         InitializationController.getInstance().initializePlayerNamesFor(clientIdentifier, playerNames);
     }
 }
