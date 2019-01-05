@@ -1,0 +1,40 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+group = "cabernet1"
+version = "1.0.0"
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Required for json api of java ee
+    implementation 'javax.json:javax.json-api:1.1'
+    // Required for json api of java ee
+    runtimeOnly 'org.glassfish:javax.json:1.1'
+    // Required for tests
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
+application {
+    mainClassName = 'cabernet1.monopoly.Application'
+}
+
+test {
+    useJUnitPlatform()
+
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+}
