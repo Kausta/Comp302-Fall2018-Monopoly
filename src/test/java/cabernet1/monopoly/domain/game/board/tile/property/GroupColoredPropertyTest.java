@@ -13,7 +13,7 @@ public class GroupColoredPropertyTest extends TestBase {
 
     @BeforeEach
     public void setUp() {
-        p = new MediterraneanAvenue();
+        p = new MediterraneanAvenue(1, 1);
     }
 
     @Test

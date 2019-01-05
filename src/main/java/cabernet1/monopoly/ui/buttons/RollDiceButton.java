@@ -1,8 +1,5 @@
 package cabernet1.monopoly.ui.buttons;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class RollDiceButton extends BaseButton {
 
     private static volatile RollDiceButton _instance = null;
@@ -22,12 +19,11 @@ public class RollDiceButton extends BaseButton {
     private void initialize() {
         controller.rollButton.addObserver(this);
 
-        addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // TODO: Add a rollDice function to GameController
-                controller.rollDice();
-                logger.d("Roll Dice button is clicked");
-            }
+        addActionListener(e -> {
+            // TODO: Add a rollDice function to GameController
+            controller.rollDice();
+            logger.d("Roll Dice button is clicked");
+            controller.pauseGame();
         });
     }
 

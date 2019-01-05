@@ -10,10 +10,10 @@ import java.awt.*;
 
 public class ActionPanel extends BasePanel {
 
-    private static volatile ActionPanel _instance = null;
     // Height and width coefficient constants
-    private final double HEIGHT_COEFFICIENT = 1.45;
-    private final double WIDTH_COEFFICIENT = 7.5;
+    private static final double HEIGHT_COEFFICIENT = 1.45;
+    private static final double WIDTH_COEFFICIENT = 7.5;
+    private static volatile ActionPanel _instance = null;
 
     private ActionPanel() {
         setBackground(new Color(237, 240, 244));
@@ -40,15 +40,15 @@ public class ActionPanel extends BasePanel {
 
         /*
         RegularDieImage die1 = new RegularDieImage();
-        die1.startObserving(controller.die1Observeable);
+        die1.startObserving(controller.die1Observable);
         add(die1);
 
         RegularDieImage die2 = new RegularDieImage();
-        die2.startObserving(controller.die2Observeable);
+        die2.startObserving(controller.die2Observable);
         add(die2);
 
         SpeedDieImage die3 = new SpeedDieImage();
-        die3.startObserving(controller.speedDieObserveable);
+        die3.startObserving(controller.speedDieObservable);
         add(die3);
         */
     }

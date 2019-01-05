@@ -9,7 +9,6 @@
 
 package cabernet1.monopoly.domain.game.player;
 
-import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
@@ -17,30 +16,28 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * This class represents the player in monopoly, which can be either normal
  * player or bot
  */
-public abstract class IPlayer implements RepresentationInvariant {
+public abstract class IPlayer implements RepresentationInvariant, Serializable {
     //OVERVIEW: IPLayer is the abstract player of the monopoly game
     // a player can be either normal player, or a bot player
     private static final Logger logger = LoggerFactory.getInstance().getLogger(IPlayer.class);
+    private static final long serialVersionUID = 7190182886453386040L;
+    protected final int ID;
+    final boolean direction;
+    final HashSet<Property> ownedProperty;
+    private final String name;
+    private final boolean isActive;
+    private final int playerOrder;
     protected Tile curTile;
-
-
     protected int numberOfConsecutiveDoublesRolls;
     protected PlayerMovementStatus movementStatus;
-    protected int ID;
-    protected int direction;
-    HashSet<Property> ownedProperty;
-    private String name;
     private int money;
-
-
-    private boolean isActive;
-    private int playerOrder;
     private boolean inJail;
     private int numberOfSteps = 1;
 
@@ -68,7 +65,7 @@ public abstract class IPlayer implements RepresentationInvariant {
         this.numberOfConsecutiveDoublesRolls = 0;
         this.inJail = false;
         this.ownedProperty = new HashSet<>();
-        this.direction = 1;
+        this.direction = true;
         this.movementStatus = PlayerMovementStatus.NORMAL_MOVE;
     }
 
@@ -105,6 +102,10 @@ public abstract class IPlayer implements RepresentationInvariant {
      */
     public void setMovementStatus(PlayerMovementStatus newStatus) {
         this.movementStatus = newStatus;
+    }
+
+    public boolean getDirection() {
+        return direction;
     }
 
     /**
@@ -255,13 +256,14 @@ public abstract class IPlayer implements RepresentationInvariant {
     }
 
     protected abstract void goJail();
+
     /**
      * Pay the rent causing by this player standing on a square owned by another player
      *
      * @param amountOfMoney the amount of money to add to this player money
      * @modifies this.money
      * @effects decrease the money with amount equal to the amount given,
-     *  and sell buildings and properties if the money is not enough
+     * and sell buildings and properties if the money is not enough
      */
     public void payRent(int amountOfMoney) {
         if (money >= amountOfMoney) {
@@ -331,9 +333,7 @@ public abstract class IPlayer implements RepresentationInvariant {
     }
 
     public boolean repOK() {
-        boolean res = true;
-        res &= curTile != null;
-        res &= direction == 0 || direction == 1;
+        boolean res = curTile != null;
         res &= ID >= 0;
         res &= movementStatus != null;
         res &= name != null && !name.equals("");
@@ -343,4 +343,39 @@ public abstract class IPlayer implements RepresentationInvariant {
         return res;
     }
 
+    public int xShift() {
+        switch (ID) {
+            case 0:
+            case 1:
+            case 2:
+                return 0;
+            case 3:
+            case 4:
+            case 5:
+                return 1;
+            case 6:
+            case 7:
+            case 8:
+            default:
+                return -1;
+        }
+    }
+
+    public int yShift() {
+        switch (ID) {
+            case 0:
+            case 3:
+            case 6:
+                return 0;
+            case 1:
+            case 4:
+            case 7:
+                return 1;
+            case 2:
+            case 5:
+            case 8:
+            default:
+                return -1;
+        }
+    }
 }

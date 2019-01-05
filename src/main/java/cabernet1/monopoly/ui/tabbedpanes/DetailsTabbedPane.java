@@ -5,10 +5,10 @@ import cabernet1.monopoly.ui.tabbedpanes.tabs.PropertiesTab;
 
 public class DetailsTabbedPane extends BaseTabbedPane {
 
-    private static volatile DetailsTabbedPane _instance = null;
     // Height and width coefficient constants
-    private final double HEIGHT_COEFFICIENT = 3;
-    private final double WIDTH_COEFFICIENT = 7.5;
+    private static final double HEIGHT_COEFFICIENT = 3;
+    private static final double WIDTH_COEFFICIENT = 7.5;
+    private static volatile DetailsTabbedPane _instance = null;
 
     private DetailsTabbedPane() {
 

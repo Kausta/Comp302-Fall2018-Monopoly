@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ServerSocket extends BaseSocket {
-    private int port;
+    private final int port;
     private java.net.ServerSocket socket;
 
     public ServerSocket(int port) {

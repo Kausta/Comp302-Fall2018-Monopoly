@@ -1,7 +1,8 @@
 package cabernet1.monopoly.domain.game.board.tile.property.building;
 
 public class Hotel extends Building {
-    private int rent;
+    private static final long serialVersionUID = 5154645883176335341L;
+    private final int rent;
 
     public Hotel(int price, int sellPrice, int rent) {
         super(price, sellPrice, "hotel", "hotels");
@@ -14,7 +15,8 @@ public class Hotel extends Building {
         return rent;
     }
 
-    public boolean repOk() {
+    @Override
+    public boolean repOK() {
         return super.repOK() && rent > 0;
     }
 }

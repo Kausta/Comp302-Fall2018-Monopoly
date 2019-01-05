@@ -10,19 +10,20 @@ import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
 import java.util.ArrayList;
 
 public class GroupColoredProperty extends Property {
-    private ColorGroup color;
+    private static final long serialVersionUID = 1582062981898061771L;
+    private final ColorGroup color;
 
-    private int mortgageValue;
-    private House house;
-    private Hotel hotel;
-    private Skyscraper skyscraper;
+    private final int mortgageValue;
+    private final House house;
+    private final Hotel hotel;
+    private final Skyscraper skyscraper;
 
 
-    public GroupColoredProperty(String name, int price, int mortgageValue, ColorGroup color,
+    public GroupColoredProperty(String name, int price, int x, int y, int mortgageValue, ColorGroup color,
                                 int housePrice, int houseSellPrice, ArrayList<Integer> houseRents,
                                 int hotelPrice, int hotelSellPrice, int hotelRent,
                                 int skyscraperPrice, int skyscraperSellPrice, int skyscraperRent) {
-        super(name, TileType.ColoredGroupProperty, price);
+        super(name, TileType.ColoredGroupProperty, price, x, y);
         this.mortgageValue = mortgageValue;
         this.color = color;
         house = new House(housePrice, houseSellPrice, houseRents);

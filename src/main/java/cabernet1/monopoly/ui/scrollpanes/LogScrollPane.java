@@ -7,12 +7,11 @@ import java.awt.*;
 
 public class LogScrollPane extends BaseScrollPane implements Observer<String> {
 
-    private static volatile LogScrollPane _instance = null;
     // Height and width coefficient constants
-    private final double HEIGHT_COEFFICIENT = 1.6;
-    private final double WIDTH_COEFFICIENT = 7.5;
-
-    private JTextArea display = new JTextArea();
+    private static final double HEIGHT_COEFFICIENT = 1.6;
+    private static final double WIDTH_COEFFICIENT = 7.5;
+    private static volatile LogScrollPane _instance = null;
+    private final JTextArea display = new JTextArea();
 
     private LogScrollPane() {
         initialize();

@@ -9,12 +9,12 @@ import cabernet1.monopoly.utils.Observer;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.List;
+import java.util.ArrayList;
 
-public class PlayersTab extends JScrollPane implements Observer<List<IPlayer>> {
+public class PlayersTab extends JScrollPane implements Observer<ArrayList<IPlayer>> {
     private static volatile PlayersTab _instance = null;
-    public Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
-    public GameController controller = Game.getInstance().getGameController();
+    public final Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
+    public final GameController controller = Game.getInstance().getGameController();
     private JTable playerTable;
 
     private PlayersTab() {
@@ -60,7 +60,7 @@ public class PlayersTab extends JScrollPane implements Observer<List<IPlayer>> {
     }
 
     @Override
-    public void onValueChanged(List<IPlayer> playerList) {
+    public void onValueChanged(ArrayList<IPlayer> playerList) {
         logger.d("Value changed");
         DefaultTableModel model = (DefaultTableModel) playerTable.getModel();
         int rowCount = model.getRowCount();

@@ -13,33 +13,42 @@ import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.domain.network.command.PauseCommand;
+import cabernet1.monopoly.domain.network.command.ResumeCommand;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class GameController {
+public class GameController implements Serializable {
+    private static final long serialVersionUID = 8999488415439250201L;
     // To add announcements to UI
-    public Observable<String> announcement = new Observable<>();
-    public Observable<Integer> die1Observeable = new Observable<>();
-    public Observable<Integer> die2Observeable = new Observable<>();
-    public Observable<Integer> speedDieObserveable = new Observable<>();
-    public Observable<Tile> movePlayerObserveable = new Observable<>();
-    public Observable<Boolean> upgradeButton = new Observable<>();
-    public Observable<Boolean> buyButton = new Observable<>();
-    public Observable<Boolean> specialButton = new Observable<>();
-    public Observable<Boolean> endButton = new Observable<>();
-    public Observable<Boolean> rollButton = new Observable<>();
-    public Observable<Player> playerObserver = new Observable<>();
-    public Observable<List<IPlayer>> playerListObservable = new Observable<>();
-    RegularDie die1 = NormalDiceCup.getInstance().die1;
-    RegularDie die2 = NormalDiceCup.getInstance().die2;
-    SpeedDie die3 = NormalDiceCup.getInstance().die3;
-    private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
-
+    public ArrayList<Observable<Boolean>> interactableUIElementList = new ArrayList<>();
+    public ArrayList<Observable<Boolean>> disabledUIElementList = new ArrayList<>();
+    public final Observable<String> announcement = new Observable<>();
+    public final Observable<Integer> die1Observable = new Observable<>();
+    public final Observable<Integer> die2Observable = new Observable<>();
+    public final Observable<Integer> speedDieObservable = new Observable<>();
+    public final Observable<MovePlayerObservableInfo> movePlayerObservable = new Observable<>();
+    public final Observable<Boolean> upgradeButton = new Observable<>();
+    public final Observable<Boolean> buyButton = new Observable<>();
+    public final Observable<Boolean> specialButton = new Observable<>();
+    public final Observable<Boolean> endButton = new Observable<>();
+    public final Observable<Boolean> rollButton = new Observable<>();
+    public final Observable<Boolean> resumeButton = new Observable<>();
+    public final Observable<Boolean> pauseButton = new Observable<>();
+    public final Observable<Player> playerObserver = new Observable<>();
+    public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
+    private final RegularDie die1 = NormalDiceCup.getInstance().die1;
+    private final RegularDie die2 = NormalDiceCup.getInstance().die2;
+    private final SpeedDie die3 = NormalDiceCup.getInstance().die3;
+    private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     public GameController() {
+        initializeInteractableUIElementList();
         logger.i("Created Game Controller");
     }
 
@@ -61,20 +70,35 @@ public class GameController {
         // showDiceValue();
     }
 
+    private IPlayer getPlayer(int ID) {
+        List<IPlayer> players = playerList();
+        for (IPlayer player : players) {
+            if (player.getID() == ID) {
+                return player;
+            }
+        }
+        throw new RuntimeException("Player with given ID not found!");
+    }
+
+    private Tile getTile(int ID) {
+        return Board.getInstance().getTileById(ID);
+    }
+
     public void chooseTile(Player player) {
         // TODO implement the chooseTile method
         // call the chooseTile method in the UI using observer
     }
 
     public void showDiceValue() {
-        die1Observeable.setValue(die1.getDiceValue().getValue());
-        die2Observeable.setValue(die2.getDiceValue().getValue());
-        speedDieObserveable.setValue(die3.speedDieValue());
+        die1Observable.setValue(die1.getDiceValue().getValue());
+        die2Observable.setValue(die2.getDiceValue().getValue());
+        speedDieObservable.setValue(die3.speedDieValue());
     }
 
-    public void movePlayer(IPlayer player, Tile newTile) {
-        movePlayerObserveable.setValue(newTile);
-        player.setCurrentTile(newTile);
+    public void movePlayer(int playerId, int newTileId, boolean takeRailRoads) {
+        movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads));//make the command send the dice cup instead and calculate on all devices
+        // make arrays of movePlayerObservable each
+        getPlayer(playerId).setCurrentTile(getTile(newTileId));
     }
 
     public void jumpToTile(Player player, Tile newTile) {
@@ -85,39 +109,43 @@ public class GameController {
         player.setCurrentTile(newTile);
     }
 
-    public void changeJailStatus(IPlayer player, boolean inJail) {
-        player.changeJailStatus(inJail);
+    public void changeJailStatus(int playerId, boolean inJail) {
+        getPlayer(playerId).changeJailStatus(inJail);
     }
 
-    public void changeMovementStatus(IPlayer player, PlayerMovementStatus status) {
-        player.setMovementStatus(status);
+    public void changeMovementStatus(int playerId, PlayerMovementStatus status) {
+        getPlayer(playerId).setMovementStatus(status);
     }
 
-    public void increaseNumberOfConsecutiveDoubleRolls(IPlayer player) {
-        player.increaseNumberOfConsecutiveDoublesRolls();
+    public void increaseNumberOfConsecutiveDoubleRolls(int playerId) {
+        getPlayer(playerId).increaseNumberOfConsecutiveDoublesRolls();
     }
 
     public void playTurn() {
         getCurrentPlayer().playTurn();
     }
 
-    public void playerPayRent(IPlayer player, int rentAmount) {
-        player.payRent(rentAmount);
+    public void playerPayRent(int playerId, int rentAmount) {
+        getPlayer(playerId).payRent(rentAmount);
     }
 
-    public void playerGainMoney(IPlayer player, int amount) {
-        player.gainMoney(amount);
+    public void playerGainMoney(int playerId, int amount) {
+        getPlayer(playerId).gainMoney(amount);
     }
 
     public void endTurn() {
         Game.getInstance().endTurn();
     }
 
+    public void nextTurn() {
+        Game.getInstance().nextTurn();
+    }
+
     public void enableUpgradeBuilding() {
         upgradeButton.setValue(true);
     }
 
-    public void UpgradeBuilding() {
+    public void upgradeBuilding() {
         Board.getInstance().upgradeBuilding(getCurrentPlayer(), (GroupColoredProperty) getCurrentPlayer().getCurrentTile());
     }
 
@@ -125,12 +153,12 @@ public class GameController {
         Board.getInstance().buyProperty(getCurrentPlayer(), (Property) getCurrentPlayer().getCurrentTile());
         playerListObservable.setValue(playerList());
     }
-    // All the enableX methods below are set to update the observer with "true" assuming the specified buttons'
 
     //initial states are disabled.
     public void enableBuyProperty() {
         buyButton.setValue(true);
     }
+    // All the enableX methods below are set to update the observer with "true" assuming the specified buttons'
 
     public void enableSpecialAction() {
         specialButton.setValue(true);
@@ -170,17 +198,53 @@ public class GameController {
         playerObserver.setValue(player);
     }
 
-    public List<IPlayer> playerList() {
+    public ArrayList<IPlayer> playerList() {
         return Game.getInstance().getPlayers();
     }
 
     public void increasePool(int amount) {
         Board.getInstance().getPool().addMoney(amount);
-
     }
 
-    public void completeUpgradeBuilding(GroupColoredProperty property) {
-        property.upgrade();
+    public void completeUpgradeBuilding(int propertyId) {
+        ((GroupColoredProperty) getTile(propertyId)).upgrade();
+    }
 
+    private void initializeInteractableUIElementList() {
+        interactableUIElementList.add(upgradeButton);
+        interactableUIElementList.add(buyButton);
+        interactableUIElementList.add(specialButton);
+        interactableUIElementList.add(endButton);
+        interactableUIElementList.add(rollButton);
+        for(Observable<Boolean> o: interactableUIElementList) {
+            o.setValue(false);
+        }
+    }
+
+    public static class MovePlayerObservableInfo implements Serializable {
+        private static final long serialVersionUID = 1495053868551960438L;
+        public Tile tile;
+        public boolean takeRailRoads;
+
+        private MovePlayerObservableInfo(Tile tile, boolean takeRailRoads) {
+            this.tile = tile;
+            this.takeRailRoads = takeRailRoads;
+        }
+    }
+
+    /**
+     * Pauses the game via PauseCommand.
+     * Restricts all user interactions on UI.
+     */
+    public void pauseGame() {
+        Network.getInstance().getNetworkController().sendCommand(new PauseCommand());
+    }
+
+    /**
+     * Resumes the game via ResumeCommand.
+     * Enables all UI elements which is disabled when the game is paused.
+     */
+    public void resumeGame() {
+        Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
     }
 }
