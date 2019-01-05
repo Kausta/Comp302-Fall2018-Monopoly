@@ -82,6 +82,10 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
                 "}";
     }
 
+    public HashSet<Property> getOwnedProperties(){
+        return ownedProperty;
+    }
+
     /**
      * Gets the movement status of this player, like normalMove,DoubleMove..
      *
