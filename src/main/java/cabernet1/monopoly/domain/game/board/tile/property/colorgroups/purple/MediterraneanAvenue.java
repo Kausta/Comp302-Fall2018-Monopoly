@@ -1,6 +1,7 @@
-package cabernet1.monopoly.domain.game.board.tile.property;
+package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.purple;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 
 import java.util.ArrayList;
 
