@@ -106,7 +106,7 @@ public class Board implements RepresentationInvariant, Serializable {
     private Pool poolTile;
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
-    public Hashtable<ColorGroup, ArrayList<GroupColoredProperty>> groupedColorGroupProperties = new Hashtable();
+    public Hashtable<ColorGroup, ArrayList<GroupColoredProperty>> groupedColorGroupProperties = new Hashtable<>();
 
     private Board() {
     }

@@ -8,7 +8,6 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
-import cabernet1.monopoly.domain.game.bot.BotPlayer;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.BuyPropertyCommand;
 import cabernet1.monopoly.domain.game.command.SendChatMessageCommand;
@@ -17,7 +16,6 @@ import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
-import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.PauseCommand;
 import cabernet1.monopoly.domain.network.command.ResumeCommand;
@@ -25,7 +23,6 @@ import cabernet1.monopoly.lib.persistence.GameSaver;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
-import cabernet1.monopoly.utils.UIObservable;
 
 import java.io.File;
 import java.io.Serializable;
@@ -288,8 +285,8 @@ public class GameController implements Serializable {
         Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
     }
 
-    public void sendChatMessage(String message) {
-        Network.getInstance().getNetworkController().sendCommand(new SendChatMessageCommand(message));
+    public void sendChatMessage(String rawMessage, String message) {
+        Network.getInstance().getNetworkController().sendCommand(new SendChatMessageCommand(rawMessage, message));
     }
 
     public boolean canBeUpgraded(ColorGroup color, GroupColoredProperty p) {
