@@ -7,6 +7,7 @@ public class BuyPropertyButton extends BaseButton {
     private BuyPropertyButton() {
         setText("Buy Property");
         initialize();
+        setVisible(false);
     }
 
     public static synchronized BuyPropertyButton getInstance() {

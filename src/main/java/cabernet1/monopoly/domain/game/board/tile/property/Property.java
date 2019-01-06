@@ -2,16 +2,18 @@ package cabernet1.monopoly.domain.game.board.tile.property;
 
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
 public abstract class Property extends Tile implements RepresentationInvariant {
     private static final long serialVersionUID = -8930335527754939743L;
     private final int price;
-    private Player owner;
+    private IPlayer owner;
 
-    public Property(String name, TileType tileType, int price, int x, int y) {
-        super(name, tileType, x, y);
+    public Property(String name, TileType tileType, int price, int x, int y, Track track) {
+        super(name, tileType, x, y, track);
         this.price = price;
         owner = null;
     }
@@ -28,7 +30,7 @@ public abstract class Property extends Tile implements RepresentationInvariant {
      *
      * @return the owner
      */
-    public Player getOwner() {
+    public IPlayer getOwner() {
         return owner;
     }
 
@@ -37,7 +39,7 @@ public abstract class Property extends Tile implements RepresentationInvariant {
      *
      * @param player theh player who is buying the tile
      */
-    public void setOwner(Player player) {
+    public void setOwner(IPlayer player) {
         owner = player;
     }
 

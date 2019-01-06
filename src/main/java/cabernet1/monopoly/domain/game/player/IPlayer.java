@@ -1,16 +1,27 @@
 /*
- * TODO: add payRent function
- * TODO: add playTurn function
- * TODO: add buyProperty function
  * TODO: add sellBuilding function
- * TODO: add buyBuilding function
  * TODO: add mortgageProperty function
  */
 
 package cabernet1.monopoly.domain.game.player;
 
+import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.Network;
+import cabernet1.monopoly.domain.NetworkController;
+import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.ChanceTile;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.CommunityChestTile;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
+import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.command.*;
+import cabernet1.monopoly.domain.game.die.cup.JailDiceCup;
+import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
+import cabernet1.monopoly.domain.game.die.enumerators.JailDiceCupStatus;
+import cabernet1.monopoly.domain.game.die.enumerators.NormalDiceCupStatus;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
@@ -34,6 +45,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
     private final String name;
     private final boolean isActive;
     private final int playerOrder;
+    private String origin;
     protected Tile curTile;
     protected int numberOfConsecutiveDoublesRolls;
     protected PlayerMovementStatus movementStatus;
@@ -55,7 +67,8 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
      * this.ownedProperty,this.direction
      * @effects register the information of this player
      */
-    public IPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile) {
+    public IPlayer(String origin, int ID, String name, int money, int defaultOrder, Tile currentTile) {
+       this.origin = origin;
         this.ID = ID;
         this.name = name;
         this.money = money;
@@ -80,6 +93,10 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
                 ", inJail: " + inJail +
                 ", N.Owned Properties" + ownedProperty.size() +
                 "}";
+    }
+
+    public HashSet<Property> getOwnedProperties(){
+        return ownedProperty;
     }
 
     /**
@@ -149,6 +166,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
      */
     public void ownProperty(Property property) {
         ownedProperty.add(property);
+        property.setOwner((Player) this);
     }
 
     /**
@@ -201,19 +219,214 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         return name;
     }
 
-    protected abstract void handleNormalMove();
+    /**
+     * simulates moving this player when playing a normal move
+     *
+     * @requires cupStatus of NormalDiceCup is NORMAL_MOVE
+     * @modifies this.curTile, this.ownedProperty,this.money
+     * @effects move the player to a newTile based on the sum of faceValues
+     * on the dice, and handle the events of standing on the dest tile
+     * (like pay rent, buying tile, upgrading building,draw card)
+     * @see PlayerMovementStatus
+     */
+    protected void handleNormalMove() {
+        logger.d("Handle Normal move accessed");
+        Board board = Board.getInstance();
+        NormalDiceCup cup = NormalDiceCup.getInstance();
+        Tile newTile = board.getNextTile(curTile, direction, cup.getFacesValue(), cup.isEven());
+        if (newTile==null){
+            logger.d("ERROR ERROR ERROR: null tile accessed ");
+        }
+        NetworkController nc = Network.getInstance().getNetworkController();
 
-    protected abstract void handleMrMonopolyMove();
+        String previousTile = curTile.getName();
+        String message = getName() + " has moved from " + previousTile + "  to " + newTile.getName();
+        logger.d("Message in normal move "+message);
+        nc.sendCommand(new AnnounceMessageCommand(message));
+        nc.sendCommand(new MovePlayerCommand(this.getID(), newTile.getID(), cup.isEven()));
+        logger.d("Handle Normal move finished");
+    }
 
-    protected abstract void handleBusMove();
+    /**
+     * simulate moving this player when playing a Mr.Monopoly move
+     *
+     * @requires cupStatus of NormalDiceCup is MRMONOPOLY_MOVE
+     * player already played the normal move part of the Mr.Monopoly move
+     * @modifies this.inJail, this.curTile, this.ownedProperty,this.money
+     * @effects move this player to the next unowned property if available,
+     * if not, try to move to the next rent-able property
+     * in either case: handle the events of standing on the dest tile
+     * (like pay rent, buying tile, upgrading building,draw card)
+     * if neither happened, stay in your place and do nothing
+     * @see PlayerMovementStatus
+     */
+    protected void handleMrMonopolyMove() {
+        Board board = Board.getInstance();
+        NormalDiceCup cup = NormalDiceCup.getInstance();
+        NetworkController nc = Network.getInstance().getNetworkController();
 
+        Tile nextTile = board.nextUnownedProperty(curTile, direction, cup.isEven());
+        String message;
+        if (nextTile == null) {
+            nextTile = board.nextRentableProperty(curTile, this, direction, cup.isEven());
+            if (nextTile == null) {
+                message = "No rentable Properties has been found on your way, hence you will stay in your place";
+            } else {
+                message = "You will move to the next rentable Property, namely " + nextTile.getName();
+            }
+        } else {
+            message = "You will move to the next un owned Property, namely " + nextTile.getName();
+        }
+        nc.sendCommand(new AnnounceMessageCommand(message));
+
+        if (nextTile != null) {
+            nc.sendCommand(new MovePlayerCommand(this.getID(), nextTile.getID(), cup.isEven()));
+            handleTile(nextTile, board);
+        }
+    }
+
+    /**
+     * simulate moving this player when playing a bus move
+     * (speed die has bus icon shown on it)
+     *
+     * @requires cupStatus of NormalDiceCup is BUS_MOVE
+     * player already played the normal move part of the bus move
+     * @modifies this.inJail, this.curTile, this.ownedProperty,this.money
+     * @effects move this player to the nearest community chest or chance tile
+     * (which ever nearest), if available
+     * if the nearest is a community chest tile: draw a card from the community chest cards, and act accordingly
+     * if the nearest is a chance tile: draw a card from the chance cards, and act accordingly
+     * if neither is available, stay in your place and do nothing
+     * @see PlayerMovementStatus
+     */
+    protected void handleBusMove() {
+        NetworkController nc = Network.getInstance().getNetworkController();
+        Board board = Board.getInstance();
+        NormalDiceCup cup = NormalDiceCup.getInstance();
+        Tile nextTile = board.nextUnownedProperty(curTile, direction, cup.isEven());
+        String message;
+        if (nextTile == null) {
+            message = "No community chest or chance card on your way, hence you will stay in your place";
+            nc.sendCommand(new AnnounceMessageCommand(message));
+        } else {
+            if (nextTile.getTileType() == TileType.CommunityChest)
+                message = "You will move to the next community chest tile";
+            else
+                message = "You will move to the next Chance tile";
+            nc.sendCommand(new AnnounceMessageCommand(message));
+            nc.sendCommand(new MovePlayerCommand(this.getID(), nextTile.getID(), cup.isEven()));
+            handleTile(nextTile, board);
+        }
+    }
+
+    /**
+     * simulate moving this player when playing a DOUBLE move
+     * (the two normal dice has the same number shown on their top faces)
+     *
+     * @requires cupStatus of NormalDiceCup is DOUBLE_MOVE
+     * @modifies this.inJail, this.curTile, this.ownedProperty,this.money
+     * @effects check if the player has played three Double moves in a row,
+     * if so, move this player to jail, otherwise increase the
+     * number of consecutive double moves, and play a normal move
+     * @see PlayerMovementStatus
+     */
+    protected void handleDoubleMove() {
+        NetworkController nc = Network.getInstance().getNetworkController();
+        nc.sendCommand(new IncNumConsDoubleRollsCommand(this.getID()));
+        ++numberOfConsecutiveDoublesRolls;
+        /*if (numberOfConsecutiveDoublesRolls == 3) {
+            goJail();
+            return;
+        }*/
+        nc.sendCommand(new ChangeMovementStatusCommand(this.getID(), PlayerMovementStatus.DOUBLE_MOVE));
+        handleNormalMove();
+    }
+
+    /**
+     * handles the turn of this player, by rolling a dice and move accordingly
+     *
+     * @modifies this.numberOfConsecutiveDoublesRolls, this.PlayerMovementStatus,
+     * this.inJail, this.curTile, this.ownedProperty,this.money
+     * @effects simulate playing the turn for this player, by rolling the
+     * cup, and moving based on its results, player might get into jail,
+     * if he/she plays Double for the third time in row
+     */
+    public void playTurn() {
+        logger.i("Turn of " + name);
+        NormalDiceCup cup = NormalDiceCup.getInstance();
+        NormalDiceCupStatus rollStatus = cup.rollCup();
+        NetworkController nc = Network.getInstance().getNetworkController();
+        GameController controller = Game.getInstance().getGameController();
+        controller.showDiceValue();
+        handleNormalMove();
+        /*switch (rollStatus) {
+            case NORMAL_MOVE:
+                handleNormalMove();
+                break;
+            case DOUBLE_MOVE:
+                incrementSteps();
+                handleDoubleMove();
+                break;
+            case TRIPLE_MOVE:
+                handleTriplesMove();
+                break;
+            case MR_MONOPOLY_MOVE:
+                nc.sendCommand(new ChangeMovementStatusCommand(this.getID(), PlayerMovementStatus.MRMONOPOLY_MOVE));
+                handleNormalMove();
+                break;
+            case BUS_MOVE:
+                nc.sendCommand(new ChangeMovementStatusCommand(this.getID(), PlayerMovementStatus.BUS_MOVE));
+                handleNormalMove();
+                break;
+        }*/
+        if (getNumSteps() == 0) {
+            controller.disableRollDice();
+            controller.enableEndTurn();
+        }
+
+    }
     protected abstract void handleTriplesMove();
+    // TODO: need to check building buying availability hear can check easier with owned properties
+    public void playJailturn() {
+        JailDiceCup cup = JailDiceCup.getInstance();
+        JailDiceCupStatus rollStatus = cup.rollCup();
+        NetworkController nc = Network.getInstance().getNetworkController();
 
-    protected abstract void handleDoubleMove();
+        String message;
+        switch (rollStatus) {
+            case DOUBLES:
+                message = getName() + " has got out of jail!";
+                nc.sendCommand(new AnnounceMessageCommand(message));
+                // TODO: handleDoubleMove for JailCup: handleJailDoubleMove();
+                break;
+            case NOT_DOUBLES:
+                message = getName() + " has not rolled Doubles. Hence, he/she will stay in jail for this turn";
+                nc.sendCommand(new AnnounceMessageCommand(message));
+                break;
+        }
 
-    public abstract void playJailturn();
+    }
 
-    public abstract void jumpToTile(Tile newTile);
+    /**
+     * transport the player immediately to a given tile
+     * that is, player doesn't pass by any other tile on the way
+     *
+     * @param newTile the new tile to move this player into
+     * @requires newTile should belong to Board
+     * @modifies this.inJail, this.curTile, this.ownedProperty,this.money
+     * @effects moves the player immediately to newTile with passing through any
+     * intermediary tiles, and handle the actions on landing on this tile
+     * (like pay rent, buying tile, upgrading building,draw card)
+     */
+    public void jumpToTile(Tile newTile) {
+        NetworkController nc = Network.getInstance().getNetworkController();
+        String previousTile = curTile.getName();
+        //TODO implement proper direction finder or special jump player function
+        nc.sendCommand(new MovePlayerCommand(this.getID(), newTile.getID(), true));
+        String message = getName() + " has transposed immediately from " + previousTile + " to " + curTile.getName();
+        nc.sendCommand(new AnnounceMessageCommand(message));
+        handleTile(newTile, Board.getInstance());
+    }
 
 
     /**
@@ -234,9 +447,6 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         }
     }
 
-    public void playTurn() {
-        logger.i("Turn of " + name);
-    }
 
     /**
      * Change the jail status of this player
@@ -332,6 +542,10 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         numberOfSteps = 1;
     }
 
+    public HashSet<Property> getOwnedProperty() {
+        return ownedProperty;
+    }
+
     public boolean repOK() {
         boolean res = curTile != null;
         res &= ID >= 0;
@@ -377,5 +591,76 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
             default:
                 return -1;
         }
+    }
+
+    public void handleTile(Tile destTile, Board board) {
+        logger.d("Accessed handle Tile");
+        String message = "";
+        NetworkController nc = Network.getInstance().getNetworkController();
+        GameController controller = Game.getInstance().getGameController();
+        if (destTile instanceof Property) {
+            handleProperty((Property) destTile);
+        } else if (destTile instanceof Jail) {
+            message = getName() + " has got into jail!";
+            nc.sendCommand(new ChangeJailStatusCommand(getID(), true));
+        } else if (destTile instanceof ChanceTile) {
+            ((ChanceTile) destTile).landingAction(this);
+        } else if (destTile instanceof CommunityChestTile) {
+            ((CommunityChestTile) destTile).landingAction(this);
+        } else {// other types, do nothing for now
+            message = getName() + " has nothing to do now,will take a rest";
+        }
+        if (this instanceof  Player) {
+            controller.enableEndTurn();
+        }else{
+            controller.endTurn();
+        }
+        /*if (getMovementStatus() == PlayerMovementStatus.NORMAL_MOVE) {
+            controller.enableSpecialAction();
+        } else {
+            controller.enableEndTurn();
+        }*/
+
+        if (!message.equals(""))
+            nc.sendCommand(new AnnounceMessageCommand(message));
+        logger.d("Finished  handle Tile");
+    }
+
+    public void handleProperty(Property property) {
+        logger.d(("handle property accessed"));
+        GameController controller = Game.getInstance().getGameController();
+        NetworkController nc = Network.getInstance().getNetworkController();
+
+        if (property.getOwner() == null && property.getPrice() < getMoney()) {
+            handleBuyProperty();
+
+        } else if (property.getOwner().equals(this)) {
+            if (property instanceof GroupColoredProperty) {
+                GroupColoredProperty gcp = (GroupColoredProperty) property;
+                if (gcp.getUpgradeAmount() <= getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property)))
+                    handleUpgradeProperty();
+            }
+        } else {
+            int rent = property.getRent();
+            nc.sendCommand(new PayRentCommand(getID(), rent));
+            nc.sendCommand(new GainMoneyCommand(property.getOwner().getID(), rent));
+            String message = getName() + " has paid a rent to " + property.getOwner().getName();
+            nc.sendCommand(new AnnounceMessageCommand(message));
+        }
+        logger.d(("handle property finished"));
+    }
+    public abstract void handleBuyProperty();
+    public abstract void handleUpgradeProperty();
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public boolean isOnThisDevice() {
+        return this.origin.equals(Network.getInstance().getIdentifier());
     }
 }

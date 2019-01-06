@@ -1,9 +1,12 @@
 package cabernet1.monopoly.ui.players;
 
+import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.player.IPlayer;
+import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.utils.animation.Animatable;
+import cabernet1.monopoly.utils.animation.Animator;
 import cabernet1.monopoly.utils.animation.ComplexPath;
 
 import javax.imageio.ImageIO;
@@ -19,13 +22,15 @@ public class Player extends JPanel implements Animatable {
     private static final int shiftAmount = 20;
     final IPlayer player;
     ComplexPath path;
-    boolean firstTime;
+    int firstTime;
+    Animator animator;
     private volatile BufferedImage playerImage;
 
-    public Player(IPlayer player) {
+    public Player(IPlayer player,Animator animator) {
         super();
+        this.animator=animator;
         this.player = player;
-        this.firstTime = true;
+        this.firstTime = 0;
         int ID = player.getID() + 1;
         synchronized (this) {
             try {
@@ -37,7 +42,7 @@ public class Player extends JPanel implements Animatable {
                 System.out.println("Player image loading failed");
             }
         }
-        updatePath(player.getCurrentTile(), true);
+        updatePath(player.getCurrentTile(), true,false);
         setOpaque(false);
 
     }
@@ -51,9 +56,19 @@ public class Player extends JPanel implements Animatable {
         return resized;
     }
 
-    void updatePath(Tile newTile, boolean takeRailRoads) {
-        ArrayList<ArrayList<Integer>> res = Board.getInstance().getPath(player.getCurrentTile(), newTile, player.getDirection(), takeRailRoads);
+    void updatePath(Tile newTile, boolean takeRailRoads,boolean jump) {
+        System.out.println("Entered update path");
+        ArrayList<ArrayList<Integer>> res;
+        if (jump){
+            res=Board.getInstance().getDirectPath(player.getCurrentTile(), newTile);
+        }else {
+            res=Board.getInstance().getPath(player.getCurrentTile(), newTile, player.getDirection(), takeRailRoads);
+        }
+        System.out.println("intiliazed res");
         path = new ComplexPath(res.get(0), res.get(1));
+        System.out.println("initialized path");
+        animator.addDrawable(this);
+        System.out.println("added drawable");
 
     }
 
@@ -82,6 +97,7 @@ public class Player extends JPanel implements Animatable {
     }
 
     public void paint(Graphics g) {
+
         // modifies: <g>
         // effects: Repaints the Graphics area <g>. Swing will then send the
         // newly painted g to the screen.
@@ -98,6 +114,7 @@ public class Player extends JPanel implements Animatable {
     }
 
     public void animate() {
+
         // modifies: <g>
         // effects: Repaints the Graphics area <g>. Swing will then send the
         // newly painted g to the screen.
@@ -105,14 +122,21 @@ public class Player extends JPanel implements Animatable {
         // first repaint the proper background color (controlled by
         // the windowing system)
         Rectangle oldPos = boundingBox();
-        if (firstTime) {
+        if (firstTime==0) {
             Rectangle repaintArea = oldPos.union(boundingBox());
             repaint(repaintArea.x, repaintArea.y, repaintArea.width, repaintArea.height);
-            firstTime = false;
+            firstTime = 1;
             return;
         }
-        if (path == null || !path.hasMoreSteps()) {
+        if (firstTime==1){
+            animator.removeDrawable(this);
+            firstTime=2;
+            return;
+        }
 
+        if (path == null || !path.hasMoreSteps()) {
+            animator.removeDrawable(this);
+            Game.getInstance().getGameController().finishedMovingPlayer();
             return;
         }
 

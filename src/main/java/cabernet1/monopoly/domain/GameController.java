@@ -5,26 +5,38 @@ package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.BuyPropertyCommand;
+import cabernet1.monopoly.domain.game.command.SendChatMessageCommand;
+import cabernet1.monopoly.domain.game.command.showDiceFacesCommand;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
-import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
+import cabernet1.monopoly.domain.network.command.PauseCommand;
+import cabernet1.monopoly.domain.network.command.ResumeCommand;
+import cabernet1.monopoly.lib.persistence.GameSaver;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
 
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameController implements Serializable {
     private static final long serialVersionUID = 8999488415439250201L;
     // To add announcements to UI
+    public ArrayList<Observable<Boolean>> interactableObservableList = new ArrayList<>();
+    public ArrayList<Observable<Boolean>> disabledObservableList = new ArrayList<>();
     public final Observable<String> announcement = new Observable<>();
+    public final Observable<String> chat = new Observable<>();
     public final Observable<Integer> die1Observable = new Observable<>();
     public final Observable<Integer> die2Observable = new Observable<>();
     public final Observable<Integer> speedDieObservable = new Observable<>();
@@ -34,18 +46,24 @@ public class GameController implements Serializable {
     public final Observable<Boolean> specialButton = new Observable<>();
     public final Observable<Boolean> endButton = new Observable<>();
     public final Observable<Boolean> rollButton = new Observable<>();
-    public final Observable<Player> playerObserver = new Observable<>();
+    public final Observable<Boolean> resumeButton = new Observable<>();
+    public final Observable<Boolean> pauseButton = new Observable<>();
+    public final Observable<Boolean> saveButton = new Observable<>();
+    public final Observable<IPlayer> playerObserver = new Observable<>();
     public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
+    public final Observable<ArrayList<Tile>> tileListObservable = new Observable<>();
     private final RegularDie die1 = NormalDiceCup.getInstance().die1;
     private final RegularDie die2 = NormalDiceCup.getInstance().die2;
     private final SpeedDie die3 = NormalDiceCup.getInstance().die3;
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     public GameController() {
+        updateInfoObservables();
+        initializeInteractableObservableList();
         logger.i("Created Game Controller");
     }
 
-    public Player getCurrentPlayer() {
+    public IPlayer getCurrentPlayer() {
         return Game.getInstance().getCurrentPlayer();
     }
 
@@ -54,16 +72,18 @@ public class GameController implements Serializable {
     }
 
     public void rollDice() {
-        Player currentPlayer = getCurrentPlayer();
+        IPlayer currentPlayer = getCurrentPlayer();
+        logger.d("current player is "+currentPlayer+" and he is inJail: "+currentPlayer.isInJail());
         if (currentPlayer.isInJail()) {
             currentPlayer.playJailturn();
         } else {
             currentPlayer.playTurn();
         }
         // showDiceValue();
+        rollButton.setValue(false);
     }
 
-    private IPlayer getPlayer(int ID) {
+    public IPlayer getPlayer(int ID) {
         List<IPlayer> players = playerList();
         for (IPlayer player : players) {
             if (player.getID() == ID) {
@@ -77,28 +97,45 @@ public class GameController implements Serializable {
         return Board.getInstance().getTileById(ID);
     }
 
-    public void chooseTile(Player player) {
+    public void chooseTile(IPlayer player) {
         // TODO implement the chooseTile method
         // call the chooseTile method in the UI using observer
     }
 
     public void showDiceValue() {
-        die1Observable.setValue(die1.getDiceValue().getValue());
-        die2Observable.setValue(die2.getDiceValue().getValue());
-        speedDieObservable.setValue(die3.speedDieValue());
+        NetworkController nc = Network.getInstance().getNetworkController();
+        nc.sendCommand(new AnnounceMessageCommand("The dice result is " + NormalDiceCup.getInstance().getFacesValue()));
+        nc.sendCommand(new showDiceFacesCommand(die1.getDiceValue().getValue(), die2.getDiceValue().getValue()
+                , die3.getAbsoluteDieValue()));
+    }
+
+    public void showDiceFaces(int die1Value, int die2Value, int die3Value) {
+        die1Observable.setValue(die1Value);
+        die2Observable.setValue(die2Value);
+        speedDieObservable.setValue(die3Value);
     }
 
     public void movePlayer(int playerId, int newTileId, boolean takeRailRoads) {
-        movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads));//make the command send the dice cup instead and calculate on all devices
-        // make arrays of movePlayerObservable each
+        logger.d("move player command received, player id is, newTiledId is "+playerId+" "+newTileId);
+        if (movePlayerObservable==null){
+            logger.d("ERRor empty obersvable");
+        }
+        MovePlayerObservableInfo info=new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads,false);
+        logger.d("created observable info");
+        movePlayerObservable.setValue(info);
+        logger.d("move player command changed value");
+        getPlayer(playerId).setCurrentTile(getTile(newTileId));
+        logger.d("move player command finished");
+    }
+    public void jumpPlayer(int playerId,int newTileId){
+        movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), false,true));
         getPlayer(playerId).setCurrentTile(getTile(newTileId));
     }
-
-    public void jumpToTile(Player player, Tile newTile) {
+    public void jumpToTile(IPlayer player, Tile newTile) {
         player.jumpToTile(newTile);
     }
 
-    public void changeCurrentTile(Player player, Tile newTile) {
+    public void changeCurrentTile(IPlayer player, Tile newTile) {
         player.setCurrentTile(newTile);
     }
 
@@ -142,9 +179,15 @@ public class GameController implements Serializable {
         Board.getInstance().upgradeBuilding(getCurrentPlayer(), (GroupColoredProperty) getCurrentPlayer().getCurrentTile());
     }
 
-    public void buyProperty() {
-        Board.getInstance().buyProperty(getCurrentPlayer(), (Property) getCurrentPlayer().getCurrentTile());
+    public void activateBuyProperty(int tileID) {
+        Board.getInstance().buyProperty(getCurrentPlayer(), tileID);
         playerListObservable.setValue(playerList());
+        tileListObservable.setValue(Board.getInstance().getBoardTiles());
+    }
+
+    public void buyProperty() {
+        NetworkController nc = Network.getInstance().getNetworkController();
+        nc.sendCommand(new BuyPropertyCommand(getCurrentPlayer().getCurrentTile().getID()));
     }
 
     //initial states are disabled.
@@ -157,10 +200,14 @@ public class GameController implements Serializable {
         specialButton.setValue(true);
 
     }
-
+    public void finishedMovingPlayer(){
+        logger.i("Finished moving players");
+        //TODO execute when on current device
+        IPlayer player = getCurrentPlayer();
+        player.handleTile(player.getCurrentTile(), Board.getInstance());
+    }
     public void enableEndTurn() {
         endButton.setValue(true);
-
     }
 
     public void enableRollDice() {
@@ -187,7 +234,7 @@ public class GameController implements Serializable {
         rollButton.setValue(false);
     }
 
-    public void playerInfo(Player player) {
+    public void playerInfo(IPlayer player) {
         playerObserver.setValue(player);
     }
 
@@ -203,14 +250,107 @@ public class GameController implements Serializable {
         ((GroupColoredProperty) getTile(propertyId)).upgrade();
     }
 
+    public void downgradeBuilding(int propertyId){
+        ((GroupColoredProperty) getTile(propertyId)).downgrade();
+    }
+
+    private void updateInfoObservables() {
+        playerListObservable.setValue(playerList());
+        tileListObservable.setValue(Board.getInstance().getBoardTiles());
+    }
+
+    private void initializeInteractableObservableList() {
+        interactableObservableList.add(upgradeButton);
+        interactableObservableList.add(buyButton);
+        interactableObservableList.add(specialButton);
+        interactableObservableList.add(endButton);
+        interactableObservableList.add(rollButton);
+        for (Observable<Boolean> o : interactableObservableList) {
+            o.setValue(false);
+        }
+        resumeButton.setValue(false);
+        pauseButton.setValue(true);
+        saveButton.setValue(true);
+    }
+
     public static class MovePlayerObservableInfo implements Serializable {
         private static final long serialVersionUID = 1495053868551960438L;
         public Tile tile;
         public boolean takeRailRoads;
-
-        private MovePlayerObservableInfo(Tile tile, boolean takeRailRoads) {
+        public boolean jump;
+        private MovePlayerObservableInfo(Tile tile, boolean takeRailRoads,boolean jump) {
             this.tile = tile;
             this.takeRailRoads = takeRailRoads;
+            this.jump=jump;
         }
+    }
+
+    /**
+     * Pauses the game via PauseCommand.
+     * Restricts all user interactions on UI.
+     */
+    public void pauseGame() {
+        Network.getInstance().getNetworkController().sendCommand(new PauseCommand());
+    }
+
+    /**
+     * Resumes the game via ResumeCommand.
+     * Enables all UI elements which is disabled when the game is paused.
+     */
+    public void resumeGame() {
+        Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
+    }
+
+    public void sendChatMessage(String rawMessage, String message) {
+        Network.getInstance().getNetworkController().sendCommand(new SendChatMessageCommand(rawMessage, message));
+    }
+
+    public boolean canBeUpgraded(ColorGroup color, GroupColoredProperty p) {
+        ArrayList<GroupColoredProperty> a = Board.getInstance().groupedColorGroupProperties.get(color);
+        IPlayer owner = p.getOwner();
+        for (GroupColoredProperty g : a) {
+            if (owner != g.getOwner()) {
+                return false;
+            }
+        }
+        int level = getPropertyLevel(p);
+        if (level == 3) {
+            return false;
+        } else {
+            for (GroupColoredProperty g : a) {
+                int tmpLevel = getPropertyLevel(g);
+                if (level == tmpLevel || tmpLevel - level == 1) {
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int getPropertyLevel(GroupColoredProperty p) {
+        int level = -1;
+        if (p.getHouse().limitReached()) {
+            if (p.getHotel().limitReached()) {
+                if (p.getSkyscraper().limitReached()) {
+                    level = 3;
+                } else {
+                    level = 2;
+                }
+            } else {
+                level = 1;
+            }
+        } else {
+            level = 0;
+        }
+        return level;
+    }
+
+    /**
+     * Saves the game using the persistence classes
+     */
+    public void saveGame(File saveFile) {
+        GameSaver.getInstance().saveToFile(Paths.get(saveFile.getAbsolutePath()));
     }
 }

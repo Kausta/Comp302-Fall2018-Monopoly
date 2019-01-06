@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board.tile;
 
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 
 import java.io.Serializable;
 
@@ -16,8 +17,9 @@ public abstract class Tile implements Serializable {
     private final int y;
     private Tile nextTile;
     private Tile prevTile;
+    private Track track;
 
-    public Tile(String name, TileType tileType, int x, int y) {
+    public Tile(String name, TileType tileType, int x, int y, Track track) {
         this.name = name;
         this.tileType = tileType;
         this.x = x;
@@ -25,6 +27,7 @@ public abstract class Tile implements Serializable {
         synchronized (Tile.class) {
             this.ID = IDCounter++;
         }
+        this.track = track;
     }
 
     public int getX() {
@@ -47,6 +50,10 @@ public abstract class Tile implements Serializable {
      */
     public TileType getTileType() {
         return tileType;
+    }
+
+    public Track getTrack(){
+        return track;
     }
 
 
