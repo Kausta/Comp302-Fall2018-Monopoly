@@ -100,7 +100,9 @@ public class Board implements RepresentationInvariant, Serializable {
     private static final long serialVersionUID = 5361865266782383461L;
     private static volatile Board _instance = null;
     private final Random r = new Random();
-    List<Tile> boardTiles; //made package-private for testing purposes
+
+
+    ArrayList<Tile> boardTiles; //made package-private for testing purposes
     private Pool poolTile;
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
@@ -123,7 +125,9 @@ public class Board implements RepresentationInvariant, Serializable {
         initiateTiles();
         initializeCards();
     }
-
+    public ArrayList<Tile> getBoardTiles() {
+        return boardTiles;
+    }
     private void initiateTiles() {
         // manually add all the information about the board's tile
         // first the low, right corner of middle then inner, then outer
@@ -538,8 +542,7 @@ public class Board implements RepresentationInvariant, Serializable {
         player.ownProperty(property);
         property.setOwner(player);
         String message = player.getName() + " has bought " + property.getName();
-        NetworkController nc = Network.getInstance().getNetworkController();
-        nc.sendCommand(new AnnounceMessageCommand(message));
+        Game.getInstance().getGameController().announceMessage(message);
     }
 
     public boolean repOK() {

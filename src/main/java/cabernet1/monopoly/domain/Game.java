@@ -1,5 +1,6 @@
 package cabernet1.monopoly.domain;
 
+import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.NextTurnCommand;
@@ -64,7 +65,8 @@ public class Game implements Serializable {
     }
 
     public void endTurn() {
-        String message = getCurrentPlayer().getName() + " turn has ended";
+        String message = getCurrentPlayer().getName() +
+                " turn has ended\n"+ Constants.SEPERATING_lINE+"\n\n\n";
         NetworkController nc = Network.getInstance().getNetworkController();
         nc.sendCommand(new AnnounceMessageCommand(message));
         nc.sendCommand(new NextTurnCommand());
@@ -76,7 +78,11 @@ public class Game implements Serializable {
     }
 
     public void configureTurn() {
-        controller.playerInfo(getCurrentPlayer());
+        Player player=getCurrentPlayer();
+        controller.playerInfo(player);
+        String message="Player: "+player.getName()+" will play now\n" + Constants.SEPERATING_lINE+"\n\n";
+        controller.announceMessage(message);
+        controller.tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
 
     public Player getCurrentPlayer() {
