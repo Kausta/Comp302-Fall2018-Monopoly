@@ -8,7 +8,6 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
-import cabernet1.monopoly.domain.game.bot.BotPlayer;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.BuyPropertyCommand;
 import cabernet1.monopoly.domain.game.command.SendChatMessageCommand;
@@ -17,7 +16,6 @@ import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
-import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.PauseCommand;
 import cabernet1.monopoly.domain.network.command.ResumeCommand;
@@ -25,7 +23,6 @@ import cabernet1.monopoly.lib.persistence.GameSaver;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
-import cabernet1.monopoly.utils.UIObservable;
 
 import java.io.File;
 import java.io.Serializable;
@@ -61,6 +58,7 @@ public class GameController implements Serializable {
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     public GameController() {
+        updateInfoObservables();
         initializeInteractableObservableList();
         logger.i("Created Game Controller");
     }
@@ -81,6 +79,7 @@ public class GameController implements Serializable {
             currentPlayer.playTurn();
         }
         // showDiceValue();
+        rollButton.setValue(false);
     }
 
     public IPlayer getPlayer(int ID) {
@@ -169,15 +168,15 @@ public class GameController implements Serializable {
         Board.getInstance().upgradeBuilding(getCurrentPlayer(), (GroupColoredProperty) getCurrentPlayer().getCurrentTile());
     }
 
-    public void activateBuyProperty() {
-        Board.getInstance().buyProperty(getCurrentPlayer(), (Property) getCurrentPlayer().getCurrentTile());
+    public void activateBuyProperty(int tileID) {
+        Board.getInstance().buyProperty(getCurrentPlayer(), tileID);
         playerListObservable.setValue(playerList());
         tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
 
     public void buyProperty() {
         NetworkController nc = Network.getInstance().getNetworkController();
-        nc.sendCommand(new BuyPropertyCommand());
+        nc.sendCommand(new BuyPropertyCommand(getCurrentPlayer().getCurrentTile().getID()));
     }
 
     //initial states are disabled.
@@ -243,6 +242,11 @@ public class GameController implements Serializable {
 
     public void downgradeBuilding(int propertyId){
         ((GroupColoredProperty) getTile(propertyId)).downgrade();
+    }
+
+    private void updateInfoObservables() {
+        playerListObservable.setValue(playerList());
+        tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
 
     private void initializeInteractableObservableList() {

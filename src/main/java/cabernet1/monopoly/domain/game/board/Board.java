@@ -491,7 +491,8 @@ public class Board implements RepresentationInvariant, Serializable {
      * @param player   the player to buy the property
      * @param property the property to be bought by the player
      */
-    public void buyProperty(IPlayer player, Property property) {
+    public void buyProperty(IPlayer player, int tileID) {
+        Property property = (Property) Board.getInstance().getBoardTiles().get(tileID);
         player.loseMoney(property.getPrice());
         player.ownProperty(property);
         property.setOwner(player);
