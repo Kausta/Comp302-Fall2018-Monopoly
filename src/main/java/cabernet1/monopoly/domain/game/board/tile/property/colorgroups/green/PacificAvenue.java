@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class PacificAvenue extends GroupColoredProperty {
               }
             },
             1000, 500, 1275,
-            1200, 600, 2275);
+            1200, 600, 2275,
+            Track.Center);
   }
 }

@@ -6,6 +6,7 @@ import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Hotel;
 import cabernet1.monopoly.domain.game.board.tile.property.building.House;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
@@ -27,8 +28,9 @@ public class GroupColoredProperty extends Property {
     public GroupColoredProperty(String name, int price, int x, int y, int mortgageValue, ColorGroup color,
                                 int housePrice, int houseSellPrice, ArrayList<Integer> houseRents,
                                 int hotelPrice, int hotelSellPrice, int hotelRent,
-                                int skyscraperPrice, int skyscraperSellPrice, int skyscraperRent) {
-        super(name, TileType.ColoredGroupProperty, price, x, y);
+                                int skyscraperPrice, int skyscraperSellPrice, int skyscraperRent,
+                                Track track) {
+        super(name, TileType.ColoredGroupProperty, price, x, y, track);
         this.mortgageValue = mortgageValue;
         this.color = color;
         house = new House(housePrice, houseSellPrice, houseRents);

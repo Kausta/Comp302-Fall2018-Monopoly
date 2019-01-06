@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkpurple;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class RandolphStreet extends GroupColoredProperty {
               }
             },
             750, 375, 1180,
-            900, 450, 2180);
+            900, 450, 2180,
+            Track.Outer);
   }
 }

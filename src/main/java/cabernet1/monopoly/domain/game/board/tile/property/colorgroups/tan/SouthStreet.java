@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.tan;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class SouthStreet extends GroupColoredProperty {
               }
             },
             1250, 675, 1800,
-            1500, 750, 3300);
+            1500, 750, 3300,
+            Track.Outer);
   }
 }

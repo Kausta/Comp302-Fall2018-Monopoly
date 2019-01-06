@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightgree
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class BourbonStreet extends GroupColoredProperty {
               }
             },
             250, 125, 600,
-            300, 150, 1000);
+            300, 150, 1000,
+            Track.Outer);
   }
 }

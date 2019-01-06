@@ -183,5 +183,10 @@ gradle-app.setting
 **/build/
 
 # End of https://www.gitignore.io/api/gradle,eclipse,intellij+all,visualstudiocode
+<<<<<<< HEAD
+
+saves/
+=======
 test_load_file.json
 test_save_file.json
+>>>>>>> develop

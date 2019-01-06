@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellow;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class VentnorAvenue extends GroupColoredProperty {
               }
             },
             750, 375, 1150,
-            900, 450, 2150);
+            900, 450, 2150,
+            Track.Center);
   }
 }
