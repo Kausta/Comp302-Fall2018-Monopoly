@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.red;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class IndianaAvenue extends GroupColoredProperty {
               }
             },
             750, 375, 1050,
-            900, 450, 2050);
+            900, 450, 2050,
+            Track.Center);
   }
 }
