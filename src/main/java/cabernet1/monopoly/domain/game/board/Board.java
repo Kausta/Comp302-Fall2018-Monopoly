@@ -399,7 +399,7 @@ public class Board implements RepresentationInvariant, Serializable {
         ArrayList<Integer> yArr = new ArrayList<>();
         Tile cur = from;
         boolean passedTransitLastTime = false;
-        while (!cur.equals(to)) {
+        while (cur.getID()!=to.getID()) {
             xArr.add(cur.getX());
             yArr.add(cur.getY());
             Tile nextTile = moveStep(cur, direction, takeRailRoads);
@@ -446,9 +446,11 @@ public class Board implements RepresentationInvariant, Serializable {
     }
 
     private Tile moveStep(Tile curTile, boolean direction, boolean takeRailRoads) {
+
         if (curTile instanceof TransitStation) {
             return ((TransitStation) curTile).passThroughTunnel(direction, takeRailRoads);
         }
+
         return curTile.getNextTile(direction);
     }
 

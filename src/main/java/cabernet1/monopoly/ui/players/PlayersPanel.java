@@ -57,6 +57,7 @@ public class PlayersPanel extends BasePanel implements Observer<GameController.M
             if (player.player.equals(domainPlayer))
                 return player;
         }
+        logger.d("get player hasn't found");
         assert (false);
         return null;
     }
@@ -64,9 +65,12 @@ public class PlayersPanel extends BasePanel implements Observer<GameController.M
 
     @Override
     public void onValueChanged(GameController.MovePlayerObservableInfo value) {
+
         Player player = getPlayer(controller.getCurrentPlayer());
+
         if (player != null) {
             player.updatePath(value.tile, value.takeRailRoads,value.jump);
         }
+
     }
 }
