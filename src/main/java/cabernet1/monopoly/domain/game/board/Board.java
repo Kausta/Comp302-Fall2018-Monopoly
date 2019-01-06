@@ -344,6 +344,11 @@ public class Board implements RepresentationInvariant, Serializable {
      *
      * @return the tile numberOfSteps steps after curTile.
      */
+
+    public List<Tile> getBoardTiles(){
+        return boardTiles;
+    }
+
     public Tile getNextTile(Tile curTile, boolean direction, int numberOfSteps, boolean takeRailRoads) {
         boolean passedTransitLastTime=false;
         while (numberOfSteps > 0) {

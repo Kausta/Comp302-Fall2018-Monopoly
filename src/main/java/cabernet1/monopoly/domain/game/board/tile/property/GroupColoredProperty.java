@@ -1,11 +1,15 @@
 package cabernet1.monopoly.domain.game.board.tile.property;
 
+import cabernet1.monopoly.domain.Network;
+import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Hotel;
 import cabernet1.monopoly.domain.game.board.tile.property.building.House;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
+import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import sun.nio.ch.Net;
 
 import java.util.ArrayList;
 
@@ -146,6 +150,27 @@ public class GroupColoredProperty extends Property {
             buyHotel();
         }
         buyHouse();
+    }
+
+    public void downgrade(){
+        NetworkController nc = Network.getInstance().getNetworkController();
+        String message = "";
+        if(skyscraper.limitReached()){
+            skyscraper.decreaseAmount();
+            message = "Demolished a skyscraper at " + getName();
+        }
+        else if(hotel.limitReached()){
+            hotel.decreaseAmount();
+            message = "Demolished a hotel at " + getName();
+        } else{
+            if(house.exists()){
+                house.decreaseAmount();
+                message = "Demolished a house at " + getName();
+            } else {
+                message = "There are no buildings to demolish at " + getName();
+            }
+        }
+        nc.sendCommand(new AnnounceMessageCommand(message));
     }
 
     public House getHouse() {

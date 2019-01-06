@@ -4,17 +4,21 @@ import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.NetworkController;
+import cabernet1.monopoly.domain.game.board.Board;
+import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.card.IimmediateAction;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.DowngradePropertyCommand;
 import cabernet1.monopoly.domain.game.command.GainMoneyCommand;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class Hurricane extends ChanceCard implements IimmediateAction{
 
@@ -24,7 +28,7 @@ public class Hurricane extends ChanceCard implements IimmediateAction{
     public void action(IPlayer player){
         GameController gc = Game.getInstance().getGameController();
         NetworkController nc = Network.getInstance().getNetworkController();
-        ArrayList<IPlayer> players = gc.playerList();
+        ArrayList<IPlayer> players = (ArrayList<IPlayer>) gc.playerList().clone();
         players.remove(player);
         for(int i=0; i<players.size(); i++){
             if(players.get(i).getOwnedProperty().size() == 0){
@@ -52,7 +56,8 @@ public class Hurricane extends ChanceCard implements IimmediateAction{
         HashSet<Property> targetProperty = target.getOwnedProperty();
         HashSet<ColorGroup> colors = new HashSet<ColorGroup>();
         for(Property p: targetProperty)
-            colors.add(((GroupColoredProperty)p).getColorGroup());
+            if(((GroupColoredProperty)p).getHouse().exists())
+                colors.add(((GroupColoredProperty)p).getColorGroup());
         Object[] targetColors = colors.toArray();
         ColorGroup targetColor = (ColorGroup) targetColors[(JOptionPane.showOptionDialog(
                 null,
@@ -63,12 +68,19 @@ public class Hurricane extends ChanceCard implements IimmediateAction{
                 null,
                 targetColors,
                 null
-        )+targetColors.length) % targetColors.length    ];
+        )+targetColors.length) % targetColors.length];
 
-        //decrease upgrade levels of all the tiles in selected color
+        //decrease upgrade levels of all the tiles owned by target player in selected color
+        List<Tile> boardTiles = Board.getInstance().getBoardTiles();
+        for(Tile t: boardTiles){
+            if(t instanceof GroupColoredProperty){
+                GroupColoredProperty tile = (GroupColoredProperty)t;
+                if(tile.getColorGroup().equals(targetColor) && tile.getOwner().equals(target))
+                    nc.sendCommand(new DowngradePropertyCommand(tile.getID()));
+            }
+        }
 
         //broadcast message to network
-        nc.sendCommand(new GainMoneyCommand(target.getID(), 100));
         nc.sendCommand(new AnnounceMessageCommand("Hurricane wrecked" + target.getName() +
                 "'s properties of color: " + targetColor));
     }
