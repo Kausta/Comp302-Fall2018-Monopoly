@@ -223,16 +223,21 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
      * @see PlayerMovementStatus
      */
     protected void handleNormalMove() {
+        logger.d("Handle Normal move accessed");
         Board board = Board.getInstance();
         NormalDiceCup cup = NormalDiceCup.getInstance();
         Tile newTile = board.getNextTile(curTile, direction, cup.getFacesValue(), cup.isEven());
+        if (newTile==null){
+            logger.d("ERROR ERROR ERROR: null tile accessed ");
+        }
         NetworkController nc = Network.getInstance().getNetworkController();
 
         String previousTile = curTile.getName();
         String message = getName() + " has moved from " + previousTile + "  to " + newTile.getName();
+        logger.d("Message in normal move "+message);
         nc.sendCommand(new AnnounceMessageCommand(message));
         nc.sendCommand(new MovePlayerCommand(this.getID(), newTile.getID(), cup.isEven()));
-        handleTile(newTile, board);
+        logger.d("Handle Normal move finished");
     }
 
     /**
@@ -346,7 +351,8 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         NetworkController nc = Network.getInstance().getNetworkController();
         GameController controller = Game.getInstance().getGameController();
         controller.showDiceValue();
-        switch (rollStatus) {
+        handleNormalMove();
+        /*switch (rollStatus) {
             case NORMAL_MOVE:
                 handleNormalMove();
                 break;
@@ -365,7 +371,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
                 nc.sendCommand(new ChangeMovementStatusCommand(this.getID(), PlayerMovementStatus.BUS_MOVE));
                 handleNormalMove();
                 break;
-        }
+        }*/
         if (getNumSteps() == 0) {
             controller.disableRollDice();
             controller.enableEndTurn();
@@ -577,6 +583,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
     }
 
     public void handleTile(Tile destTile, Board board) {
+        logger.d("Accessed handle Tile");
         String message = "";
         NetworkController nc = Network.getInstance().getNetworkController();
         GameController controller = Game.getInstance().getGameController();
@@ -592,18 +599,24 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         } else {// other types, do nothing for now
             message = getName() + " has nothing to do now,will take a rest";
         }
-        if (getMovementStatus() == PlayerMovementStatus.NORMAL_MOVE) {
+        if (this instanceof  Player) {
+            controller.enableEndTurn();
+        }else{
+            controller.endTurn();
+        }
+        /*if (getMovementStatus() == PlayerMovementStatus.NORMAL_MOVE) {
             controller.enableSpecialAction();
         } else {
             controller.enableEndTurn();
-        }
+        }*/
 
         if (!message.equals(""))
             nc.sendCommand(new AnnounceMessageCommand(message));
-
+        logger.d("Finished  handle Tile");
     }
 
     public void handleProperty(Property property) {
+        logger.d(("handle property accessed"));
         GameController controller = Game.getInstance().getGameController();
         NetworkController nc = Network.getInstance().getNetworkController();
 
@@ -623,6 +636,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
             String message = getName() + " has paid a rent to " + property.getOwner().getName();
             nc.sendCommand(new AnnounceMessageCommand(message));
         }
+        logger.d(("handle property finished"));
     }
     public abstract void handleBuyProperty();
     public abstract void handleUpgradeProperty();

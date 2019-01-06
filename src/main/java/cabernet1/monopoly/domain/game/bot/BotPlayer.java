@@ -63,6 +63,7 @@ public class BotPlayer extends IPlayer {
 
     @Override
     public void handleBuyProperty() {
+        System.out.println("strategy called");
         botStrategy.handleBuyProperty(this);
     }
 

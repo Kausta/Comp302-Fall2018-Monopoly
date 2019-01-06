@@ -48,7 +48,6 @@ public class RegularDieImage extends DieImage {
                 logger.d("Invalid die type is entered!");
                 break;
         }
-        logger.d("Image path is "+image);
         return image;
     }
 

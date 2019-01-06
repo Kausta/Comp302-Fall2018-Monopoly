@@ -28,7 +28,7 @@ public class PlayerFactory implements Serializable {
     }
 
     public IPlayer createFromInitialData(InitialPlayerData playerData) {
-        if (playerData.isBotPlayer()) {
+        if (playerData.isBotPlayer() || true) {
             return this.createBotPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
         } else {
             return this.createNormalPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());

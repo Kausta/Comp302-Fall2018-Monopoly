@@ -8,6 +8,7 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.bot.BotPlayer;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.BuyPropertyCommand;
 import cabernet1.monopoly.domain.game.command.showDiceFacesCommand;
@@ -15,6 +16,7 @@ import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
+import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.PauseCommand;
 import cabernet1.monopoly.domain.network.command.ResumeCommand;
@@ -176,7 +178,12 @@ public class GameController implements Serializable {
         specialButton.setValue(true);
 
     }
-
+    public void finishedMovingPlayer(){
+        logger.i("Finished moving players");
+        //TODO execute when on current device
+        IPlayer player = getCurrentPlayer();
+        player.handleTile(player.getCurrentTile(), Board.getInstance());
+    }
     public void enableEndTurn() {
         endButton.setValue(true);
 

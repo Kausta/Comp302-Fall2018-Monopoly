@@ -377,7 +377,6 @@ public class Board implements RepresentationInvariant, Serializable {
         ArrayList<Integer> xArr = new ArrayList<>();
         ArrayList<Integer> yArr = new ArrayList<>();
         Tile cur = from;
-        System.out.println("Get path is going from "+from+" To "+to);
         boolean passedTransitLastTime=false;
         while (!cur.equals(to)) {
             xArr.add(cur.getX());

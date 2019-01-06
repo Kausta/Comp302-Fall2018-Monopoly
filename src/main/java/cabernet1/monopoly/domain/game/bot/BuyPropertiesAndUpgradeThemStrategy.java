@@ -7,14 +7,14 @@ public class BuyPropertiesAndUpgradeThemStrategy extends IStrategy {
 
     @Override
     public void handleBuyProperty(BotPlayer player) {
+        System.out.println("strategy accessed");
         Game game=Game.getInstance();
         game.getGameController().buyProperty();
-        game.endTurn();
+
     }
 
     @Override
     public void handleUpgradeProperty(BotPlayer player) {
         Game game=Game.getInstance();
-        game.endTurn();
     }
 }

@@ -10,18 +10,11 @@ public class BuyPropertiesOnlyStrategy extends IStrategy {
     public void handleBuyProperty(BotPlayer player) {
         Game game=Game.getInstance();
         game.getGameController().buyProperty();
-        game.endTurn();
     }
 
     @Override
     public void handleUpgradeProperty(BotPlayer player) {
         Game game=Game.getInstance();
         game.getGameController().upgradeBuilding();
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        game.endTurn();
     }
 }

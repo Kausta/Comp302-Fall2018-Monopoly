@@ -8,11 +8,11 @@ public class DoNothingStrategy extends IStrategy {
     @Override
     public void handleBuyProperty(BotPlayer player) {
         //simply end the turn without doing anything
-        Game.getInstance().endTurn();
+
     }
     @Override
     public void handleUpgradeProperty(BotPlayer player){
         //simply end the turn without doing anything
-        Game.getInstance().endTurn();
+
     }
 }
