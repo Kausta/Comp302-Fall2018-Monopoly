@@ -11,8 +11,73 @@ import cabernet1.monopoly.domain.game.board.tile.actiontile.CommunityChestTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Go;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BeaconStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BoylstonStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.NewburyStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.brown.BiscayneAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.brown.FloridaAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.brown.MiamiAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkblue.Boardwalk;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkblue.ParkPlace;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkpurple.LakeShoreDrive;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkpurple.MichiganAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkpurple.RandolphStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkpurple.WackerDrive;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkred.MulhollandDrive;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkred.RodeoDrive;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkred.VenturaBoulevard;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.NorthCarolinaAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.PacificAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.PennsylvaniaAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.grey.FifthAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.grey.MadisonAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.grey.WallStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightblue.ConnecticutAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightblue.OrientalAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightblue.VermontAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightgreen.BourbonStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightgreen.CanalStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightgreen.EsplanadeAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightgreen.MagazineStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightpink.HennepinAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightpink.LakeStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightpink.NicolletAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightyellow.CullenBoulevard;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightyellow.KatyFreeway;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightyellow.KirbyDrive;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightyellow.WestheimerRoad;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.orange.NewYorkAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.orange.StJamesPlace;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.orange.TennesseeAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.palegreen.AndrewYoungIntlBoulevard;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.palegreen.DecaturStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.palegreen.DekalbAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.palegreen.PeachtreeStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.pink.StCharlesPlace;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.pink.StatesAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.pink.VirginiaAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.purple.BalticAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.purple.MediterraneanAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.red.IllinoisAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.red.IndianaAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.red.KentuckyAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.tan.BroadStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.tan.MarketStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.tan.SouthStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.tan.WalnutStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.white.FishermansWharf;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.white.LombardStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.white.TheEmbarcadero;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellow.AtlanticAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellow.MarvinGardens;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellow.VentnorAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellowbrown.NorthTemple;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellowbrown.SouthTemple;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellowbrown.TempleSquare;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellowbrown.WestTemple;
 import cabernet1.monopoly.domain.game.board.tile.tunnels.TransitStation;
 import cabernet1.monopoly.domain.game.card.chancecard.ChanceCard;
 import cabernet1.monopoly.domain.game.card.chancecard.HolidayBonus;
@@ -27,6 +92,7 @@ import cabernet1.monopoly.utils.RepresentationInvariant;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
@@ -35,10 +101,13 @@ public class Board implements RepresentationInvariant, Serializable {
     private static final long serialVersionUID = 5361865266782383461L;
     private static volatile Board _instance = null;
     private final Random r = new Random();
-    List<Tile> boardTiles; //made package-private for testing purposes
+
+
+    ArrayList<Tile> boardTiles; //made package-private for testing purposes
     private Pool poolTile;
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
+    public Hashtable<ColorGroup, ArrayList<GroupColoredProperty>> groupedColorGroupProperties = new Hashtable();
 
     private Board() {
     }
@@ -57,135 +126,137 @@ public class Board implements RepresentationInvariant, Serializable {
         initiateTiles();
         initializeCards();
     }
-
+    public ArrayList<Tile> getBoardTiles() {
+        return boardTiles;
+    }
     private void initiateTiles() {
         // manually add all the information about the board's tile
         // first the low, right corner of middle then inner, then outer
         poolTile = new Pool();
         boardTiles.add(0, new Go(1560, 1560));
-        boardTiles.add(1, new FreeTile("Tile1", 1397, 1560));
+        boardTiles.add(1, new MediterraneanAvenue(1397, 1560));
         boardTiles.add(2, new CommunityChestTile(1287, 1560, Track.Center));
-        boardTiles.add(3, new FreeTile("Tile3", 1177, 1560));
-        boardTiles.add(4, new FreeTile("Tile4", 1067, 1560));
+        boardTiles.add(3, new BalticAvenue(1177, 1560));
+        boardTiles.add(4, new FreeTile("Tile4", 1067, 1560)); // Income Tax
         boardTiles.add(5, new TransitStation(957, 1560, Track.Center));
-        boardTiles.add(6, new FreeTile("Tile6", 847, 1560));
+        boardTiles.add(6, new OrientalAvenue(847, 1560));
         boardTiles.add(7, new ChanceTile(737, 1560, Track.Center));
-        boardTiles.add(8, new FreeTile("Tile8", 627, 1560));
-        boardTiles.add(9, new FreeTile("Tile9", 517, 1560));
-        boardTiles.add(10, new FreeTile("Tile10", 354, 1560));
-        boardTiles.add(11, new FreeTile("Tile11", 354, 1397));
-        boardTiles.add(12, new FreeTile("Tile12", 354, 1287));
-        boardTiles.add(13, new FreeTile("Tile13", 354, 1177));
-        boardTiles.add(14, new FreeTile("Tile14", 354, 1067));
+        boardTiles.add(8, new VermontAvenue(627, 1560));
+        boardTiles.add(9, new ConnecticutAvenue(517, 1560));
+        boardTiles.add(10, new FreeTile("Tile10", 354, 1560)); // Jail
+        boardTiles.add(11, new StCharlesPlace(354, 1397));
+        boardTiles.add(12, new FreeTile("Tile12", 354, 1287)); // Electric Company
+        boardTiles.add(13, new StatesAvenue(354, 1177));
+        boardTiles.add(14, new VirginiaAvenue(354, 1067));
         boardTiles.add(15, new TransitStation(354, 957, Track.Center));
-        boardTiles.add(16, new FreeTile("Tile16", 354, 847));
+        boardTiles.add(16, new StJamesPlace(354, 847));
         boardTiles.add(17, new CommunityChestTile(354, 737, Track.Center));
-        boardTiles.add(18, new FreeTile("Tile18", 354, 627));
-        boardTiles.add(19, new FreeTile("Tile19", 354, 517));
-        boardTiles.add(20, new FreeTile("Tile20", 354, 354));
-        boardTiles.add(21, new FreeTile("Tile21", 517, 354));
+        boardTiles.add(18, new TennesseeAvenue(354, 627));
+        boardTiles.add(19, new NewYorkAvenue(354, 517));
+        boardTiles.add(20, new FreeTile("Tile20", 354, 354)); // Free Park
+        boardTiles.add(21, new KentuckyAvenue(517, 354));
         boardTiles.add(22, new ChanceTile(627, 354, Track.Center));
-        boardTiles.add(23, new FreeTile("Tile23", 737, 354));
-        boardTiles.add(24, new FreeTile("Tile24", 847, 354));
+        boardTiles.add(23, new IndianaAvenue(737, 354));
+        boardTiles.add(24, new IllinoisAvenue(847, 354));
         boardTiles.add(25, new TransitStation(957, 354, Track.Center));
-        boardTiles.add(26, new FreeTile("Tile26", 1067, 354));
-        boardTiles.add(27, new FreeTile("Tile27", 1177, 354));
-        boardTiles.add(28, new FreeTile("Tile28", 1287, 354));
-        boardTiles.add(29, new FreeTile("Tile29", 1397, 354));
-        boardTiles.add(30, new FreeTile("Tile30", 1560, 354));
-        boardTiles.add(31, new FreeTile("Tile31", 1560, 517));
-        boardTiles.add(32, new FreeTile("Tile32", 1560, 627));
+        boardTiles.add(26, new AtlanticAvenue(1067, 354));
+        boardTiles.add(27, new VentnorAvenue(1177, 354));
+        boardTiles.add(28, new FreeTile("Tile28", 1287, 354)); // Water Works
+        boardTiles.add(29, new MarvinGardens(1397, 354));
+        boardTiles.add(30, new FreeTile("Tile30", 1560, 354)); // Roll Three
+        boardTiles.add(31, new PacificAvenue(1560, 517));
+        boardTiles.add(32, new NorthCarolinaAvenue(1560, 627));
         boardTiles.add(33, new CommunityChestTile(1560, 737, Track.Center));
-        boardTiles.add(34, new FreeTile("Tile34", 1560, 847));
+        boardTiles.add(34, new PennsylvaniaAvenue(1560, 847));
         boardTiles.add(35, new TransitStation(1560, 957, Track.Center));
         boardTiles.add(36, new ChanceTile(1560, 1067, Track.Center));
-        boardTiles.add(37, new FreeTile("Tile37", 1560, 1177));
-        boardTiles.add(38, new FreeTile("Tile38", 1560, 1287));
-        boardTiles.add(39, new FreeTile("Tile39", 1560, 1397));
+        boardTiles.add(37, new ParkPlace(1560, 1177));
+        boardTiles.add(38, new FreeTile("Tile38", 1560, 1287)); // Luxury Tax
+        boardTiles.add(39, new Boardwalk(1560, 1397));
 
 
-        boardTiles.add(40, new FreeTile("Tile40", 1800, 1800));
-        boardTiles.add(41, new FreeTile("Tile41", 1634, 1800));
+        boardTiles.add(40, new FreeTile("Tile40", 1800, 1800)); // Subway
+        boardTiles.add(41, new LakeStreet(1634, 1800));
         boardTiles.add(42, new CommunityChestTile(1522, 1800, Track.Outer));
-        boardTiles.add(43, new FreeTile("Tile43", 1410, 1800));
-        boardTiles.add(44, new FreeTile("Tile44", 1298, 1800));
-        boardTiles.add(45, new FreeTile("Tile45", 1186, 1800));
-        boardTiles.add(46, new FreeTile("Tile46", 1074, 1800));
+        boardTiles.add(43, new NicolletAvenue(1410, 1800));
+        boardTiles.add(44, new HennepinAvenue(1298, 1800));
+        boardTiles.add(45, new FreeTile("Tile45", 1186, 1800)); // Bus Ticket
+        boardTiles.add(46, new FreeTile("Tile46", 1074, 1800)); // Checker Cab Co.
         boardTiles.add(47, new TransitStation(962, 1800, Track.Center));
-        boardTiles.add(48, new FreeTile("Tile48", 850, 1800));
-        boardTiles.add(49, new FreeTile("Tile49", 738, 1800));
+        boardTiles.add(48, new EsplanadeAvenue(850, 1800));
+        boardTiles.add(49, new CanalStreet(738, 1800));
         boardTiles.add(50, new ChanceTile(626, 1800, Track.Outer));
-        boardTiles.add(51, new FreeTile("Tile51", 514, 1800));
-        boardTiles.add(52, new FreeTile("Tile52", 402, 1800));
-        boardTiles.add(53, new FreeTile("Tile53", 290, 1800));
+        boardTiles.add(51, new FreeTile("Tile51", 514, 1800)); // Cable Company
+        boardTiles.add(52, new MagazineStreet(402, 1800));
+        boardTiles.add(53, new BourbonStreet(290, 1800));
         boardTiles.add(54, new FreeTile("Tile54", 124, 1800));
-        boardTiles.add(55, new FreeTile("Tile55", 124, 1634));
-        boardTiles.add(56, new FreeTile("Tile56", 124, 1522));
-        boardTiles.add(57, new FreeTile("Tile57", 124, 1410));
-        boardTiles.add(58, new FreeTile("Tile58", 124, 1298));
-        boardTiles.add(59, new FreeTile("Tile59", 124, 1186));
-        boardTiles.add(60, new FreeTile("Tile60", 124, 1074));
+        boardTiles.add(55, new FreeTile("Tile55", 124, 1634)); // Auction
+        boardTiles.add(56, new KatyFreeway(124, 1522));
+        boardTiles.add(57, new WestheimerRoad(124, 1410));
+        boardTiles.add(58, new FreeTile("Tile58", 124, 1298)); // Internet Service Provider
+        boardTiles.add(59, new KirbyDrive(124, 1186));
+        boardTiles.add(60, new CullenBoulevard(124, 1074));
         boardTiles.add(61, new ChanceTile(124, 962, Track.Outer));
-        boardTiles.add(62, new FreeTile("Tile62", 124, 850));
-        boardTiles.add(63, new FreeTile("Tile63", 124, 738));
+        boardTiles.add(62, new FreeTile("Tile62", 124, 850)); // Black & White Cab Co.
+        boardTiles.add(63, new DekalbAvenue(124, 738));
         boardTiles.add(64, new CommunityChestTile(124, 626, Track.Outer));
-        boardTiles.add(65, new FreeTile("Tile65", 124, 514));
-        boardTiles.add(66, new FreeTile("Tile66", 124, 402));
-        boardTiles.add(67, new FreeTile("Tile67", 124, 290));
-        boardTiles.add(68, new FreeTile("Tile68", 124, 124));
-        boardTiles.add(69, new FreeTile("Tile69", 290, 124));
+        boardTiles.add(65, new AndrewYoungIntlBoulevard(124, 514));
+        boardTiles.add(66, new DecaturStreet(124, 402));
+        boardTiles.add(67, new PeachtreeStreet(124, 290));
+        boardTiles.add(68, new FreeTile("Tile68", 124, 124)); // Pay Day
+        boardTiles.add(69, new RandolphStreet(290, 124));
         boardTiles.add(70, new ChanceTile(402, 124, Track.Outer));
-        boardTiles.add(71, new FreeTile("Tile71", 514, 124));
-        boardTiles.add(72, new FreeTile("Tile72", 626, 124));
-        boardTiles.add(73, new FreeTile("Tile73", 738, 124));
-        boardTiles.add(74, new FreeTile("Tile74", 850, 124));
+        boardTiles.add(71, new LakeShoreDrive(514, 124));
+        boardTiles.add(72, new WackerDrive(626, 124));
+        boardTiles.add(73, new MichiganAvenue(738, 124));
+        boardTiles.add(74, new FreeTile("Tile74", 850, 124)); // Yellow Cab Co.
         boardTiles.add(75, new TransitStation(962, 124, Track.Center));
         boardTiles.add(76, new CommunityChestTile(1074, 124, Track.Outer));
-        boardTiles.add(77, new FreeTile("Tile77", 1186, 124));
-        boardTiles.add(78, new FreeTile("Tile78", 1298, 124));
-        boardTiles.add(79, new FreeTile("Tile79", 1410, 124));
-        boardTiles.add(80, new FreeTile("Tile80", 1522, 124));
-        boardTiles.add(81, new FreeTile("Tile81", 1634, 124));
-        boardTiles.add(82, new FreeTile("Jail", 1800, 124));
-        boardTiles.add(83, new FreeTile("Tile83", 1800, 290));
-        boardTiles.add(84, new FreeTile("Tile84", 1800, 402));
-        boardTiles.add(85, new FreeTile("Tile85", 1800, 514));
+        boardTiles.add(77, new SouthTemple(1186, 124));
+        boardTiles.add(78, new WestTemple( 1298, 124));
+        boardTiles.add(79, new FreeTile("Tile79", 1410, 124)); // Trash Collector
+        boardTiles.add(80, new NorthTemple(1522, 124));
+        boardTiles.add(81, new TempleSquare(1634, 124));
+        boardTiles.add(82, new FreeTile("Jail", 1800, 124)); // Jail
+        boardTiles.add(83, new SouthStreet(1800, 290));
+        boardTiles.add(84, new BroadStreet(1800, 402));
+        boardTiles.add(85, new WalnutStreet(1800, 514));
         boardTiles.add(86, new CommunityChestTile(1800, 626, Track.Outer));
-        boardTiles.add(87, new FreeTile("Tile87", 1800, 738));
-        boardTiles.add(88, new FreeTile("Tile88", 1800, 850));
-        boardTiles.add(89, new FreeTile("Tile89", 1800, 962));
-        boardTiles.add(90, new FreeTile("Tile90", 1800, 1074));
-        boardTiles.add(91, new FreeTile("Tile91", 1800, 1186));
-        boardTiles.add(92, new FreeTile("Tile92", 1800, 1298));
-        boardTiles.add(93, new FreeTile("Tile93", 1800, 1410));
+        boardTiles.add(87, new MarketStreet(1800, 738));
+        boardTiles.add(88, new FreeTile("Tile88", 1800, 850)); // Bus Ticket
+        boardTiles.add(89, new FreeTile("Tile89", 1800, 962)); // Sewage System
+        boardTiles.add(90, new FreeTile("Tile90", 1800, 1074)); // Ute Cab Co.
+        boardTiles.add(91, new FreeTile("Tile91", 1800, 1186)); // Birthday Gift
+        boardTiles.add(92, new MulhollandDrive(1800, 1298));
+        boardTiles.add(93, new VenturaBoulevard(1800, 1410));
         boardTiles.add(94, new ChanceTile(1800, 1522, Track.Outer));
-        boardTiles.add(95, new FreeTile("Tile95", 1800, 1634));
+        boardTiles.add(95, new RodeoDrive(1800, 1634));
 
 
-        boardTiles.add(96, new FreeTile("Tile96", 1333, 1333));
-        boardTiles.add(97, new FreeTile("Tile97", 1173, 1333));
-        boardTiles.add(98, new FreeTile("Tile98", 1065, 1333));
-        boardTiles.add(99, new FreeTile("Tile99", 957, 1333));
+        boardTiles.add(96, new FreeTile("Tile96", 1333, 1333)); // Squeeze Play
+        boardTiles.add(97, new TheEmbarcadero(1173, 1333));
+        boardTiles.add(98, new FishermansWharf(1065, 1333));
+        boardTiles.add(99, new FreeTile("Tile99", 957, 1333)); // Telephone Company
         boardTiles.add(100, new CommunityChestTile(849, 1333, Track.Inner));
-        boardTiles.add(101, new FreeTile("Tile101", 741, 1333));
-        boardTiles.add(102, new FreeTile("Tile102", 581, 1333));
-        boardTiles.add(103, new FreeTile("Tile103", 581, 1173));
-        boardTiles.add(104, new FreeTile("Tile104", 581, 1065));
+        boardTiles.add(101, new BeaconStreet(741, 1333));
+        boardTiles.add(102, new FreeTile("Tile102", 581, 1333)); // Bonus
+        boardTiles.add(103, new BoylstonStreet(581, 1173));
+        boardTiles.add(104, new NewburyStreet(581, 1065));
         boardTiles.add(105, new TransitStation(581, 957, Track.Center));
-        boardTiles.add(106, new FreeTile("Tile106", 581, 849));
-        boardTiles.add(107, new FreeTile("Tile107", 581, 741));
-        boardTiles.add(108, new FreeTile("Tile108", 581, 581));
-        boardTiles.add(109, new FreeTile("Tile109", 741, 581));
-        boardTiles.add(110, new FreeTile("Tile110", 849, 581));
-        boardTiles.add(111, new FreeTile("Tile111", 957, 581));
+        boardTiles.add(106, new FifthAvenue(581, 849));
+        boardTiles.add(107, new MadisonAvenue(581, 741));
+        boardTiles.add(108, new FreeTile("Tile108", 581, 581)); // Stock Exchange
+        boardTiles.add(109, new WallStreet(741, 581));
+        boardTiles.add(110, new FreeTile("Tile110", 849, 581)); // Tax Refund
+        boardTiles.add(111, new FreeTile("Tile111", 957, 581)); // Gas Company
         boardTiles.add(112, new ChanceTile(1065, 581, Track.Inner));
-        boardTiles.add(113, new FreeTile("Tile113", 1173, 581));
-        boardTiles.add(114, new FreeTile("Tile114", 1333, 581));
-        boardTiles.add(115, new FreeTile("Tile115", 1333, 741));
-        boardTiles.add(116, new FreeTile("Tile116", 1333, 849));
+        boardTiles.add(113, new FloridaAvenue(1173, 581));
+        boardTiles.add(114, new FreeTile("Tile114", 1333, 581)); // Holland Tunnel
+        boardTiles.add(115, new MiamiAvenue(1333, 741));
+        boardTiles.add(116, new BiscayneAvenue(1333, 849));
         boardTiles.add(117, new TransitStation(1333, 957, Track.Center));
-        boardTiles.add(118, new FreeTile("Tile118", 1333, 1065));
-        boardTiles.add(119, new FreeTile("Tile119", 1333, 1173));
+        boardTiles.add(118, new FreeTile("Tile118", 1333, 1065)); // Reverse Direction
+        boardTiles.add(119, new LombardStreet(1333, 1173));
 
 
         int[][] circles = {{0, 39}, {40, 95}, {96, 119}};
@@ -280,8 +351,18 @@ public class Board implements RepresentationInvariant, Serializable {
      * @return the tile numberOfSteps steps after curTile.
      */
     public Tile getNextTile(Tile curTile, boolean direction, int numberOfSteps, boolean takeRailRoads) {
+        boolean passedTransitLastTime=false;
         while (numberOfSteps > 0) {
-            curTile = moveStep(curTile, direction, takeRailRoads);
+            Tile nextTile=moveStep(curTile, direction, takeRailRoads);
+            if (nextTile instanceof TransitStation && curTile instanceof TransitStation){
+                if (passedTransitLastTime){
+                    nextTile=moveStep(curTile,direction,false);
+                    passedTransitLastTime=false;
+                }else{
+                    passedTransitLastTime=true;
+                }
+            }
+            curTile = nextTile;
             --numberOfSteps;
         }
         return curTile;
@@ -301,10 +382,22 @@ public class Board implements RepresentationInvariant, Serializable {
         ArrayList<Integer> xArr = new ArrayList<>();
         ArrayList<Integer> yArr = new ArrayList<>();
         Tile cur = from;
+        System.out.println("Get path is going from "+from+" To "+to);
+        boolean passedTransitLastTime=false;
         while (!cur.equals(to)) {
             xArr.add(cur.getX());
             yArr.add(cur.getY());
-            cur = moveStep(cur, direction, takeRailRoads);
+            Tile nextTile=moveStep(cur, direction, takeRailRoads);
+            if (nextTile instanceof TransitStation && cur instanceof TransitStation){
+                if (passedTransitLastTime){
+                    nextTile=moveStep(cur,direction,false);
+                    passedTransitLastTime=false;
+                }else{
+                    passedTransitLastTime=true;
+                }
+            }
+            cur = nextTile;
+           // cur = moveStep(cur, direction, takeRailRoads);
         }
         xArr.add(to.getX());
         yArr.add(to.getY());
@@ -386,7 +479,7 @@ public class Board implements RepresentationInvariant, Serializable {
         } else if (property.getOwner().equals(player)) {
             if (property instanceof GroupColoredProperty) {
                 GroupColoredProperty gcp = (GroupColoredProperty) property;
-                if (gcp.getUpgradeAmount() <= player.getMoney())
+                if (gcp.getUpgradeAmount() <= player.getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property)))
                     controller.enableUpgradeBuilding();
             }
         } else {
@@ -450,8 +543,7 @@ public class Board implements RepresentationInvariant, Serializable {
         player.ownProperty(property);
         property.setOwner(player);
         String message = player.getName() + " has bought " + property.getName();
-        NetworkController nc = Network.getInstance().getNetworkController();
-        nc.sendCommand(new AnnounceMessageCommand(message));
+        Game.getInstance().getGameController().announceMessage(message);
     }
 
     public boolean repOK() {
