@@ -103,6 +103,35 @@ public class Form implements ActionListener {
             return this;
         }
 
+        public Builder addDoubleComponent(Component first, Component second) {
+            JPanel container = new JPanel();
+            GridBagLayout layout = new GridBagLayout();
+            container.setLayout(layout);
+
+            GridBagConstraints c1 = new GridBagConstraints();
+            c1.gridx = 0;
+            c1.gridy = 0;
+            c1.gridwidth = 1;
+            c1.gridheight = 1;
+            c1.anchor = GridBagConstraints.LINE_START;
+            c1.fill = GridBagConstraints.HORIZONTAL;
+            container.add(first, c1);
+
+            GridBagConstraints c2 = new GridBagConstraints();
+            c2.gridx = 1;
+            c2.gridy = 0;
+            c2.gridwidth = 1;
+            c2.gridheight = 1;
+            c2.anchor = GridBagConstraints.LINE_END;
+            c2.weightx = 1.;
+            c2.fill = GridBagConstraints.HORIZONTAL;
+            container.add(second, c2);
+
+            components.add(container);
+
+            return this;
+        }
+
         public Builder addButton(String text, Runnable onClick) {
             JButton button = new JButton(text);
             button.setHorizontalAlignment(SwingConstants.CENTER);

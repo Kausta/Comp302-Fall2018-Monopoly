@@ -37,8 +37,8 @@ public class Player extends IPlayer implements RepresentationInvariant {
      * @param currentTile  the initial tile that stands on
      * @effects register the player's information
      */
-    public Player(int ID, String name, int money, int defaultOrder, Tile currentTile) {
-        super(ID, name, money, defaultOrder, currentTile);
+    public Player(String origin, int ID, String name, int money, int defaultOrder, Tile currentTile) {
+        super(origin, ID, name, money, defaultOrder, currentTile);
     }
 
     /**
@@ -226,10 +226,10 @@ public class Player extends IPlayer implements RepresentationInvariant {
         NetworkController nc = Network.getInstance().getNetworkController();
         nc.sendCommand(new IncNumConsDoubleRollsCommand(this.getID()));
         ++numberOfConsecutiveDoublesRolls;
-        if (numberOfConsecutiveDoublesRolls == 3) {
+        /*if (numberOfConsecutiveDoublesRolls == 3) {
             goJail();
             return;
-        }
+        }*/
         nc.sendCommand(new ChangeMovementStatusCommand(this.getID(), PlayerMovementStatus.DOUBLE_MOVE));
         handleNormalMove();
     }
