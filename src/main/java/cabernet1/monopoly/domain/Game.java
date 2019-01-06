@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.board.Board;
+import cabernet1.monopoly.domain.game.bot.BotPlayer;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.NextTurnCommand;
 import cabernet1.monopoly.domain.game.player.IPlayer;
@@ -61,6 +62,16 @@ public class Game implements Serializable {
         }
     }
 
+    public void changePlayerToBot(IPlayer p){
+        BotPlayer b = (BotPlayer) p;
+        for (int i = 0; i < player.size(); i++) {
+            if(player.get(i).equals(p)){
+                player.remove(i);
+                player.add(i, b);
+            }
+        }
+    }
+
     public void setNextServer(){
         Collections.sort(initialPlayerData);
         for(InitialPlayerData i : initialPlayerData){
@@ -76,6 +87,10 @@ public class Game implements Serializable {
 
     public String getNextPossibleServer(){
         return this.nextPossibleServer;
+    }
+
+    public List<InitialPlayerData> getPlayerData(){
+        return this.initialPlayerData;
     }
 
     public void setPlayersOnDevice(List<String> playersOnDevice) {
