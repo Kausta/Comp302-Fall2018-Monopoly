@@ -4,6 +4,8 @@ import cabernet1.monopoly.utils.Observer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 public class LogScrollPane extends BaseScrollPane implements Observer<String> {
 
@@ -38,10 +40,20 @@ public class LogScrollPane extends BaseScrollPane implements Observer<String> {
         display.setEditable(false); // text area must be non-editable
         display.setBackground(new Color(237, 240, 244));
         setViewportView(display);
+        //uncomment this if you want it to stay always down
+       /* this.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            }
+        });*/
     }
 
     public void announceMessage(String message) {
         display.append(" " + message + "\n");
+        display.setCaretPosition(display.getDocument().getLength());
+        JScrollBar vertical = this.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
+        //announcementList.ensureIndexIsVisible(model.getSize()-1);
     }
 
     @Override

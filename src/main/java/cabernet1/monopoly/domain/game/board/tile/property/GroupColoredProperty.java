@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property;
 
 import cabernet1.monopoly.domain.game.Constants;
+import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Hotel;
@@ -29,6 +30,16 @@ public class GroupColoredProperty extends Property {
         house = new House(housePrice, houseSellPrice, houseRents);
         hotel = new Hotel(hotelPrice, hotelSellPrice, hotelRent);
         skyscraper = new Skyscraper(skyscraperPrice, skyscraperSellPrice, skyscraperRent);
+        if(Board.getInstance().groupedColorGroupProperties.get(color) != null) {
+            ArrayList<GroupColoredProperty> a = Board.getInstance().groupedColorGroupProperties.get(color);
+            a.add(this);
+            Board.getInstance().groupedColorGroupProperties.put(color, a);
+        }
+        else {
+            ArrayList a = new ArrayList();
+            a.add(this);
+            Board.getInstance().groupedColorGroupProperties.put(color, a);
+        }
     }
 
     /**

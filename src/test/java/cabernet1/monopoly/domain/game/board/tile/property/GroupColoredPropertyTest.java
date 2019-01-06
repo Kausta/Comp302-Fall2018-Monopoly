@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property;
 
 import cabernet1.monopoly.TestBase;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.purple.MediterraneanAvenue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

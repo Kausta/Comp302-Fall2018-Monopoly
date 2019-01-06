@@ -3,7 +3,7 @@ package cabernet1.monopoly.domain.game.player;
 import cabernet1.monopoly.TestBase;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.board.tile.property.MediterraneanAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.purple.MediterraneanAvenue;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import org.junit.jupiter.api.AfterEach;
