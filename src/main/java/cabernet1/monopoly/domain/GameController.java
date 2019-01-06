@@ -254,7 +254,7 @@ public class GameController implements Serializable {
         ((GroupColoredProperty) getTile(propertyId)).downgrade();
     }
 
-    private void updateInfoObservables() {
+    public void updateInfoObservables() {
         playerListObservable.setValue(playerList());
         tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
