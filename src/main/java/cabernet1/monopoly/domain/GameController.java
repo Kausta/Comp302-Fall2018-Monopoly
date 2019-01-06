@@ -10,6 +10,7 @@ import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.BuyPropertyCommand;
+import cabernet1.monopoly.domain.game.command.SendChatMessageCommand;
 import cabernet1.monopoly.domain.game.command.showDiceFacesCommand;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
@@ -34,6 +35,7 @@ public class GameController implements Serializable {
     public ArrayList<Observable<Boolean>> interactableObservableList = new ArrayList<>();
     public ArrayList<Observable<Boolean>> disabledObservableList = new ArrayList<>();
     public final Observable<String> announcement = new Observable<>();
+    public final Observable<String> chat = new Observable<>();
     public final Observable<Integer> die1Observable = new Observable<>();
     public final Observable<Integer> die2Observable = new Observable<>();
     public final Observable<Integer> speedDieObservable = new Observable<>();
@@ -260,6 +262,10 @@ public class GameController implements Serializable {
      */
     public void resumeGame() {
         Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
+    }
+
+    public void sendChatMessage(String message) {
+        Network.getInstance().getNetworkController().sendCommand(new SendChatMessageCommand(message));
     }
 
     public boolean canBeUpgraded(ColorGroup color, GroupColoredProperty p) {

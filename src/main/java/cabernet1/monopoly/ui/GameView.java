@@ -13,6 +13,7 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.ui.panels.*;
 import cabernet1.monopoly.ui.players.PlayersPanel;
+import cabernet1.monopoly.ui.scrollpanes.ChatScrollPane;
 import cabernet1.monopoly.ui.scrollpanes.LogScrollPane;
 import cabernet1.monopoly.ui.tabbedpanes.DetailsTabbedPane;
 import cabernet1.monopoly.utils.ResourceManager;
@@ -63,7 +64,8 @@ public class GameView extends BaseView {
         // In addition, it contains some other panels
         RightPanel rP = RightPanel.getInstance();
         rP.add(DicePanel.getInstance(),BorderLayout.NORTH);
-        rP.add(MouseOverPanel.getInstance(), BorderLayout.NORTH);
+        rP.add(ChatScrollPane.getInstance(), BorderLayout.NORTH);
+        rP.add(ChatPanel.getInstance(), BorderLayout.NORTH);
         rP.add(DetailsTabbedPane.getInstance(), BorderLayout.NORTH);
         rP.add(LogScrollPane.getInstance(), BorderLayout.NORTH);
         rP.add(ActionPanel.getInstance(), BorderLayout.NORTH);
