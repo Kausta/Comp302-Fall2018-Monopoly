@@ -7,8 +7,7 @@
 package cabernet1.monopoly.ui;
 
 import cabernet1.monopoly.domain.GameController;
-import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.player.Player;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.ui.panels.*;
@@ -81,7 +80,7 @@ public class GameView extends BaseView {
         return this.root;
     }
 
-    public void showPlayerInfo(Player player) {
+    public void showPlayerInfo(IPlayer player) {
         //TODO showPlayerInfo method
         // this method should represent the starting turn
         // all info in the ui should be updated to be for that player
@@ -93,31 +92,14 @@ public class GameView extends BaseView {
         controller.rollDice();
     }
 
-    public void announceMessage(String message) {
-        // TODO implement announceMessage function
-        //		show the message on the announcement panel
-    }
-
-    public void movePlayer(Player player, Tile newTile) {
-        //TODO implement movePlayer method
-        //		move the corresponding player to the corresponding tile (just transporting for this phase)
-        // call controller.setCurrentTile(player,newTile)
-    }
-
-    public void chooseTile(Player player) {
+    public void chooseTile(IPlayer player) {
         //TODO chooseTile method
         // command the player (currently playing) to choose a tile
         // call controller.jumpToTile(player,newSelectedTile)
     }
 
-    public void showDiceValue() {
-        // TODO implement showDiceValue method
-        //show the values of the dice (normal dice cup for now) as a pictures
-        // if pictures of the dice aren't implement, just announce the value using cup.getFacesValue()
-    }
 
     public void endTurn() {
-        //TODO this method should be called when the endTurn button or enableSpecialAction button is called
         controller.endTurn();
     }
 

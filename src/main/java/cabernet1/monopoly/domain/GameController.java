@@ -15,7 +15,6 @@ import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.player.IPlayer;
-import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.domain.network.command.PauseCommand;
 import cabernet1.monopoly.domain.network.command.ResumeCommand;
@@ -25,7 +24,6 @@ import cabernet1.monopoly.utils.Observable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 public class GameController implements Serializable {
@@ -45,7 +43,7 @@ public class GameController implements Serializable {
     public final Observable<Boolean> rollButton = new Observable<>();
     public final Observable<Boolean> resumeButton = new Observable<>();
     public final Observable<Boolean> pauseButton = new Observable<>();
-    public final Observable<Player> playerObserver = new Observable<>();
+    public final Observable<IPlayer> playerObserver = new Observable<>();
     public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
     public final Observable<ArrayList<Tile>> tileListObservable = new Observable<>();
     private final RegularDie die1 = NormalDiceCup.getInstance().die1;
@@ -58,7 +56,7 @@ public class GameController implements Serializable {
         logger.i("Created Game Controller");
     }
 
-    public Player getCurrentPlayer() {
+    public IPlayer getCurrentPlayer() {
         return Game.getInstance().getCurrentPlayer();
     }
 
@@ -67,7 +65,7 @@ public class GameController implements Serializable {
     }
 
     public void rollDice() {
-        Player currentPlayer = getCurrentPlayer();
+        IPlayer currentPlayer = getCurrentPlayer();
         if (currentPlayer.isInJail()) {
             currentPlayer.playJailturn();
         } else {
@@ -90,7 +88,7 @@ public class GameController implements Serializable {
         return Board.getInstance().getTileById(ID);
     }
 
-    public void chooseTile(Player player) {
+    public void chooseTile(IPlayer player) {
         // TODO implement the chooseTile method
         // call the chooseTile method in the UI using observer
     }
@@ -111,11 +109,11 @@ public class GameController implements Serializable {
         getPlayer(playerId).setCurrentTile(getTile(newTileId));
     }
 
-    public void jumpToTile(Player player, Tile newTile) {
+    public void jumpToTile(IPlayer player, Tile newTile) {
         player.jumpToTile(newTile);
     }
 
-    public void changeCurrentTile(Player player, Tile newTile) {
+    public void changeCurrentTile(IPlayer player, Tile newTile) {
         player.setCurrentTile(newTile);
     }
 
@@ -208,7 +206,7 @@ public class GameController implements Serializable {
         rollButton.setValue(false);
     }
 
-    public void playerInfo(Player player) {
+    public void playerInfo(IPlayer player) {
         playerObserver.setValue(player);
     }
 
@@ -264,7 +262,7 @@ public class GameController implements Serializable {
 
     public boolean canBeUpgraded(ColorGroup color, GroupColoredProperty p) {
       ArrayList<GroupColoredProperty> a = Board.getInstance().groupedColorGroupProperties.get(color);
-      Player owner = p.getOwner();
+      IPlayer owner = p.getOwner();
       for(GroupColoredProperty g: a) {
           if(owner != g.getOwner()) {
             return false;

@@ -84,7 +84,6 @@ import cabernet1.monopoly.domain.game.card.communitycard.CommunityChestCard;
 import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.command.*;
 import cabernet1.monopoly.domain.game.player.IPlayer;
-import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.utils.RepresentationInvariant;
@@ -522,7 +521,7 @@ public class Board implements RepresentationInvariant, Serializable {
 
     }
 
-    public void upgradeBuilding(Player player, GroupColoredProperty property) {
+    public void upgradeBuilding(IPlayer player, GroupColoredProperty property) {
         NetworkController nc = Network.getInstance().getNetworkController();
         int upgradeAmount = property.getUpgradeAmount();
         nc.sendCommand(new PayRentCommand(player.getID(), upgradeAmount));
@@ -533,11 +532,10 @@ public class Board implements RepresentationInvariant, Serializable {
 
     /**
      * This method will only be called when it's possible to do so
-     *
-     * @param player   the player to buy the property
+     *  @param player   the player to buy the property
      * @param property the property to be bought by the player
      */
-    public void buyProperty(Player player, Property property) {
+    public void buyProperty(IPlayer player, Property property) {
         player.loseMoney(property.getPrice());
         player.ownProperty(property);
         property.setOwner(player);

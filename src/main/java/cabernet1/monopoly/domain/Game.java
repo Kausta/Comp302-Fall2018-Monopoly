@@ -78,15 +78,15 @@ public class Game implements Serializable {
     }
 
     public void configureTurn() {
-        Player player=getCurrentPlayer();
+        IPlayer player=getCurrentPlayer();
         controller.playerInfo(player);
         String message="Player: "+player.getName()+" will play now\n" + Constants.SEPERATING_lINE+"\n\n";
         controller.announceMessage(message);
         controller.tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
 
-    public Player getCurrentPlayer() {
-        return (Player) player.get(playerPointer);
+    public IPlayer getCurrentPlayer() {
+        return player.get(playerPointer);
     }
 
     public ArrayList<IPlayer> getPlayers() {
