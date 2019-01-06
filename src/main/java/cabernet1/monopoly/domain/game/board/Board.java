@@ -134,15 +134,15 @@ public class Board implements RepresentationInvariant, Serializable {
         boardTiles.add(1, new MediterraneanAvenue(1397, 1560));
         boardTiles.add(2, new CommunityChestTile(1287, 1560, Track.Center));
         boardTiles.add(3, new BalticAvenue(1177, 1560));
-        boardTiles.add(4, new FreeTile("Tile4", 1067, 1560)); // Income Tax
+        boardTiles.add(4, new FreeTile("Income Tax", 1067, 1560)); // Income Tax
         boardTiles.add(5, new TransitStation(957, 1560, Track.Center));
         boardTiles.add(6, new OrientalAvenue(847, 1560));
         boardTiles.add(7, new ChanceTile(737, 1560, Track.Center));
         boardTiles.add(8, new VermontAvenue(627, 1560));
         boardTiles.add(9, new ConnecticutAvenue(517, 1560));
-        boardTiles.add(10, new FreeTile("Tile10", 354, 1560)); // Jail
+        boardTiles.add(10, new FreeTile("Jail", 354, 1560)); // Jail
         boardTiles.add(11, new StCharlesPlace(354, 1397));
-        boardTiles.add(12, new FreeTile("Tile12", 354, 1287)); // Electric Company
+        boardTiles.add(12, new FreeTile("Electric Company", 354, 1287)); // Electric Company
         boardTiles.add(13, new StatesAvenue(354, 1177));
         boardTiles.add(14, new VirginiaAvenue(354, 1067));
         boardTiles.add(15, new TransitStation(354, 957, Track.Center));
@@ -150,7 +150,7 @@ public class Board implements RepresentationInvariant, Serializable {
         boardTiles.add(17, new CommunityChestTile(354, 737, Track.Center));
         boardTiles.add(18, new TennesseeAvenue(354, 627));
         boardTiles.add(19, new NewYorkAvenue(354, 517));
-        boardTiles.add(20, new FreeTile("Tile20", 354, 354)); // Free Park
+        boardTiles.add(20, new FreeTile("Free Parking", 354, 354)); // Free Park
         boardTiles.add(21, new KentuckyAvenue(517, 354));
         boardTiles.add(22, new ChanceTile(627, 354, Track.Center));
         boardTiles.add(23, new IndianaAvenue(737, 354));
@@ -158,9 +158,9 @@ public class Board implements RepresentationInvariant, Serializable {
         boardTiles.add(25, new TransitStation(957, 354, Track.Center));
         boardTiles.add(26, new AtlanticAvenue(1067, 354));
         boardTiles.add(27, new VentnorAvenue(1177, 354));
-        boardTiles.add(28, new FreeTile("Tile28", 1287, 354)); // Water Works
+        boardTiles.add(28, new FreeTile("Water Works", 1287, 354)); // Water Works
         boardTiles.add(29, new MarvinGardens(1397, 354));
-        boardTiles.add(30, new FreeTile("Tile30", 1560, 354)); // Roll Three
+        boardTiles.add(30, new FreeTile("Roll Three", 1560, 354)); // Roll Three
         boardTiles.add(31, new PacificAvenue(1560, 517));
         boardTiles.add(32, new NorthCarolinaAvenue(1560, 627));
         boardTiles.add(33, new CommunityChestTile(1560, 737, Track.Center));
@@ -168,91 +168,91 @@ public class Board implements RepresentationInvariant, Serializable {
         boardTiles.add(35, new TransitStation(1560, 957, Track.Center));
         boardTiles.add(36, new ChanceTile(1560, 1067, Track.Center));
         boardTiles.add(37, new ParkPlace(1560, 1177));
-        boardTiles.add(38, new FreeTile("Tile38", 1560, 1287)); // Luxury Tax
+        boardTiles.add(38, new FreeTile("Luxury Tax", 1560, 1287)); // Luxury Tax
         boardTiles.add(39, new Boardwalk(1560, 1397));
 
 
-        boardTiles.add(40, new FreeTile("Tile40", 1800, 1800)); // Subway
+        boardTiles.add(40, new FreeTile("Subway", 1800, 1800)); // Subway
         boardTiles.add(41, new LakeStreet(1634, 1800));
         boardTiles.add(42, new CommunityChestTile(1522, 1800, Track.Outer));
         boardTiles.add(43, new NicolletAvenue(1410, 1800));
         boardTiles.add(44, new HennepinAvenue(1298, 1800));
-        boardTiles.add(45, new FreeTile("Tile45", 1186, 1800)); // Bus Ticket
-        boardTiles.add(46, new FreeTile("Tile46", 1074, 1800)); // Checker Cab Co.
+        boardTiles.add(45, new FreeTile("Bus Ticket", 1186, 1800)); // Bus Ticket
+        boardTiles.add(46, new FreeTile("Checker Cab Co.", 1074, 1800)); // Checker Cab Co.
         boardTiles.add(47, new TransitStation(962, 1800, Track.Center));
         boardTiles.add(48, new EsplanadeAvenue(850, 1800));
         boardTiles.add(49, new CanalStreet(738, 1800));
         boardTiles.add(50, new ChanceTile(626, 1800, Track.Outer));
-        boardTiles.add(51, new FreeTile("Tile51", 514, 1800)); // Cable Company
+        boardTiles.add(51, new FreeTile("Cable Company", 514, 1800)); // Cable Company
         boardTiles.add(52, new MagazineStreet(402, 1800));
         boardTiles.add(53, new BourbonStreet(290, 1800));
-        boardTiles.add(54, new FreeTile("Tile54", 124, 1800));
-        boardTiles.add(55, new FreeTile("Tile55", 124, 1634)); // Auction
+        boardTiles.add(54, new FreeTile("Holland Tunnel", 124, 1800));
+        boardTiles.add(55, new FreeTile("Auction", 124, 1634)); // Auction
         boardTiles.add(56, new KatyFreeway(124, 1522));
         boardTiles.add(57, new WestheimerRoad(124, 1410));
-        boardTiles.add(58, new FreeTile("Tile58", 124, 1298)); // Internet Service Provider
+        boardTiles.add(58, new FreeTile("Internet Service Provider", 124, 1298)); // Internet Service Provider
         boardTiles.add(59, new KirbyDrive(124, 1186));
         boardTiles.add(60, new CullenBoulevard(124, 1074));
         boardTiles.add(61, new ChanceTile(124, 962, Track.Outer));
-        boardTiles.add(62, new FreeTile("Tile62", 124, 850)); // Black & White Cab Co.
+        boardTiles.add(62, new FreeTile("Black & White Cab Co.", 124, 850)); // Black & White Cab Co.
         boardTiles.add(63, new DekalbAvenue(124, 738));
         boardTiles.add(64, new CommunityChestTile(124, 626, Track.Outer));
         boardTiles.add(65, new AndrewYoungIntlBoulevard(124, 514));
         boardTiles.add(66, new DecaturStreet(124, 402));
         boardTiles.add(67, new PeachtreeStreet(124, 290));
-        boardTiles.add(68, new FreeTile("Tile68", 124, 124)); // Pay Day
+        boardTiles.add(68, new FreeTile("Pay Day", 124, 124)); // Pay Day
         boardTiles.add(69, new RandolphStreet(290, 124));
         boardTiles.add(70, new ChanceTile(402, 124, Track.Outer));
         boardTiles.add(71, new LakeShoreDrive(514, 124));
         boardTiles.add(72, new WackerDrive(626, 124));
         boardTiles.add(73, new MichiganAvenue(738, 124));
-        boardTiles.add(74, new FreeTile("Tile74", 850, 124)); // Yellow Cab Co.
+        boardTiles.add(74, new FreeTile("Yellow Cab Co.", 850, 124)); // Yellow Cab Co.
         boardTiles.add(75, new TransitStation(962, 124, Track.Center));
         boardTiles.add(76, new CommunityChestTile(1074, 124, Track.Outer));
         boardTiles.add(77, new SouthTemple(1186, 124));
         boardTiles.add(78, new WestTemple(1298, 124));
-        boardTiles.add(79, new FreeTile("Tile79", 1410, 124)); // Trash Collector
+        boardTiles.add(79, new FreeTile("Trash Collector", 1410, 124)); // Trash Collector
         boardTiles.add(80, new NorthTemple(1522, 124));
         boardTiles.add(81, new TempleSquare(1634, 124));
-        boardTiles.add(82, new FreeTile("Jail", 1800, 124)); // Jail
+        boardTiles.add(82, new FreeTile("Go to Jail", 1800, 124)); // Jail
         boardTiles.add(83, new SouthStreet(1800, 290));
         boardTiles.add(84, new BroadStreet(1800, 402));
         boardTiles.add(85, new WalnutStreet(1800, 514));
         boardTiles.add(86, new CommunityChestTile(1800, 626, Track.Outer));
         boardTiles.add(87, new MarketStreet(1800, 738));
-        boardTiles.add(88, new FreeTile("Tile88", 1800, 850)); // Bus Ticket
-        boardTiles.add(89, new FreeTile("Tile89", 1800, 962)); // Sewage System
-        boardTiles.add(90, new FreeTile("Tile90", 1800, 1074)); // Ute Cab Co.
-        boardTiles.add(91, new FreeTile("Tile91", 1800, 1186)); // Birthday Gift
+        boardTiles.add(88, new FreeTile("Bus Ticket", 1800, 850)); // Bus Ticket
+        boardTiles.add(89, new FreeTile("Sewage System", 1800, 962)); // Sewage System
+        boardTiles.add(90, new FreeTile("Ute Cab Co.", 1800, 1074)); // Ute Cab Co.
+        boardTiles.add(91, new FreeTile("Birthday Gift", 1800, 1186)); // Birthday Gift
         boardTiles.add(92, new MulhollandDrive(1800, 1298));
         boardTiles.add(93, new VenturaBoulevard(1800, 1410));
         boardTiles.add(94, new ChanceTile(1800, 1522, Track.Outer));
         boardTiles.add(95, new RodeoDrive(1800, 1634));
 
 
-        boardTiles.add(96, new FreeTile("Tile96", 1333, 1333)); // Squeeze Play
+        boardTiles.add(96, new FreeTile("Squeeze Play", 1333, 1333)); // Squeeze Play
         boardTiles.add(97, new TheEmbarcadero(1173, 1333));
         boardTiles.add(98, new FishermansWharf(1065, 1333));
-        boardTiles.add(99, new FreeTile("Tile99", 957, 1333)); // Telephone Company
+        boardTiles.add(99, new FreeTile("Telephone Company", 957, 1333)); // Telephone Company
         boardTiles.add(100, new CommunityChestTile(849, 1333, Track.Inner));
         boardTiles.add(101, new BeaconStreet(741, 1333));
-        boardTiles.add(102, new FreeTile("Tile102", 581, 1333)); // Bonus
+        boardTiles.add(102, new FreeTile("Bonus", 581, 1333)); // Bonus
         boardTiles.add(103, new BoylstonStreet(581, 1173));
         boardTiles.add(104, new NewburyStreet(581, 1065));
         boardTiles.add(105, new TransitStation(581, 957, Track.Center));
         boardTiles.add(106, new FifthAvenue(581, 849));
         boardTiles.add(107, new MadisonAvenue(581, 741));
-        boardTiles.add(108, new FreeTile("Tile108", 581, 581)); // Stock Exchange
+        boardTiles.add(108, new FreeTile("Stock Exchange", 581, 581)); // Stock Exchange
         boardTiles.add(109, new WallStreet(741, 581));
-        boardTiles.add(110, new FreeTile("Tile110", 849, 581)); // Tax Refund
-        boardTiles.add(111, new FreeTile("Tile111", 957, 581)); // Gas Company
+        boardTiles.add(110, new FreeTile("Tax Refund", 849, 581)); // Tax Refund
+        boardTiles.add(111, new FreeTile("Gas Company", 957, 581)); // Gas Company
         boardTiles.add(112, new ChanceTile(1065, 581, Track.Inner));
         boardTiles.add(113, new FloridaAvenue(1173, 581));
-        boardTiles.add(114, new FreeTile("Tile114", 1333, 581)); // Holland Tunnel
+        boardTiles.add(114, new FreeTile("Holland Tunnel", 1333, 581)); // Holland Tunnel
         boardTiles.add(115, new MiamiAvenue(1333, 741));
         boardTiles.add(116, new BiscayneAvenue(1333, 849));
         boardTiles.add(117, new TransitStation(1333, 957, Track.Center));
-        boardTiles.add(118, new FreeTile("Tile118", 1333, 1065)); // Reverse Direction
+        boardTiles.add(118, new FreeTile("Reverse Direction", 1333, 1065)); // Reverse Direction
         boardTiles.add(119, new LombardStreet(1333, 1173));
 
 
