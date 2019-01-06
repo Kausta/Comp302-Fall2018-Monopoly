@@ -17,7 +17,7 @@ public class PauseButton extends BaseButton {
   }
 
   private void initialize() {
-    controller.rollButton.addObserver(this);
+    controller.pauseButton.addObserver(this);
 
     addActionListener(e -> {
       controller.pauseGame();

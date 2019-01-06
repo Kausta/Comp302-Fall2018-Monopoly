@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Observable<T extends Serializable> implements Serializable {
     private static final long serialVersionUID = -3305024786301652216L;
-    private final Set<Observer<T>> observers = new HashSet<>();
+    private transient Set<Observer<T>> observers = new HashSet<>();
     private T value;
 
     public Observable() {
@@ -23,6 +23,9 @@ public class Observable<T extends Serializable> implements Serializable {
     }
 
     public void notifyObservers() {
+        if(observers == null) {
+            observers = new HashSet<>();
+        }
         final T value = this.value;
         for (Observer<T> observer : observers) {
             this.notifyObserver(observer, value);
@@ -34,6 +37,9 @@ public class Observable<T extends Serializable> implements Serializable {
     }
 
     public void addObserver(Observer<T> observer) {
+        if(observers == null) {
+            observers = new HashSet<>();
+        }
         this.observers.add(observer);
     }
 

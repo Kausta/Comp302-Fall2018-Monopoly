@@ -1,5 +1,7 @@
 package cabernet1.monopoly.domain.network;
 
+import cabernet1.monopoly.domain.network.command.ClientDisconnectedCommand;
+import cabernet1.monopoly.domain.InitializationController;
 import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.domain.network.command.NetworkCommand;
 import cabernet1.monopoly.domain.network.command.WelcomeCommand;
@@ -29,7 +31,14 @@ public class ServerSocketAdapter implements INetworkAdapter {
     @Override
     public void sendCommand(ICommand command) {
         command.execute();
-        connectedClients.forEach(socket -> socket.sendCommand(command));
+        for(ClientSocketAdapter s : connectedClients){
+            try {
+                s.sendCommand(command);
+            } catch (Exception e) {
+                connectedClients.remove(s);
+                sendCommand(new ClientDisconnectedCommand(s.getClientSocket().getIpAddress()));
+            }
+        }
     }
 
     @Override
@@ -50,7 +59,7 @@ public class ServerSocketAdapter implements INetworkAdapter {
             connectedClients.add(adapter);
 
             String id = clientSocket.getIpAddress() + ":" + clientSocket.getPort();
-            WelcomeCommand command = new WelcomeCommand(id);
+            WelcomeCommand command = new WelcomeCommand(id, InitializationController.getInstance().isLoadedGame());
             adapter.sendCommand(new NetworkCommand(command));
 
             adapter.onReceiveCommand(this::resendCommand);

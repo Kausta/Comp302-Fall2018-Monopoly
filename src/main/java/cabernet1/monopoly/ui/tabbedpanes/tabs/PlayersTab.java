@@ -52,16 +52,15 @@ public class PlayersTab extends JScrollPane implements Observer<ArrayList<IPlaye
         }
 
         playerTable.getColumnModel().getColumn(0).setResizable(false);
-        playerTable.getColumnModel().getColumn(0).setPreferredWidth(600);
+        playerTable.getColumnModel().getColumn(0).setPreferredWidth(500);
         playerTable.getColumnModel().getColumn(1).setResizable(false);
-        playerTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+        playerTable.getColumnModel().getColumn(1).setPreferredWidth(200);
         playerTable.getColumnModel().getColumn(2).setResizable(false);
         playerTable.getColumnModel().getColumn(2).setPreferredWidth(200);
     }
 
     @Override
     public void onValueChanged(ArrayList<IPlayer> playerList) {
-        logger.d("Value changed");
         DefaultTableModel model = (DefaultTableModel) playerTable.getModel();
         int rowCount = model.getRowCount();
         //Remove rows one by one from the end of the table

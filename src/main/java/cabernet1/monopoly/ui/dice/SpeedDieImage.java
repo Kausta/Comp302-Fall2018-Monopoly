@@ -18,7 +18,7 @@ public class SpeedDieImage extends DieImage {
     public SpeedDieImage() {
         add(dieImageLabel);
         dieImageLabel.setVisible(true);
-        drawDie(4);
+        drawDie(1);
     }
 
     protected String getDieImage(int dieNum) {

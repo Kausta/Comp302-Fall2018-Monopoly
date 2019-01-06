@@ -78,13 +78,16 @@ public class Animator implements Runnable {
      */
     public void addDrawable(Animatable d) {
         elementsToDraw.addElement(d);
+        //System.out.println("Added drawable: "+elementsToDraw.size());
     }
 
     /**
      * removeElement is used to remove drawables from the vector.
      */
     public void removeDrawable(Animatable d) {
+
         elementsToDraw.removeElement(d);
+        //System.out.println("Removed drawable: "+elementsToDraw.size());
     }
 
 

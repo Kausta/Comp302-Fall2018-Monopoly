@@ -29,20 +29,20 @@ public class PlayerFactory implements Serializable {
 
     public IPlayer createFromInitialData(InitialPlayerData playerData) {
         if (playerData.isBotPlayer()) {
-            return this.createBotPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
+            return this.createBotPlayer(playerData.getOrigin(), playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
         } else {
-            return this.createNormalPlayer(playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
+            return this.createNormalPlayer(playerData.getOrigin(), playerData.getId(), playerData.getName(), Constants.INITIAL_MONEY, Board.getInstance().getInitialTile());
         }
     }
 
-    public IPlayer createNormalPlayer(int id, String name, int money, Tile startingTile) {
+    public IPlayer createNormalPlayer(String origin, int id, String name, int money, Tile startingTile) {
         ++numberOfInstances;
-        return new Player(id, name, money, id, startingTile);
+        return new Player(origin, id, name, money, id, startingTile);
     }
 
-    public IPlayer createBotPlayer(int id, String name, int money, Tile startingTile) {
+    public IPlayer createBotPlayer(String origin, int id, String name, int money, Tile startingTile) {
         ++numberOfInstances;
         IStrategy strategy = BotStrategyFactory.getInstance().createDefaultStrategy();
-        return new BotPlayer(id, name, money, id, startingTile, strategy);
+        return new BotPlayer(origin, id, name, money, id, startingTile, strategy);
     }
 }

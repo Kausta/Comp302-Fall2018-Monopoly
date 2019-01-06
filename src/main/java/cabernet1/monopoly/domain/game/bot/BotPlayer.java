@@ -7,25 +7,18 @@ public class BotPlayer extends IPlayer {
     private static final long serialVersionUID = 8098497332098671670L;
     private final IStrategy botStrategy;
 
-    public BotPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile, IStrategy botStrategy) {
-        super(ID, name, money, defaultOrder, currentTile);
+    public BotPlayer(String origin, int ID, String name, int money, int defaultOrder, Tile currentTile, IStrategy botStrategy) {
+        super(origin, ID, name, money, defaultOrder, currentTile);
         this.botStrategy = botStrategy;
     }
 
-    @Override
-    public void playTurn() {
 
-    }
 
     public IStrategy getBotStrategy() {
         return botStrategy;
     }
 
-    @Override
-    protected void handleNormalMove() {
-        // TODO Auto-generated method stub
 
-    }
 
     @Override
     protected void handleMrMonopolyMove() {
@@ -39,7 +32,6 @@ public class BotPlayer extends IPlayer {
 
     }
 
-    @Override
     protected void handleTriplesMove() {
         // TODO Auto-generated method stub
 
@@ -67,6 +59,17 @@ public class BotPlayer extends IPlayer {
     protected void goJail() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void handleBuyProperty() {
+        System.out.println("strategy called");
+        botStrategy.handleBuyProperty(this);
+    }
+
+    @Override
+    public void handleUpgradeProperty() {
+        botStrategy.handleUpgradeProperty(this);
     }
 
 
