@@ -12,20 +12,13 @@ public class BotPlayer extends IPlayer {
         this.botStrategy = botStrategy;
     }
 
-    @Override
-    public void playTurn() {
 
-    }
 
     public IStrategy getBotStrategy() {
         return botStrategy;
     }
 
-    @Override
-    protected void handleNormalMove() {
-        // TODO Auto-generated method stub
 
-    }
 
     @Override
     protected void handleMrMonopolyMove() {
@@ -39,7 +32,6 @@ public class BotPlayer extends IPlayer {
 
     }
 
-    @Override
     protected void handleTriplesMove() {
         // TODO Auto-generated method stub
 

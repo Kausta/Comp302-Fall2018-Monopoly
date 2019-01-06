@@ -19,7 +19,7 @@ public class RegularDieImage extends DieImage {
     public RegularDieImage() {
         add(dieImageLabel);
         dieImageLabel.setVisible(true);
-        drawDie(2);
+        drawDie(1);
     }
 
     @Override

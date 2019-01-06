@@ -469,7 +469,7 @@ public class Board implements RepresentationInvariant, Serializable {
         return null;
     }
 
-    public void handleProperty(Player player, Property property) {
+    public void handleProperty(IPlayer player, Property property) {
         GameController controller = Game.getInstance().getGameController();
         NetworkController nc = Network.getInstance().getNetworkController();
 
@@ -495,7 +495,7 @@ public class Board implements RepresentationInvariant, Serializable {
         return boardTiles.get(idx);
     }
 
-    public void handleTile(Player player, Tile destTile) {
+    public void handleTile(IPlayer player, Tile destTile) {
         String message = "";
         NetworkController nc = Network.getInstance().getNetworkController();
         GameController controller = Game.getInstance().getGameController();
