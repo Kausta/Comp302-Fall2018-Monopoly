@@ -23,11 +23,11 @@ public class PauseCommand extends ICommand {
     gc.pauseButton.setValue(false);
     IPlayer currentPlayer = Game.getInstance().getCurrentPlayer();
     List<String> playersOnDevice = Game.getInstance().getPlayersOnDevice();
-    if(playersOnDevice.contains(currentPlayer.getName())) {
+    if(currentPlayer.isOnThisDevice()) {
       gc.resumeButton.setValue(true);
     }
     else {
-      gc.resumeButton.setValue(false);
+      gc.resumeButton.setValue(true);
     }
     if(gc.disabledObservableList.isEmpty()) {
       gc.disabledObservableList.clear();
