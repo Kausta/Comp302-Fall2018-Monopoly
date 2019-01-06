@@ -226,10 +226,10 @@ public class Player extends IPlayer implements RepresentationInvariant {
         NetworkController nc = Network.getInstance().getNetworkController();
         nc.sendCommand(new IncNumConsDoubleRollsCommand(this.getID()));
         ++numberOfConsecutiveDoublesRolls;
-        if (numberOfConsecutiveDoublesRolls == 3) {
+        /*if (numberOfConsecutiveDoublesRolls == 3) {
             goJail();
             return;
-        }
+        }*/
         nc.sendCommand(new ChangeMovementStatusCommand(this.getID(), PlayerMovementStatus.DOUBLE_MOVE));
         handleNormalMove();
     }

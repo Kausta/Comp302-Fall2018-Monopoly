@@ -343,8 +343,18 @@ public class Board implements RepresentationInvariant, Serializable {
      * @return the tile numberOfSteps steps after curTile.
      */
     public Tile getNextTile(Tile curTile, boolean direction, int numberOfSteps, boolean takeRailRoads) {
+        boolean passedTransitLastTime=false;
         while (numberOfSteps > 0) {
-            curTile = moveStep(curTile, direction, takeRailRoads);
+            Tile nextTile=moveStep(curTile, direction, takeRailRoads);
+            if (nextTile instanceof TransitStation && curTile instanceof TransitStation){
+                if (passedTransitLastTime){
+                    nextTile=moveStep(curTile,direction,false);
+                    passedTransitLastTime=false;
+                }else{
+                    passedTransitLastTime=true;
+                }
+            }
+            curTile = nextTile;
             --numberOfSteps;
         }
         return curTile;
@@ -364,10 +374,22 @@ public class Board implements RepresentationInvariant, Serializable {
         ArrayList<Integer> xArr = new ArrayList<>();
         ArrayList<Integer> yArr = new ArrayList<>();
         Tile cur = from;
+        System.out.println("Get path is going from "+from+" To "+to);
+        boolean passedTransitLastTime=false;
         while (!cur.equals(to)) {
             xArr.add(cur.getX());
             yArr.add(cur.getY());
-            cur = moveStep(cur, direction, takeRailRoads);
+            Tile nextTile=moveStep(cur, direction, takeRailRoads);
+            if (nextTile instanceof TransitStation && cur instanceof TransitStation){
+                if (passedTransitLastTime){
+                    nextTile=moveStep(cur,direction,false);
+                    passedTransitLastTime=false;
+                }else{
+                    passedTransitLastTime=true;
+                }
+            }
+            cur = nextTile;
+           // cur = moveStep(cur, direction, takeRailRoads);
         }
         xArr.add(to.getX());
         yArr.add(to.getY());
