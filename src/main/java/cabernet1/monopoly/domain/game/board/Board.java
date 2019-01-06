@@ -78,6 +78,7 @@ import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.yellowbrow
 import cabernet1.monopoly.domain.game.board.tile.tunnels.TransitStation;
 import cabernet1.monopoly.domain.game.card.chancecard.ChanceCard;
 import cabernet1.monopoly.domain.game.card.chancecard.HolidayBonus;
+import cabernet1.monopoly.domain.game.card.chancecard.Hurricane;
 import cabernet1.monopoly.domain.game.card.communitycard.CommunityChestCard;
 import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.command.*;
@@ -296,6 +297,7 @@ public class Board implements RepresentationInvariant, Serializable {
     private void initializeCards() {
         communityChestCards.add(new PayHospitalBills());
         chanceCards.add(new HolidayBonus());
+        chanceCards.add(new Hurricane());
     }
 
     public ChanceCard getChanceCard() {
@@ -345,6 +347,11 @@ public class Board implements RepresentationInvariant, Serializable {
      *
      * @return the tile numberOfSteps steps after curTile.
      */
+
+    public List<Tile> getBoardTiles(){
+        return boardTiles;
+    }
+
     public Tile getNextTile(Tile curTile, boolean direction, int numberOfSteps, boolean takeRailRoads) {
         boolean passedTransitLastTime=false;
         while (numberOfSteps > 0) {

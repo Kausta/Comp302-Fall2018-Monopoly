@@ -241,6 +241,10 @@ public class GameController implements Serializable {
         ((GroupColoredProperty) getTile(propertyId)).upgrade();
     }
 
+    public void downgradeBuilding(int propertyId){
+        ((GroupColoredProperty) getTile(propertyId)).downgrade();
+    }
+
     private void initializeInteractableObservableList() {
         interactableObservableList.add(upgradeButton);
         interactableObservableList.add(buyButton);
