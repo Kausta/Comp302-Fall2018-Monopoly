@@ -18,7 +18,7 @@ public class GameLoaderTests extends TestBase {
 
     @Test
     public void gameLoadsWithoutException() {
-        Path filePath = Paths.get("saves", TEST_LOAD_NAME);
+        Path filePath = Paths.get(TEST_LOAD_NAME);
         try {
             Files.delete(filePath);
         } catch (IOException ignored) {
