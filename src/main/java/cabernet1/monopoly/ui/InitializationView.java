@@ -1,17 +1,15 @@
 package cabernet1.monopoly.ui;
 
 import cabernet1.monopoly.domain.InitializationController;
-import cabernet1.monopoly.lib.persistence.GameLoader;
+import cabernet1.monopoly.domain.network.initial.InitialPlayerInfo;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.ui.components.Form;
+import cabernet1.monopoly.ui.components.PlayerInfoDetailHolder;
 import cabernet1.monopoly.ui.util.JsonFileType;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -44,7 +42,7 @@ public class InitializationView extends BaseView {
             if (!connected) {
                 JOptionPane.showMessageDialog(getRoot(), "Cannot connect or start server!");
             } else {
-                if(controller.isLoadedGame()) {
+                if (controller.isLoadedGame()) {
 
                 } else {
                     initializePlayerNames();
@@ -52,7 +50,7 @@ public class InitializationView extends BaseView {
             }
         });
         controller.getWasFileLoadSuccessful().addObserver(successful -> {
-            if(!successful) {
+            if (!successful) {
                 JOptionPane.showMessageDialog(this.getRoot(), "Cannot load that file :(");
                 return;
             }
@@ -89,7 +87,7 @@ public class InitializationView extends BaseView {
                 .addButton(isLoaded ? "Load" : "Start", () -> {
                     try {
                         int port = Integer.parseInt(portField.getText());
-                        if(!isLoaded) {
+                        if (!isLoaded) {
                             controller.startServer(port);
                             return;
                         }
@@ -123,7 +121,7 @@ public class InitializationView extends BaseView {
                 .addButton("Start", () -> {
                     try {
                         String clientName = clientNameField.getText();
-                        if(clientName == null || clientName.trim().isEmpty() || clientName.trim().equalsIgnoreCase("Server")) {
+                        if (clientName == null || clientName.trim().isEmpty() || clientName.trim().equalsIgnoreCase("Server")) {
                             JOptionPane.showMessageDialog(getRoot(), "Your client name cannot be empty or be Server!");
                             return;
                         }
@@ -142,23 +140,27 @@ public class InitializationView extends BaseView {
     }
 
     private void initializePlayerNames() {
-        List<JTextField> playerNames = IntStream.range(0, 4)
-                .mapToObj(x -> new JTextField())
+        List<PlayerInfoDetailHolder> playerNames = IntStream.range(0, 4)
+                .mapToObj(x -> new PlayerInfoDetailHolder())
                 .collect(Collectors.toList());
 
         Form.Builder formBuilder = new Form.Builder();
         for (int i = 0; i < playerNames.size(); i++) {
-            formBuilder.addLabeledComponent("Player " + i + ": ", playerNames.get(i))
+            formBuilder.addLabeledComponent("Player " + i + ": ", playerNames.get(i).getPlayerName())
+                    .addVerticalSpace(5)
+                    .addDoubleComponent(playerNames.get(i).getIsBot(), playerNames.get(i).getSelectedStrategy())
                     .addVerticalSpace(5);
         }
         formBuilder.addButton("Add Players", () -> {
-            List<String> nonEmptyFields = playerNames.stream()
-                    .map(JTextComponent::getText)
-                    .filter(str -> !str.isEmpty())
+            List<InitialPlayerInfo> nonEmptyFields = playerNames.stream()
+                    .map(playerInfoDetailHolder -> new InitialPlayerInfo(playerInfoDetailHolder.getPlayerNameField(),
+                            playerInfoDetailHolder.getIsBotField(),
+                            playerInfoDetailHolder.getSelectedStrategyField()))
+                    .filter(info -> !info.getPlayerName().trim().isEmpty() || !info.isBot())
                     .collect(Collectors.toList());
 
             if (nonEmptyFields.isEmpty()) {
-                JOptionPane.showMessageDialog(getRoot(), "You need to enter at least 1 player name!");
+                JOptionPane.showMessageDialog(getRoot(), "You need to enter at least 1 player name or select 1 bot!");
                 return;
             }
             controller.initializePlayerNames(nonEmptyFields);

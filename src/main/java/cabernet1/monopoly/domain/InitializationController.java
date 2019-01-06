@@ -4,6 +4,7 @@ import cabernet1.monopoly.Application;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 import cabernet1.monopoly.domain.network.command.InformNamesCommand;
 import cabernet1.monopoly.domain.network.command.StartGameCommand;
+import cabernet1.monopoly.domain.network.initial.InitialPlayerInfo;
 import cabernet1.monopoly.lib.persistence.GameLoader;
 import cabernet1.monopoly.utils.Observable;
 
@@ -13,6 +14,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 // import sun.nio.ch.Net;
 
@@ -23,8 +26,8 @@ public class InitializationController {
 
     private Observable<Boolean> connectionObservable;
     private Observable<Boolean> wasFileLoadSuccessful;
-    private List<String> playerNames;
-    private HashMap<String, List<String>> otherClientsPlayerNames = new HashMap<>();
+    private List<InitialPlayerInfo> playerNames;
+    private HashMap<String, List<InitialPlayerInfo>> otherClientsPlayerNames = new HashMap<>();
     private boolean isLoadedGame = false;
 
     private InitializationController() {
@@ -79,19 +82,27 @@ public class InitializationController {
         connectionObservable.setValue(true);
     }
 
-    public void initializePlayerNames(List<String> playerNames) {
-        this.playerNames = playerNames;
+    public void initializePlayerNames(List<InitialPlayerInfo> players) {
+        this.playerNames = players.stream()
+                .map(player -> {
+                    String name = player.getPlayerName().trim();
+                    if (player.isBot() && name.isEmpty()) {
+                        name = "Bot " + UUID.randomUUID().toString().substring(0, 5);
+                    }
+                    return new InitialPlayerInfo(name, player.isBot(), player.getBotLevel());
+                })
+                .collect(Collectors.toList());
 
         Network network = Network.getInstance();
         String identifier = network.getIdentifier();
         InformNamesCommand command = new InformNamesCommand(
                 identifier,
-                playerNames);
+                this.playerNames);
         NetworkController networkController = network.getNetworkController();
         networkController.sendCommand(command);
     }
 
-    public void initializePlayerNamesFor(String client, List<String> playerNames) {
+    public void initializePlayerNamesFor(String client, List<InitialPlayerInfo> playerNames) {
         this.otherClientsPlayerNames.put(client, playerNames);
     }
 
@@ -99,17 +110,17 @@ public class InitializationController {
         List<InitialPlayerData> initialPlayerData = new ArrayList<>();
         // Player names for players playing on this computer
         String identifier = Network.getInstance().getIdentifier();
-        List<String> currentPlayerNames = otherClientsPlayerNames.get(identifier);
+        List<InitialPlayerInfo> currentPlayerNames = otherClientsPlayerNames.get(identifier);
         System.out.println("reach here ,size is " + currentPlayerNames.size());
-        for (String name : currentPlayerNames) {
-            InitialPlayerData data = new InitialPlayerData(initialPlayerData.size(), name, Network.getInstance().getIdentifier(), false);
+        for (InitialPlayerInfo player : currentPlayerNames) {
+            InitialPlayerData data = new InitialPlayerData(initialPlayerData.size(), player.getPlayerName(), Network.getInstance().getIdentifier(), player.isBot(), player.getBotLevel());
             initialPlayerData.add(data);
         }
         otherClientsPlayerNames.remove(identifier);
         for (String clientId : otherClientsPlayerNames.keySet()) {
-            List<String> players = otherClientsPlayerNames.get(clientId);
-            players.forEach((name) -> {
-                InitialPlayerData data = new InitialPlayerData(initialPlayerData.size(), name, clientId, false);
+            List<InitialPlayerInfo> players = otherClientsPlayerNames.get(clientId);
+            players.forEach((player) -> {
+                InitialPlayerData data = new InitialPlayerData(initialPlayerData.size(), player.getPlayerName(), clientId, player.isBot(), player.getBotLevel());
                 initialPlayerData.add(data);
             });
         }
