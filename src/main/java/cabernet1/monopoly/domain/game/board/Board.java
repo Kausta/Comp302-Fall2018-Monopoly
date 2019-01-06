@@ -106,7 +106,7 @@ public class Board implements RepresentationInvariant, Serializable {
     private Pool poolTile;
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
-    public Hashtable<ColorGroup, ArrayList<GroupColoredProperty>> groupedColorGroupProperties = new Hashtable();
+    public Hashtable<ColorGroup, ArrayList<GroupColoredProperty>> groupedColorGroupProperties = new Hashtable<>();
 
     private Board() {
     }
@@ -380,7 +380,20 @@ public class Board implements RepresentationInvariant, Serializable {
         assert (false);
         return null;
     }
+    public ArrayList<ArrayList<Integer>> getDirectPath(Tile from, Tile to){
+        ArrayList<Integer> xArr = new ArrayList<>();
+        ArrayList<Integer> yArr = new ArrayList<>();
 
+        xArr.add(from.getX());
+        yArr.add(from.getY());
+        xArr.add(to.getX());
+        yArr.add(to.getY());
+
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        res.add(xArr);
+        res.add(yArr);
+        return res;
+    }
     public ArrayList<ArrayList<Integer>> getPath(Tile from, Tile to, boolean direction, boolean takeRailRoads) {
         ArrayList<Integer> xArr = new ArrayList<>();
         ArrayList<Integer> yArr = new ArrayList<>();

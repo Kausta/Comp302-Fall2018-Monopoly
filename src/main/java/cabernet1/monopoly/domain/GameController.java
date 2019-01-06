@@ -115,11 +115,13 @@ public class GameController implements Serializable {
     }
 
     public void movePlayer(int playerId, int newTileId, boolean takeRailRoads) {
-        movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads));//make the command send the dice cup instead and calculate on all devices
-        // make arrays of movePlayerObservable each
+        movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads,false));
         getPlayer(playerId).setCurrentTile(getTile(newTileId));
     }
-
+    public void jumpPlayer(int playerId,int newTileId){
+        movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), false,true));
+        getPlayer(playerId).setCurrentTile(getTile(newTileId));
+    }
     public void jumpToTile(IPlayer player, Tile newTile) {
         player.jumpToTile(newTile);
     }
@@ -197,7 +199,6 @@ public class GameController implements Serializable {
     }
     public void enableEndTurn() {
         endButton.setValue(true);
-
     }
 
     public void enableRollDice() {
@@ -267,10 +268,11 @@ public class GameController implements Serializable {
         private static final long serialVersionUID = 1495053868551960438L;
         public Tile tile;
         public boolean takeRailRoads;
-
-        private MovePlayerObservableInfo(Tile tile, boolean takeRailRoads) {
+        public boolean jump;
+        private MovePlayerObservableInfo(Tile tile, boolean takeRailRoads,boolean jump) {
             this.tile = tile;
             this.takeRailRoads = takeRailRoads;
+            this.jump=jump;
         }
     }
 
@@ -290,8 +292,8 @@ public class GameController implements Serializable {
         Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
     }
 
-    public void sendChatMessage(String message) {
-        Network.getInstance().getNetworkController().sendCommand(new SendChatMessageCommand(message));
+    public void sendChatMessage(String rawMessage, String message) {
+        Network.getInstance().getNetworkController().sendCommand(new SendChatMessageCommand(rawMessage, message));
     }
 
     public boolean canBeUpgraded(ColorGroup color, GroupColoredProperty p) {
