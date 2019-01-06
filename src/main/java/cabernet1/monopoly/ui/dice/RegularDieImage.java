@@ -1,4 +1,4 @@
-package cabernet1.monopoly.ui.buttons;
+package cabernet1.monopoly.ui.dice;
 
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
@@ -13,23 +13,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class RegularDieImage extends JPanel implements Observer<Integer> {
-
-    public final Logger logger = LoggerFactory.getInstance().getLogger(getClass()); // For enabling to usage of logger for all panels
-    private BufferedImage dieImage;
-    private JLabel dieImageLabel = new JLabel();
+public class RegularDieImage extends DieImage {
 
 
     public RegularDieImage() {
         add(dieImageLabel);
         dieImageLabel.setVisible(true);
+        drawDie(2);
     }
 
-    public void startObserving(Observable<Integer> observable) {
-        observable.addObserver(this);
-    }
-
-    private String getDieImage(int dieNum) {
+    @Override
+    protected String getDieImage(int dieNum) {
         String image = "";
         switch (dieNum) {
             case 1:
@@ -54,25 +48,8 @@ public class RegularDieImage extends JPanel implements Observer<Integer> {
                 logger.d("Invalid die type is entered!");
                 break;
         }
+        logger.d("Image path is "+image);
         return image;
     }
 
-    public void drawDie(int dieNum) {
-        try {
-            String path = getDieImage(dieNum);
-            remove(dieImageLabel);
-            dieImage = ImageIO.read(new File(path));
-            Image scaledDie = dieImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-            dieImageLabel = new JLabel(new ImageIcon(scaledDie));
-            add(dieImageLabel);
-        } catch (IOException ex) {
-            logger.e(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void onValueChanged(Integer value) {
-        logger.d("" + value);
-        drawDie(value);
-    }
 }
