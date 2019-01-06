@@ -41,7 +41,7 @@ public class Player extends JPanel implements Animatable {
                 System.out.println("Player image loading failed");
             }
         }
-        updatePath(player.getCurrentTile(), true);
+        updatePath(player.getCurrentTile(), true,false);
         setOpaque(false);
 
     }
@@ -55,8 +55,14 @@ public class Player extends JPanel implements Animatable {
         return resized;
     }
 
-    void updatePath(Tile newTile, boolean takeRailRoads) {
-        ArrayList<ArrayList<Integer>> res = Board.getInstance().getPath(player.getCurrentTile(), newTile, player.getDirection(), takeRailRoads);
+    void updatePath(Tile newTile, boolean takeRailRoads,boolean jump) {
+
+        ArrayList<ArrayList<Integer>> res;
+        if (jump){
+            res=Board.getInstance().getDirectPath(player.getCurrentTile(), newTile);
+        }else {
+            res=Board.getInstance().getPath(player.getCurrentTile(), newTile, player.getDirection(), takeRailRoads);
+        }
         path = new ComplexPath(res.get(0), res.get(1));
         animator.addDrawable(this);
     }

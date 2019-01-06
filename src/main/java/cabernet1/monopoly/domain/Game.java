@@ -22,6 +22,7 @@ import cabernet1.monopoly.domain.game.player.PlayerFactory;
 import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
+import cabernet1.monopoly.utils.TimeoutManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,6 +63,9 @@ public class Game implements Serializable {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
         }).collect(toCollection(ArrayList::new));
+    }
+
+    public void startGame() {
         setNextServer();
     }
 
@@ -116,17 +120,15 @@ public class Game implements Serializable {
     }
 
     public void endTurn() {
-        String message = getCurrentPlayer().getName() +
-                " turn has ended\n"+ Constants.SEPERATING_lINE+"\n\n\n";
+         TimeoutManager.getInstance().setTimeout(() -> {
+             String message = getCurrentPlayer().getName() +
+                     " turn has ended\n"+ Constants.SEPERATING_lINE+"\n\n\n";
 
-        NetworkController nc = Network.getInstance().getNetworkController();
-        nc.sendCommand(new AnnounceMessageCommand(message));
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        nc.sendCommand(new NextTurnCommand());
+             NetworkController nc = Network.getInstance().getNetworkController();
+             nc.sendCommand(new AnnounceMessageCommand(message));
+
+             nc.sendCommand(new NextTurnCommand());
+        }, 1000);
     }
 
     public void nextTurn() {

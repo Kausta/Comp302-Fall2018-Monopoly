@@ -66,7 +66,7 @@ public class PlayersPanel extends BasePanel implements Observer<GameController.M
     public void onValueChanged(GameController.MovePlayerObservableInfo value) {
         Player player = getPlayer(controller.getCurrentPlayer());
         if (player != null) {
-            player.updatePath(value.tile, value.takeRailRoads);
+            player.updatePath(value.tile, value.takeRailRoads,value.jump);
         }
     }
 }
