@@ -250,36 +250,50 @@ public class GameController implements Serializable {
         Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
     }
 
-    public boolean canBeUpgraded(ColorGroup color) {
+    public boolean canBeUpgraded(ColorGroup color, GroupColoredProperty p) {
       ArrayList<GroupColoredProperty> a = Board.getInstance().groupedColorGroupProperties.get(color);
-      Player owner = null;
-      Boolean sameOwner = false;
+      Player owner = p.getOwner();
       for(GroupColoredProperty g: a) {
-        if(owner == null) {
-          owner = g.getOwner();
-          sameOwner = true;
-        }
-        else {
           if(owner != g.getOwner()) {
-            sameOwner = false;
             return false;
           }
-        }
       }
-      int level = -1;
-      Boolean sameLevel = false;
-      for(GroupColoredProperty g: a) {
-        if(level == -1) {
-          level = g.getUpgradeAmount();
-          sameLevel = true;
-        }
-        else {
-          if(level != g.getUpgradeAmount()) {
-            sameLevel = false;
-            return false;
+      int level = getPropertyLevel(p);
+      if(level == 3) {
+          return false;
+      }
+      else {
+          for(GroupColoredProperty g: a) {
+              int tmpLevel = getPropertyLevel(g);
+              if(level == tmpLevel || tmpLevel-level == 1) {
+                  continue;
+              }
+              else {
+                  return false;
+              }
           }
-        }
       }
       return true;
+    }
+
+    public int getPropertyLevel(GroupColoredProperty p) {
+        int level = -1;
+        if(p.getHouse().limitReached()) {
+            if(p.getHotel().limitReached()) {
+                if(p.getSkyscraper().limitReached()) {
+                    level = 3;
+                }
+                else {
+                    level = 2;
+                }
+            }
+            else {
+                level = 1;
+            }
+        }
+        else {
+            level = 0;
+        }
+        return level;
     }
 }

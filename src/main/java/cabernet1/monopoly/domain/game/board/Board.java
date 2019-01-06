@@ -452,7 +452,7 @@ public class Board implements RepresentationInvariant, Serializable {
         } else if (property.getOwner().equals(player)) {
             if (property instanceof GroupColoredProperty) {
                 GroupColoredProperty gcp = (GroupColoredProperty) property;
-                if (gcp.getUpgradeAmount() <= player.getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup()))
+                if (gcp.getUpgradeAmount() <= player.getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property)))
                     controller.enableUpgradeBuilding();
             }
         } else {
