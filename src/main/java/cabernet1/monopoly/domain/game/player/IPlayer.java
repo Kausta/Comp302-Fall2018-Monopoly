@@ -332,6 +332,10 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         numberOfSteps = 1;
     }
 
+    public HashSet<Property> getOwnedProperty() {
+        return ownedProperty;
+    }
+
     public boolean repOK() {
         boolean res = curTile != null;
         res &= ID >= 0;

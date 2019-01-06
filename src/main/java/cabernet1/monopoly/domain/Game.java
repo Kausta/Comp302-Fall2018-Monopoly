@@ -2,6 +2,14 @@ package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.Board;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BoylstonStreet;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkblue.Boardwalk;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkred.MulhollandDrive;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.NorthCarolinaAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.PacificAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.grey.FifthAvenue;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.orange.StJamesPlace;
+import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.pink.VirginiaAvenue;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.NextTurnCommand;
 import cabernet1.monopoly.domain.game.player.IPlayer;
@@ -47,6 +55,7 @@ public class Game implements Serializable {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
         }).collect(toCollection(ArrayList::new));
+
     }
 
     public List<String> getPlayersOnDevice() {
