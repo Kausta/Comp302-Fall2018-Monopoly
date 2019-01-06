@@ -8,9 +8,8 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.ChanceTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.CommunityChestTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Go;
-import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
-import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BeaconStreet;
@@ -83,7 +82,9 @@ import cabernet1.monopoly.domain.game.card.chancecard.HolidayBonus;
 import cabernet1.monopoly.domain.game.card.chancecard.Hurricane;
 import cabernet1.monopoly.domain.game.card.communitycard.CommunityChestCard;
 import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
-import cabernet1.monopoly.domain.game.command.*;
+import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.PayRentCommand;
+import cabernet1.monopoly.domain.game.command.UpgradePropertyCommand;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.utils.RepresentationInvariant;
@@ -124,9 +125,7 @@ public class Board implements RepresentationInvariant, Serializable {
         initiateTiles();
         initializeCards();
     }
-    public ArrayList<Tile> getBoardTiles() {
-        return boardTiles;
-    }
+
     private void initiateTiles() {
         // manually add all the information about the board's tile
         // first the low, right corner of middle then inner, then outer
@@ -211,7 +210,7 @@ public class Board implements RepresentationInvariant, Serializable {
         boardTiles.add(75, new TransitStation(962, 124, Track.Center));
         boardTiles.add(76, new CommunityChestTile(1074, 124, Track.Outer));
         boardTiles.add(77, new SouthTemple(1186, 124));
-        boardTiles.add(78, new WestTemple( 1298, 124));
+        boardTiles.add(78, new WestTemple(1298, 124));
         boardTiles.add(79, new FreeTile("Tile79", 1410, 124)); // Trash Collector
         boardTiles.add(80, new NorthTemple(1522, 124));
         boardTiles.add(81, new TempleSquare(1634, 124));
@@ -350,20 +349,20 @@ public class Board implements RepresentationInvariant, Serializable {
      * @return the tile numberOfSteps steps after curTile.
      */
 
-    public List<Tile> getBoardTiles(){
+    public ArrayList<Tile> getBoardTiles() {
         return boardTiles;
     }
 
     public Tile getNextTile(Tile curTile, boolean direction, int numberOfSteps, boolean takeRailRoads) {
-        boolean passedTransitLastTime=false;
+        boolean passedTransitLastTime = false;
         while (numberOfSteps > 0) {
-            Tile nextTile=moveStep(curTile, direction, takeRailRoads);
-            if (nextTile instanceof TransitStation && curTile instanceof TransitStation){
-                if (passedTransitLastTime){
-                    nextTile=moveStep(curTile,direction,false);
-                    passedTransitLastTime=false;
-                }else{
-                    passedTransitLastTime=true;
+            Tile nextTile = moveStep(curTile, direction, takeRailRoads);
+            if (nextTile instanceof TransitStation && curTile instanceof TransitStation) {
+                if (passedTransitLastTime) {
+                    nextTile = moveStep(curTile, direction, false);
+                    passedTransitLastTime = false;
+                } else {
+                    passedTransitLastTime = true;
                 }
             }
             curTile = nextTile;
@@ -386,21 +385,21 @@ public class Board implements RepresentationInvariant, Serializable {
         ArrayList<Integer> xArr = new ArrayList<>();
         ArrayList<Integer> yArr = new ArrayList<>();
         Tile cur = from;
-        boolean passedTransitLastTime=false;
+        boolean passedTransitLastTime = false;
         while (!cur.equals(to)) {
             xArr.add(cur.getX());
             yArr.add(cur.getY());
-            Tile nextTile=moveStep(cur, direction, takeRailRoads);
-            if (nextTile instanceof TransitStation && cur instanceof TransitStation){
-                if (passedTransitLastTime){
-                    nextTile=moveStep(cur,direction,false);
-                    passedTransitLastTime=false;
-                }else{
-                    passedTransitLastTime=true;
+            Tile nextTile = moveStep(cur, direction, takeRailRoads);
+            if (nextTile instanceof TransitStation && cur instanceof TransitStation) {
+                if (passedTransitLastTime) {
+                    nextTile = moveStep(cur, direction, false);
+                    passedTransitLastTime = false;
+                } else {
+                    passedTransitLastTime = true;
                 }
             }
             cur = nextTile;
-           // cur = moveStep(cur, direction, takeRailRoads);
+            // cur = moveStep(cur, direction, takeRailRoads);
         }
         xArr.add(to.getX());
         yArr.add(to.getY());
@@ -488,7 +487,8 @@ public class Board implements RepresentationInvariant, Serializable {
 
     /**
      * This method will only be called when it's possible to do so
-     *  @param player   the player to buy the property
+     *
+     * @param player   the player to buy the property
      * @param property the property to be bought by the player
      */
     public void buyProperty(IPlayer player, Property property) {

@@ -11,7 +11,6 @@ import cabernet1.monopoly.domain.game.board.tile.property.building.Hotel;
 import cabernet1.monopoly.domain.game.board.tile.property.building.House;
 import cabernet1.monopoly.domain.game.board.tile.property.building.Skyscraper;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
-import sun.nio.ch.Net;
 
 import java.util.ArrayList;
 
@@ -36,12 +35,11 @@ public class GroupColoredProperty extends Property {
         house = new House(housePrice, houseSellPrice, houseRents);
         hotel = new Hotel(hotelPrice, hotelSellPrice, hotelRent);
         skyscraper = new Skyscraper(skyscraperPrice, skyscraperSellPrice, skyscraperRent);
-        if(Board.getInstance().groupedColorGroupProperties.get(color) != null) {
+        if (Board.getInstance().groupedColorGroupProperties.get(color) != null) {
             ArrayList<GroupColoredProperty> a = Board.getInstance().groupedColorGroupProperties.get(color);
             a.add(this);
             Board.getInstance().groupedColorGroupProperties.put(color, a);
-        }
-        else {
+        } else {
             ArrayList<GroupColoredProperty> a = new ArrayList<>();
             a.add(this);
             Board.getInstance().groupedColorGroupProperties.put(color, a);
@@ -165,18 +163,17 @@ public class GroupColoredProperty extends Property {
         buyHouse();
     }
 
-    public void downgrade(){
+    public void downgrade() {
         NetworkController nc = Network.getInstance().getNetworkController();
         String message = "";
-        if(skyscraper.limitReached()){
+        if (skyscraper.limitReached()) {
             skyscraper.decreaseAmount();
             message = "Demolished a skyscraper at " + getName();
-        }
-        else if(hotel.limitReached()){
+        } else if (hotel.limitReached()) {
             hotel.decreaseAmount();
             message = "Demolished a hotel at " + getName();
-        } else{
-            if(house.exists()){
+        } else {
+            if (house.exists()) {
                 house.decreaseAmount();
                 message = "Demolished a house at " + getName();
             } else {
