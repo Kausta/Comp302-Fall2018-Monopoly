@@ -4,8 +4,12 @@ import cabernet1.monopoly.Application;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 import cabernet1.monopoly.domain.network.command.InformNamesCommand;
 import cabernet1.monopoly.domain.network.command.StartGameCommand;
+import cabernet1.monopoly.lib.persistence.GameLoader;
 import cabernet1.monopoly.utils.Observable;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +22,14 @@ public class InitializationController {
     private boolean isServer = false;
 
     private Observable<Boolean> connectionObservable;
+    private Observable<Boolean> wasFileLoadSuccessful;
     private List<String> playerNames;
     private HashMap<String, List<String>> otherClientsPlayerNames = new HashMap<>();
+    private boolean isLoadedGame = false;
 
     private InitializationController() {
         connectionObservable = new Observable<>();
+        wasFileLoadSuccessful = new Observable<>();
     }
 
     public static synchronized InitializationController getInstance() {
@@ -46,14 +53,35 @@ public class InitializationController {
         connectionObservable.setValue(connected);
     }
 
-    public void startClient(String ip, int port) {
-        boolean connected = Application.getInstance().startClient(ip, port);
-        connectionObservable.setValue(connected);
+    public void startServerLoaded(int port, File file) {
+        Path filePath = Paths.get(file.getAbsolutePath());
+        try {
+            GameLoader.getInstance().loadFromFile(filePath);
+            isLoadedGame = true;
+            wasFileLoadSuccessful.setValue(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            wasFileLoadSuccessful.setValue(false);
+            return;
+        }
+        startServer(port);
+    }
+
+    public void startClient(String clientName, String ip, int port) {
+        boolean connected = Application.getInstance().startClient(clientName, ip, port);
+        if (!connected) {
+            connectionObservable.setValue(false);
+        }
+    }
+
+    public void startClientFromWelcomeCommand(boolean loadedGame) {
+        isLoadedGame = loadedGame;
+        connectionObservable.setValue(true);
     }
 
     public void initializePlayerNames(List<String> playerNames) {
         this.playerNames = playerNames;
-        Game.getInstance().setPlayersOnDevice(this.playerNames); // Setting the player list on this device on Game
+
         Network network = Network.getInstance();
         String identifier = network.getIdentifier();
         InformNamesCommand command = new InformNamesCommand(
@@ -92,5 +120,13 @@ public class InitializationController {
 
     public Observable<Boolean> getConnectionObservable() {
         return connectionObservable;
+    }
+
+    public Observable<Boolean> getWasFileLoadSuccessful() {
+        return wasFileLoadSuccessful;
+    }
+
+    public boolean isLoadedGame() {
+        return isLoadedGame;
     }
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 public class Network {
     private static volatile Network _instance = null;
 
+    private String clientName;
     private NetworkController networkController;
     private BaseSocket socket;
     private INetworkAdapter adapter;
@@ -26,6 +27,7 @@ public class Network {
     public void initializeServer(int port) throws IOException {
         this.serverMode = true;
         this.identifier = "Server";
+        this.clientName = "Server";
         ServerSocket socket = new ServerSocket(port);
         this.socket = socket;
         this.socket.connect();
@@ -33,8 +35,9 @@ public class Network {
         this.networkController = new NetworkController(getNetworkAdapter());
     }
 
-    public void initializeClient(String ip, int port) throws IOException {
+    public void initializeClient(String clientName, String ip, int port) throws IOException {
         this.serverMode = false;
+        this.clientName = clientName;
         ClientSocket socket = new ClientSocket(ip, port);
         this.socket = socket;
         this.socket.connect();
