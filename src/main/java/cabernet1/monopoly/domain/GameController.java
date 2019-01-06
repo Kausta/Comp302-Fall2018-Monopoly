@@ -82,7 +82,7 @@ public class GameController implements Serializable {
         // showDiceValue();
     }
 
-    private IPlayer getPlayer(int ID) {
+    public IPlayer getPlayer(int ID) {
         List<IPlayer> players = playerList();
         for (IPlayer player : players) {
             if (player.getID() == ID) {

@@ -3,11 +3,13 @@ package cabernet1.monopoly.domain;
 import cabernet1.monopoly.domain.network.*;
 
 import java.io.IOException;
+import java.util.*;
 
 public class Network {
     private static volatile Network _instance = null;
 
     private String clientName;
+    private Map<String, String> allClientNames = new HashMap<>();
     private NetworkController networkController;
     private BaseSocket socket;
     private INetworkAdapter adapter;
@@ -15,6 +17,7 @@ public class Network {
     private boolean serverMode;
 
     private Network() {
+        allClientNames.put("Server", "Server");
     }
 
     public static synchronized Network getInstance() {
@@ -70,5 +73,17 @@ public class Network {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public Map<String, String> getAllClientNames() {
+        return this.allClientNames;
+    }
+
+    public void addClientIdentifier(String clientName, String clientIdentifier) {
+        this.allClientNames.put(clientName, clientIdentifier);
+    }
+
+    public String getClientName() {
+        return clientName;
     }
 }
