@@ -14,6 +14,8 @@ public class SpeedDie extends IDie {
     @Override
     public void rollDice() {
         int value = generateRollResult();
+        //to disable Mr.Monopoly & bus move
+        value=Math.min(value,3);
         this.absoluteDieValue =value;
         SpeedDieFaces speedDieFaces = rollResultToSpeedDieFaces(value);
         if (speedDieFaces != null) {
