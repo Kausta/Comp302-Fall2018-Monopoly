@@ -156,7 +156,7 @@ public class InitializationView extends BaseView {
                     .map(playerInfoDetailHolder -> new InitialPlayerInfo(playerInfoDetailHolder.getPlayerNameField(),
                             playerInfoDetailHolder.getIsBotField(),
                             playerInfoDetailHolder.getSelectedStrategyField()))
-                    .filter(info -> !info.getPlayerName().trim().isEmpty() || !info.isBot())
+                    .filter(info -> !info.getPlayerName().trim().isEmpty() && !info.isBot())
                     .collect(Collectors.toList());
 
             if (nonEmptyFields.isEmpty()) {
