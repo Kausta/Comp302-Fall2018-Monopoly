@@ -14,7 +14,6 @@ public class MovePlayerCommand extends ICommand {
         this.playerId = playerId;
         this.newTileId = newTileId;
         this.takeRailRoads = takeRailRoads;
-        System.out.println("Move playerId command is initialized");
     }
 
     public int getPlayerId() {

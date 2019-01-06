@@ -111,7 +111,6 @@ public class InitializationController {
         // Player names for players playing on this computer
         String identifier = Network.getInstance().getIdentifier();
         List<InitialPlayerInfo> currentPlayerNames = otherClientsPlayerNames.get(identifier);
-        System.out.println("reach here ,size is " + currentPlayerNames.size());
         for (InitialPlayerInfo player : currentPlayerNames) {
             InitialPlayerData data = new InitialPlayerData(initialPlayerData.size(), player.getPlayerName(), Network.getInstance().getIdentifier(), player.isBot(), player.getBotLevel());
             initialPlayerData.add(data);

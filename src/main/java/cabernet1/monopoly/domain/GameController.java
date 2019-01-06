@@ -73,6 +73,7 @@ public class GameController implements Serializable {
 
     public void rollDice() {
         IPlayer currentPlayer = getCurrentPlayer();
+        logger.d("current player is "+currentPlayer+" and he is inJail: "+currentPlayer.isInJail());
         if (currentPlayer.isInJail()) {
             currentPlayer.playJailturn();
         } else {
@@ -115,8 +116,16 @@ public class GameController implements Serializable {
     }
 
     public void movePlayer(int playerId, int newTileId, boolean takeRailRoads) {
-        movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads,false));
+        logger.d("move player command received, player id is, newTiledId is "+playerId+" "+newTileId);
+        if (movePlayerObservable==null){
+            logger.d("ERRor empty obersvable");
+        }
+        MovePlayerObservableInfo info=new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads,false);
+        logger.d("created observable info");
+        movePlayerObservable.setValue(info);
+        logger.d("move player command changed value");
         getPlayer(playerId).setCurrentTile(getTile(newTileId));
+        logger.d("move player command finished");
     }
     public void jumpPlayer(int playerId,int newTileId){
         movePlayerObservable.setValue(new MovePlayerObservableInfo(getTile(newTileId), false,true));

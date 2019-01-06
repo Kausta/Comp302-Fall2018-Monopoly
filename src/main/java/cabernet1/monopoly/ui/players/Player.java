@@ -4,6 +4,7 @@ import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.player.IPlayer;
+import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.utils.animation.Animatable;
 import cabernet1.monopoly.utils.animation.Animator;
 import cabernet1.monopoly.utils.animation.ComplexPath;
@@ -56,15 +57,19 @@ public class Player extends JPanel implements Animatable {
     }
 
     void updatePath(Tile newTile, boolean takeRailRoads,boolean jump) {
-
+        System.out.println("Entered update path");
         ArrayList<ArrayList<Integer>> res;
         if (jump){
             res=Board.getInstance().getDirectPath(player.getCurrentTile(), newTile);
         }else {
             res=Board.getInstance().getPath(player.getCurrentTile(), newTile, player.getDirection(), takeRailRoads);
         }
+        System.out.println("intiliazed res");
         path = new ComplexPath(res.get(0), res.get(1));
+        System.out.println("initialized path");
         animator.addDrawable(this);
+        System.out.println("added drawable");
+
     }
 
     private int adjustX(int x) {
