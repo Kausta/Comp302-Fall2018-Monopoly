@@ -1,27 +1,27 @@
 package cabernet1.monopoly.ui.buttons;
 
-public class ResumeButton extends BaseButton {
+public class SaveButton extends BaseButton {
 
-  private static volatile ResumeButton _instance = null;
+  private static volatile SaveButton _instance = null;
 
-  private ResumeButton() {
-    setText("Resume");
+  private SaveButton() {
+    setText("Save");
     initialize();
   }
 
-  public static synchronized ResumeButton getInstance() {
+  public static synchronized SaveButton getInstance() {
     if (_instance == null) {
-      _instance = new ResumeButton();
+      _instance = new SaveButton();
     }
     return _instance;
   }
 
   private void initialize() {
-    controller.resumeButton.addObserver(this);
+    controller.saveButton.addObserver(this);
+
     addActionListener(e -> {
-      controller.resumeGame();
+      // controller.saveGame();
     });
-    setVisible(false);
   }
 
   @Override

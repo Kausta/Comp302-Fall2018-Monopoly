@@ -69,6 +69,7 @@ public class GameView extends BaseView {
         rP.add(DetailsTabbedPane.getInstance(), BorderLayout.NORTH);
         rP.add(LogScrollPane.getInstance(), BorderLayout.NORTH);
         rP.add(ActionPanel.getInstance(), BorderLayout.NORTH);
+        rP.add(PauseResumeSavePanel.getInstance(), BorderLayout.NORTH);
 
         // Adding BoardPanel and RightPanel to our one big panel -which acts as frame in our case-.
         this.root.add(bP, BorderLayout.WEST);
