@@ -8,6 +8,7 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.BuyPropertyCommand;
 import cabernet1.monopoly.domain.game.command.showDiceFacesCommand;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
@@ -20,7 +21,6 @@ import cabernet1.monopoly.domain.network.command.ResumeCommand;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
-import cabernet1.monopoly.utils.UIObservable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -156,11 +156,14 @@ public class GameController implements Serializable {
     public void upgradeBuilding() {
         Board.getInstance().upgradeBuilding(getCurrentPlayer(), (GroupColoredProperty) getCurrentPlayer().getCurrentTile());
     }
-
-    public void buyProperty() {
+    public void activateBuyProperty(){
         Board.getInstance().buyProperty(getCurrentPlayer(), (Property) getCurrentPlayer().getCurrentTile());
         playerListObservable.setValue(playerList());
         tileListObservable.setValue(Board.getInstance().getBoardTiles());
+    }
+    public void buyProperty() {
+        NetworkController nc=Network.getInstance().getNetworkController();
+        nc.sendCommand(new BuyPropertyCommand());
     }
 
     //initial states are disabled.

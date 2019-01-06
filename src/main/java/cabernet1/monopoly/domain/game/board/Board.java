@@ -539,8 +539,7 @@ public class Board implements RepresentationInvariant, Serializable {
         player.ownProperty(property);
         property.setOwner(player);
         String message = player.getName() + " has bought " + property.getName();
-        NetworkController nc = Network.getInstance().getNetworkController();
-        nc.sendCommand(new AnnounceMessageCommand(message));
+        Game.getInstance().getGameController().announceMessage(message);
     }
 
     public boolean repOK() {
