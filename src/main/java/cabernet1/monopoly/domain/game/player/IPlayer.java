@@ -9,6 +9,7 @@
 
 package cabernet1.monopoly.domain.game.player;
 
+import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
@@ -34,6 +35,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
     private final String name;
     private final boolean isActive;
     private final int playerOrder;
+    private String origin;
     protected Tile curTile;
     protected int numberOfConsecutiveDoublesRolls;
     protected PlayerMovementStatus movementStatus;
@@ -55,7 +57,8 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
      * this.ownedProperty,this.direction
      * @effects register the information of this player
      */
-    public IPlayer(int ID, String name, int money, int defaultOrder, Tile currentTile) {
+    public IPlayer(String origin, int ID, String name, int money, int defaultOrder, Tile currentTile) {
+       this.origin = origin;
         this.ID = ID;
         this.name = name;
         this.money = money;
@@ -381,5 +384,17 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
             default:
                 return -1;
         }
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public boolean isOnThisDevice() {
+        return this.origin.equals(Network.getInstance().getIdentifier());
     }
 }

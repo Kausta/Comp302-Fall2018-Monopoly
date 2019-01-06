@@ -50,9 +50,9 @@ public class Application implements Runnable {
         ViewUtils.createWindowFromView(containerView);
     }
 
-    public boolean startClient(String ip, int port) {
+    public boolean startClient(String clientName, String ip, int port) {
         try {
-            Network.getInstance().initializeClient(ip, port);
+            Network.getInstance().initializeClient(clientName, ip, port);
             return true;
         } catch (IOException e) {
             logger.e("Cannot start program");
@@ -79,7 +79,6 @@ public class Application implements Runnable {
         view.initialize(controller);
         logger.i("Navigating to game view");
         ContainerView.getInstance().setCurrentView(view);
-        game.configureTurn();
     }
 }
 

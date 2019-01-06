@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.network.command;
 
 import cabernet1.monopoly.domain.InitializationController;
+import cabernet1.monopoly.domain.network.initial.InitialPlayerInfo;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
@@ -11,9 +12,9 @@ public class InformNamesCommand extends ICommand {
     private static final long serialVersionUID = 9197415461653787882L;
 
     private final String clientIdentifier;
-    private final List<String> playerNames;
+    private final List<InitialPlayerInfo> playerNames;
 
-    public InformNamesCommand(String clientIdentifier, List<String> playerNames) {
+    public InformNamesCommand(String clientIdentifier, List<InitialPlayerInfo> playerNames) {
         this.clientIdentifier = clientIdentifier;
         this.playerNames = playerNames;
     }
@@ -22,7 +23,7 @@ public class InformNamesCommand extends ICommand {
         return clientIdentifier;
     }
 
-    public List<String> getPlayerNames() {
+    public List<InitialPlayerInfo> getPlayerNames() {
         return playerNames;
     }
 
