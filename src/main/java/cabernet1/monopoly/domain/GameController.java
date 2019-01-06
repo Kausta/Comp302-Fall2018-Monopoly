@@ -45,6 +45,7 @@ public class GameController implements Serializable {
     public final Observable<Boolean> pauseButton = new Observable<>();
     public final Observable<Player> playerObserver = new Observable<>();
     public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
+    public final Observable<ArrayList<Tile>> tileListObservable = new Observable<>();
     private final RegularDie die1 = NormalDiceCup.getInstance().die1;
     private final RegularDie die2 = NormalDiceCup.getInstance().die2;
     private final SpeedDie die3 = NormalDiceCup.getInstance().die3;
@@ -159,6 +160,7 @@ public class GameController implements Serializable {
     public void buyProperty() {
         Board.getInstance().buyProperty(getCurrentPlayer(), (Property) getCurrentPlayer().getCurrentTile());
         playerListObservable.setValue(playerList());
+        tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
 
     //initial states are disabled.

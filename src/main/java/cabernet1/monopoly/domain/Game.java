@@ -82,7 +82,7 @@ public class Game implements Serializable {
         controller.playerInfo(player);
         String message="Player: "+player.getName()+" will play now\n" + Constants.SEPERATING_lINE+"\n\n";
         controller.announceMessage(message);
-
+        controller.tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
 
     public Player getCurrentPlayer() {
