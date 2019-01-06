@@ -23,7 +23,7 @@ public class RollDiceButton extends BaseButton {
             // TODO: Add a rollDice function to GameController
             controller.rollDice();
             logger.d("Roll Dice button is clicked");
-         //   controller.pauseGame();
+           // controller.pauseGame();
         });
     }
 
