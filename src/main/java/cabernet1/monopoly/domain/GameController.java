@@ -47,6 +47,7 @@ public class GameController implements Serializable {
     public final Observable<Boolean> rollButton = new Observable<>();
     public final Observable<Boolean> resumeButton = new Observable<>();
     public final Observable<Boolean> pauseButton = new Observable<>();
+    public final Observable<Boolean> saveButton = new Observable<>();
     public final Observable<Player> playerObserver = new Observable<>();
     public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
     public final Observable<ArrayList<Tile>> tileListObservable = new Observable<>();
@@ -235,6 +236,9 @@ public class GameController implements Serializable {
         for(Observable<Boolean> o: interactableObservableList) {
             o.setValue(false);
         }
+        resumeButton.setValue(false);
+        pauseButton.setValue(true);
+        saveButton.setValue(true);
     }
 
     public static class MovePlayerObservableInfo implements Serializable {
