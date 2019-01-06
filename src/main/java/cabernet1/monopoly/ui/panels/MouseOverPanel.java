@@ -7,7 +7,7 @@ import java.awt.*;
 public class MouseOverPanel extends BasePanel {
 
     // Height and width coefficient constants
-    private static final double HEIGHT_COEFFICIENT = 2;
+    private static final double HEIGHT_COEFFICIENT = 1;
     private static final double WIDTH_COEFFICIENT = 7.5;
     private static volatile MouseOverPanel _instance = null;
 
