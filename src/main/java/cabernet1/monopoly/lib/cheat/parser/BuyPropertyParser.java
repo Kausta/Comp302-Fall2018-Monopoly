@@ -10,7 +10,7 @@ public class BuyPropertyParser extends Parser {
             return null;
         }
         String first = arguments[1];
-        Integer money = parseInt(first);
-        return money != null ? new BuyPropertyCheatCommand(money) : null;
+        Integer propertyId = parseInt(first);
+        return propertyId != null ? new BuyPropertyCheatCommand(propertyId) : null;
     }
 }
