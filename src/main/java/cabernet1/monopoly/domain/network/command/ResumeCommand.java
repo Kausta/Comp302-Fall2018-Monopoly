@@ -19,11 +19,11 @@ public class ResumeCommand extends ICommand {
     gc.resumeButton.setValue(false);
     Player currentPlayer = Game.getInstance().getCurrentPlayer();
     List<String> playersOnDevice = Game.getInstance().getPlayersOnDevice();
-    if(playersOnDevice.contains(currentPlayer.getName())) {
+    if(currentPlayer.isOnThisDevice()) {
       gc.pauseButton.setValue(true);
     }
     else {
-      gc.pauseButton.setValue(false);
+      gc.pauseButton.setValue(true);
     }
     for(Observable<Boolean> o: gc.disabledObservableList) {
       o.setValue(true);
