@@ -1,20 +1,20 @@
 package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.Application;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
 import cabernet1.monopoly.domain.network.command.InformNamesCommand;
+import cabernet1.monopoly.domain.network.command.LoadGameCommand;
 import cabernet1.monopoly.domain.network.command.StartGameCommand;
 import cabernet1.monopoly.domain.network.initial.InitialPlayerInfo;
 import cabernet1.monopoly.lib.persistence.GameLoader;
+import cabernet1.monopoly.lib.persistence.GameSerializer;
 import cabernet1.monopoly.utils.Observable;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // import sun.nio.ch.Net;
@@ -139,5 +139,22 @@ public class InitializationController {
 
     public boolean isLoadedGame() {
         return isLoadedGame;
+    }
+
+    public void startLoadedGame(List<IPlayer> players, List<String> identifiers) {
+        Map<Integer, String> playerLocation = new HashMap<>();
+        for (int i = 0; i < players.size(); i++) {
+            int id = players.get(i).getID();
+            String identifier = identifiers.get(i);
+            playerLocation.put(id, identifier);
+        }
+        GameController controller = Game.getInstance().getGameController();
+        for (int id : playerLocation.keySet()) {
+            String identifier = playerLocation.get(id);
+            controller.getPlayer(id).setOrigin(identifier);
+        }
+        Map<String, String> serializedThing = GameSerializer.getInstance().serializeGame();
+        LoadGameCommand command = new LoadGameCommand(serializedThing);
+        Network.getInstance().getNetworkController().sendCommand(command);
     }
 }

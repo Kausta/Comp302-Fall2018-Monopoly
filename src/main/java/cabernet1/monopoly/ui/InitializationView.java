@@ -1,6 +1,9 @@
 package cabernet1.monopoly.ui;
 
+import cabernet1.monopoly.domain.Game;
 import cabernet1.monopoly.domain.InitializationController;
+import cabernet1.monopoly.domain.Network;
+import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.network.initial.InitialPlayerInfo;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
@@ -10,7 +13,9 @@ import cabernet1.monopoly.ui.util.JsonFileType;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -43,7 +48,11 @@ public class InitializationView extends BaseView {
                 JOptionPane.showMessageDialog(getRoot(), "Cannot connect or start server!");
             } else {
                 if (controller.isLoadedGame()) {
-
+                    if (controller.isServer()) {
+                        this.initializeLoadPickOrigin();
+                    } else {
+                        this.initializeWaitForClientToLoad();
+                    }
                 } else {
                     initializePlayerNames();
                 }
@@ -55,9 +64,10 @@ public class InitializationView extends BaseView {
                 return;
             }
             JOptionPane.showMessageDialog(this.getRoot(), "Loaded the file, now you need to choose which player is on which pc :)");
-            this.initializeLoadOrigins();
+            this.initializeLoadPickOrigin();
         });
     }
+
 
     private void initializeModeSelect() {
         this.root = new JPanel();
@@ -69,11 +79,15 @@ public class InitializationView extends BaseView {
                 })
                 .addButton("Start Client Mode", () -> {
                     controller.setServer(false);
-                    this.initializeClientParameters();
+                    this.initializeClientParameters(false);
                 })
                 .addButton("Load Game (in Server Mode)", () -> {
                     controller.setServer(true);
                     this.initializeServerParameters(true);
+                })
+                .addButton("Join Loaded Game", () -> {
+                    controller.setServer(false);
+                    this.initializeClientParameters(true);
                 })
                 .build();
 
@@ -108,7 +122,7 @@ public class InitializationView extends BaseView {
         addToCenter(form.getContent());
     }
 
-    private void initializeClientParameters() {
+    private void initializeClientParameters(boolean isLoadMode) {
         JTextField clientNameField = new JTextField();
         JTextField ipField = new JTextField();
         JTextField portField = new JTextField();
@@ -118,7 +132,7 @@ public class InitializationView extends BaseView {
                 .addLabeledComponent("Server IP: ", ipField)
                 .addVerticalSpace(5)
                 .addLabeledComponent("Server Port: ", portField)
-                .addButton("Start", () -> {
+                .addButton(isLoadMode ? "Load" : "Start", () -> {
                     try {
                         String clientName = clientNameField.getText();
                         if (clientName == null || clientName.trim().isEmpty() || clientName.trim().equalsIgnoreCase("Server")) {
@@ -195,11 +209,47 @@ public class InitializationView extends BaseView {
     }
 
     private void initializeLoadPickOrigin() {
+        Form form = new Form.Builder()
+                .addLabel("Waiting for clients to connect")
+                .addVerticalSpace(5)
+                .addLabel("You can select which player plays at which pc and start the game when you want")
+                .addButton("Select Players", this::initializeSelectPlayers)
+                .build();
 
+        addToCenter(form.getContent());
     }
 
-    private void initializeLoadOrigins() {
+    private void initializeSelectPlayers() {
+        List<IPlayer> players = Game.getInstance().getPlayers();
+        Map<String, String> clientIdentifiers = Network.getInstance().getAllClientNames();
+        Form.Builder builder = new Form.Builder()
+                .addLabel("Choose who belongs to where: ");
+        List<JComboBox<String>> playerOrigins = new ArrayList<>();
+        String[] clientNames = clientIdentifiers.keySet().toArray(new String[0]);
+        for (int i = 0; i < players.size(); i++) {
+            playerOrigins.add(new JComboBox<>(clientNames));
+            builder.addLabeledComponent("Player " + players.get(i).getName(), playerOrigins.get(playerOrigins.size() - 1))
+                    .addVerticalSpace(5);
+        }
 
+        builder.addButton("Start Game", () -> {
+            List<String> identifiers = playerOrigins.stream()
+                    .map(comboBox -> (String) comboBox.getSelectedItem())
+                    .map(clientIdentifiers::get)
+                    .collect(Collectors.toList());
+            controller.startLoadedGame(players, identifiers);
+        });
+
+        Form form = builder.build();
+        addToCenter(form.getContent());
+    }
+
+    private void initializeWaitForClientToLoad() {
+        Form form = new Form.Builder()
+                .addLabel("Waiting for the server to load and start the game...")
+                .build();
+
+        addToCenter(form.getContent());
     }
 
     private void addToCenter(JComponent component) {
