@@ -5,6 +5,7 @@ package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
@@ -24,6 +25,7 @@ import cabernet1.monopoly.utils.UIObservable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 public class GameController implements Serializable {
@@ -253,5 +255,38 @@ public class GameController implements Serializable {
      */
     public void resumeGame() {
         Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
+    }
+
+    public boolean canBeUpgraded(ColorGroup color) {
+      ArrayList<GroupColoredProperty> a = Board.getInstance().groupedColorGroupProperties.get(color);
+      Player owner = null;
+      Boolean sameOwner = false;
+      for(GroupColoredProperty g: a) {
+        if(owner == null) {
+          owner = g.getOwner();
+          sameOwner = true;
+        }
+        else {
+          if(owner != g.getOwner()) {
+            sameOwner = false;
+            return false;
+          }
+        }
+      }
+      int level = -1;
+      Boolean sameLevel = false;
+      for(GroupColoredProperty g: a) {
+        if(level == -1) {
+          level = g.getUpgradeAmount();
+          sameLevel = true;
+        }
+        else {
+          if(level != g.getUpgradeAmount()) {
+            sameLevel = false;
+            return false;
+          }
+        }
+      }
+      return true;
     }
 }

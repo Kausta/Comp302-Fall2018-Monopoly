@@ -10,6 +10,7 @@ import cabernet1.monopoly.domain.game.board.tile.actiontile.ChanceTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.CommunityChestTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Go;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BeaconStreet;
@@ -90,6 +91,7 @@ import cabernet1.monopoly.utils.RepresentationInvariant;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
@@ -102,6 +104,7 @@ public class Board implements RepresentationInvariant, Serializable {
     private Pool poolTile;
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
+    public Hashtable<ColorGroup, ArrayList<GroupColoredProperty>> groupedColorGroupProperties = new Hashtable();
 
     private Board() {
     }
@@ -471,7 +474,7 @@ public class Board implements RepresentationInvariant, Serializable {
         } else if (property.getOwner().equals(player)) {
             if (property instanceof GroupColoredProperty) {
                 GroupColoredProperty gcp = (GroupColoredProperty) property;
-                if (gcp.getUpgradeAmount() <= player.getMoney())
+                if (gcp.getUpgradeAmount() <= player.getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup()))
                     controller.enableUpgradeBuilding();
             }
         } else {
