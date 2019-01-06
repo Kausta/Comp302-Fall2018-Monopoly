@@ -53,6 +53,8 @@ public class InitialPlayerData implements Serializable, Comparable {
     public int compareTo(Object o) {
         InitialPlayerData c = (InitialPlayerData) o;
         return origin.compareTo(c.origin);
+    }
+    
     public BotLevel getBotLevel() {
         return botLevel;
     }

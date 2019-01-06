@@ -20,7 +20,7 @@ public class ServerDisconnectedCommand extends ICommand {
             InitializationController.getInstance().setServer(true);
         }else{
             try {
-                InitializationController.getInstance().startClient(game.getNextPossibleServer().split(":")[0], 8008);                
+                InitializationController.getInstance().startClient("New Client", game.getNextPossibleServer().split(":")[0], 8008);                
             } catch (Exception e) {
                 
             }
