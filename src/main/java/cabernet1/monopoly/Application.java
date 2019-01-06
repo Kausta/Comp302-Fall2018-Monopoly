@@ -79,6 +79,7 @@ public class Application implements Runnable {
         view.initialize(controller);
         logger.i("Navigating to game view");
         ContainerView.getInstance().setCurrentView(view);
+        game.configureTurn();
     }
 }
 
