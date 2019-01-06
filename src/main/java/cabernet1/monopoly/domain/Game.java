@@ -2,22 +2,11 @@ package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.Board;
-import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BoylstonStreet;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkblue.Boardwalk;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkred.MulhollandDrive;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.NorthCarolinaAvenue;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.PacificAvenue;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.grey.FifthAvenue;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.orange.StJamesPlace;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.pink.VirginiaAvenue;
 import cabernet1.monopoly.domain.game.bot.BotPlayer;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.NextTurnCommand;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
-import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.PlayerFactory;
 import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.logging.Logger;
@@ -27,6 +16,7 @@ import cabernet1.monopoly.utils.TimeoutManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.util.stream.Collectors.toCollection;
@@ -62,35 +52,35 @@ public class Game implements Serializable {
         this.player = initialPlayerData.stream().map(playerData -> {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
-        }).collect(toCollection(ArrayList::new));
+        }).sorted(Comparator.comparingInt(IPlayer::getID)).collect(toCollection(ArrayList::new));
     }
 
     public void startGame() {
         setNextServer();
     }
 
-    public void makeSelfIneligibleForServer(String identifier){
-        for(InitialPlayerData i : initialPlayerData){
-            if(i.getOrigin().equals(identifier)){
+    public void makeSelfIneligibleForServer(String identifier) {
+        for (InitialPlayerData i : initialPlayerData) {
+            if (i.getOrigin().equals(identifier)) {
                 i.setEligibleForServer(false);
             }
         }
     }
 
-    public void changePlayerToBot(IPlayer p){
+    public void changePlayerToBot(IPlayer p) {
         BotPlayer b = (BotPlayer) p;
         for (int i = 0; i < player.size(); i++) {
-            if(player.get(i).equals(p)){
+            if (player.get(i).equals(p)) {
                 player.remove(i);
                 player.add(i, b);
             }
         }
     }
 
-    public void setNextServer(){
+    public void setNextServer() {
         Collections.sort(initialPlayerData);
-        for(InitialPlayerData i : initialPlayerData){
-            if(i.getEligibleForServer()){
+        for (InitialPlayerData i : initialPlayerData) {
+            if (i.getEligibleForServer()) {
                 nextPossibleServer = i.getOrigin();
             }
         }
@@ -100,11 +90,11 @@ public class Game implements Serializable {
         return this.playersOnDevice;
     }
 
-    public String getNextPossibleServer(){
+    public String getNextPossibleServer() {
         return this.nextPossibleServer;
     }
 
-    public List<InitialPlayerData> getPlayerData(){
+    public List<InitialPlayerData> getPlayerData() {
         return this.initialPlayerData;
     }
 
@@ -120,14 +110,14 @@ public class Game implements Serializable {
     }
 
     public void endTurn() {
-         TimeoutManager.getInstance().setTimeout(() -> {
-             String message = getCurrentPlayer().getName() +
-                     " turn has ended\n"+ Constants.SEPERATING_lINE+"\n\n\n";
+        TimeoutManager.getInstance().setTimeout(() -> {
+            String message = getCurrentPlayer().getName() +
+                    " turn has ended\n" + Constants.SEPERATING_lINE + "\n\n\n";
 
-             NetworkController nc = Network.getInstance().getNetworkController();
-             nc.sendCommand(new AnnounceMessageCommand(message));
+            NetworkController nc = Network.getInstance().getNetworkController();
+            nc.sendCommand(new AnnounceMessageCommand(message));
 
-             nc.sendCommand(new NextTurnCommand());
+            nc.sendCommand(new NextTurnCommand());
         }, 1000);
     }
 
@@ -137,12 +127,12 @@ public class Game implements Serializable {
     }
 
     public void configureTurn() {
-        IPlayer player=getCurrentPlayer();
+        IPlayer player = getCurrentPlayer();
         controller.playerInfo(player);
-        String message="Player: "+player.getName()+" will play now\n" + Constants.SEPERATING_lINE+"\n\n";
+        String message = "Player: " + player.getName() + " will play now\n" + Constants.SEPERATING_lINE + "\n\n";
         controller.announceMessage(message);
         controller.tileListObservable.setValue(Board.getInstance().getBoardTiles());
-        if (player instanceof BotPlayer){
+        if (player instanceof BotPlayer) {
             player.playTurn();
         }
     }
