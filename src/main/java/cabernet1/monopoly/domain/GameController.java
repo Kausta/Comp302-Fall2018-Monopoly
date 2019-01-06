@@ -5,9 +5,11 @@ package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
+import cabernet1.monopoly.domain.game.command.BuyPropertyCommand;
 import cabernet1.monopoly.domain.game.command.showDiceFacesCommand;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
@@ -20,10 +22,10 @@ import cabernet1.monopoly.domain.network.command.ResumeCommand;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
-import cabernet1.monopoly.utils.UIObservable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 public class GameController implements Serializable {
@@ -45,6 +47,7 @@ public class GameController implements Serializable {
     public final Observable<Boolean> pauseButton = new Observable<>();
     public final Observable<Player> playerObserver = new Observable<>();
     public final Observable<ArrayList<IPlayer>> playerListObservable = new Observable<>();
+    public final Observable<ArrayList<Tile>> tileListObservable = new Observable<>();
     private final RegularDie die1 = NormalDiceCup.getInstance().die1;
     private final RegularDie die2 = NormalDiceCup.getInstance().die2;
     private final SpeedDie die3 = NormalDiceCup.getInstance().die3;
@@ -155,10 +158,14 @@ public class GameController implements Serializable {
     public void upgradeBuilding() {
         Board.getInstance().upgradeBuilding(getCurrentPlayer(), (GroupColoredProperty) getCurrentPlayer().getCurrentTile());
     }
-
-    public void buyProperty() {
+    public void activateBuyProperty(){
         Board.getInstance().buyProperty(getCurrentPlayer(), (Property) getCurrentPlayer().getCurrentTile());
         playerListObservable.setValue(playerList());
+        tileListObservable.setValue(Board.getInstance().getBoardTiles());
+    }
+    public void buyProperty() {
+        NetworkController nc=Network.getInstance().getNetworkController();
+        nc.sendCommand(new BuyPropertyCommand());
     }
 
     //initial states are disabled.
@@ -253,5 +260,52 @@ public class GameController implements Serializable {
      */
     public void resumeGame() {
         Network.getInstance().getNetworkController().sendCommand(new ResumeCommand());
+    }
+
+    public boolean canBeUpgraded(ColorGroup color, GroupColoredProperty p) {
+      ArrayList<GroupColoredProperty> a = Board.getInstance().groupedColorGroupProperties.get(color);
+      Player owner = p.getOwner();
+      for(GroupColoredProperty g: a) {
+          if(owner != g.getOwner()) {
+            return false;
+          }
+      }
+      int level = getPropertyLevel(p);
+      if(level == 3) {
+          return false;
+      }
+      else {
+          for(GroupColoredProperty g: a) {
+              int tmpLevel = getPropertyLevel(g);
+              if(level == tmpLevel || tmpLevel-level == 1) {
+                  continue;
+              }
+              else {
+                  return false;
+              }
+          }
+      }
+      return true;
+    }
+
+    public int getPropertyLevel(GroupColoredProperty p) {
+        int level = -1;
+        if(p.getHouse().limitReached()) {
+            if(p.getHotel().limitReached()) {
+                if(p.getSkyscraper().limitReached()) {
+                    level = 3;
+                }
+                else {
+                    level = 2;
+                }
+            }
+            else {
+                level = 1;
+            }
+        }
+        else {
+            level = 0;
+        }
+        return level;
     }
 }

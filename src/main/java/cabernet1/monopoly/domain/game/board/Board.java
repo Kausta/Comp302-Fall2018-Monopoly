@@ -10,6 +10,7 @@ import cabernet1.monopoly.domain.game.board.tile.actiontile.ChanceTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.CommunityChestTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Go;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
 import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BeaconStreet;
@@ -90,6 +91,7 @@ import cabernet1.monopoly.utils.RepresentationInvariant;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
@@ -98,10 +100,13 @@ public class Board implements RepresentationInvariant, Serializable {
     private static final long serialVersionUID = 5361865266782383461L;
     private static volatile Board _instance = null;
     private final Random r = new Random();
-    List<Tile> boardTiles; //made package-private for testing purposes
+
+
+    ArrayList<Tile> boardTiles; //made package-private for testing purposes
     private Pool poolTile;
     private List<CommunityChestCard> communityChestCards;
     private List<ChanceCard> chanceCards;
+    public Hashtable<ColorGroup, ArrayList<GroupColoredProperty>> groupedColorGroupProperties = new Hashtable();
 
     private Board() {
     }
@@ -120,7 +125,9 @@ public class Board implements RepresentationInvariant, Serializable {
         initiateTiles();
         initializeCards();
     }
-
+    public ArrayList<Tile> getBoardTiles() {
+        return boardTiles;
+    }
     private void initiateTiles() {
         // manually add all the information about the board's tile
         // first the low, right corner of middle then inner, then outer
@@ -471,7 +478,7 @@ public class Board implements RepresentationInvariant, Serializable {
         } else if (property.getOwner().equals(player)) {
             if (property instanceof GroupColoredProperty) {
                 GroupColoredProperty gcp = (GroupColoredProperty) property;
-                if (gcp.getUpgradeAmount() <= player.getMoney())
+                if (gcp.getUpgradeAmount() <= player.getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property)))
                     controller.enableUpgradeBuilding();
             }
         } else {
@@ -535,8 +542,7 @@ public class Board implements RepresentationInvariant, Serializable {
         player.ownProperty(property);
         property.setOwner(player);
         String message = player.getName() + " has bought " + property.getName();
-        NetworkController nc = Network.getInstance().getNetworkController();
-        nc.sendCommand(new AnnounceMessageCommand(message));
+        Game.getInstance().getGameController().announceMessage(message);
     }
 
     public boolean repOK() {
