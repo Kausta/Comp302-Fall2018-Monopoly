@@ -25,7 +25,7 @@ public class GameSerializerTests extends TestBase {
     public void gameSerializesCorrectly() {
         // Create all instances
         List<InitialPlayerData> initialPlayerData = new ArrayList<>();
-        initialPlayerData.add(new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false));
+        initialPlayerData.add(new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false, botLevel));
         Game.getInstance().initialize(initialPlayerData);
         RollThreeDiceCup.getInstance();
         NormalDiceCup.getInstance();
@@ -44,7 +44,7 @@ public class GameSerializerTests extends TestBase {
     public void gameSerializesAndDeserializesCorrectly() {
         // Create all instances
         List<InitialPlayerData> initialPlayerData = new ArrayList<>();
-        InitialPlayerData playerData = new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false);
+        InitialPlayerData playerData = new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false, botLevel);
         initialPlayerData.add(playerData);
         Game.getInstance().initialize(initialPlayerData);
         RollThreeDiceCup.getInstance();

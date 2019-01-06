@@ -36,7 +36,7 @@ public class GroupColoredProperty extends Property {
             Board.getInstance().groupedColorGroupProperties.put(color, a);
         }
         else {
-            ArrayList a = new ArrayList();
+            ArrayList<GroupColoredProperty> a = new ArrayList<>();
             a.add(this);
             Board.getInstance().groupedColorGroupProperties.put(color, a);
         }

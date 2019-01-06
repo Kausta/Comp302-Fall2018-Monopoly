@@ -18,7 +18,7 @@ public class GameLoaderTests extends TestBase {
 
     @Test
     public void gameLoadsWithoutException() {
-        Path filePath = Paths.get(GameSaver.SAVE_FILE_DIRECTORY, TEST_LOAD_NAME);
+        Path filePath = Paths.get("saves", TEST_LOAD_NAME);
         try {
             Files.delete(filePath);
         } catch (IOException ignored) {
@@ -27,9 +27,9 @@ public class GameLoaderTests extends TestBase {
         GameSerializerTests tests = new GameSerializerTests();
         // Make sure the serialization runs correctly before testing this
         tests.gameSerializesAndDeserializesCorrectly();
-        assertDoesNotThrow(() -> GameSaver.getInstance().saveToFile(TEST_LOAD_NAME));
+        assertDoesNotThrow(() -> GameSaver.getInstance().saveToFile(filePath));
         assertTrue(Files.exists(filePath));
-        assertDoesNotThrow(() -> GameLoader.getInstance().loadFromFile(TEST_LOAD_NAME));
+        assertDoesNotThrow(() -> GameLoader.getInstance().loadFromFile(filePath));
     }
 
 }

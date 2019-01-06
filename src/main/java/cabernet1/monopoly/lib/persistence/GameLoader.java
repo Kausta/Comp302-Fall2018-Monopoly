@@ -30,9 +30,9 @@ public class GameLoader {
         return _instance;
     }
 
-    public void loadFromFile(String fileName) {
+    public void loadFromFile(Path pathToFile) {
         Set<String> classNames = GameSaverRegistry.getInstance().getSaveableClassNames();
-        Map<String, String> savedData = parseJson(Paths.get(GameSaver.SAVE_FILE_DIRECTORY, fileName), classNames);
+        Map<String, String> savedData = parseJson(pathToFile, classNames);
         GameSerializer.getInstance().deserializeGameAndLoad(savedData);
     }
 
