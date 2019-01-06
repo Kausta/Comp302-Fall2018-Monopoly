@@ -1,7 +1,6 @@
 package cabernet1.monopoly.domain.game.board;
 
 import cabernet1.monopoly.domain.Game;
-import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.tile.FreeTile;
@@ -9,7 +8,6 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.ChanceTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.CommunityChestTile;
 import cabernet1.monopoly.domain.game.board.tile.actiontile.Go;
-import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
@@ -84,8 +82,6 @@ import cabernet1.monopoly.domain.game.card.communitycard.CommunityChestCard;
 import cabernet1.monopoly.domain.game.card.communitycard.PayHospitalBills;
 import cabernet1.monopoly.domain.game.command.*;
 import cabernet1.monopoly.domain.game.player.IPlayer;
-import cabernet1.monopoly.domain.game.player.Player;
-import cabernet1.monopoly.domain.game.player.enumerators.PlayerMovementStatus;
 import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.utils.RepresentationInvariant;
 
@@ -381,7 +377,6 @@ public class Board implements RepresentationInvariant, Serializable {
         ArrayList<Integer> xArr = new ArrayList<>();
         ArrayList<Integer> yArr = new ArrayList<>();
         Tile cur = from;
-        System.out.println("Get path is going from "+from+" To "+to);
         boolean passedTransitLastTime=false;
         while (!cur.equals(to)) {
             xArr.add(cur.getX());
@@ -469,60 +464,11 @@ public class Board implements RepresentationInvariant, Serializable {
         return null;
     }
 
-    public void handleProperty(Player player, Property property) {
-        GameController controller = Game.getInstance().getGameController();
-        NetworkController nc = Network.getInstance().getNetworkController();
-
-        if (property.getOwner() == null && property.getPrice() < player.getMoney()) {
-            controller.enableBuyProperty();
-        } else if (property.getOwner().equals(player)) {
-            if (property instanceof GroupColoredProperty) {
-                GroupColoredProperty gcp = (GroupColoredProperty) property;
-                if (gcp.getUpgradeAmount() <= player.getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property)))
-                    controller.enableUpgradeBuilding();
-            }
-        } else {
-            int rent = property.getRent();
-            nc.sendCommand(new PayRentCommand(player.getID(), rent));
-            nc.sendCommand(new GainMoneyCommand(property.getOwner().getID(), rent));
-
-            String message = player.getName() + " has paid a rent to " + property.getOwner().getName();
-            nc.sendCommand(new AnnounceMessageCommand(message));
-        }
-    }
-
     public Tile getTileAtIndex(int idx) {
         return boardTiles.get(idx);
     }
 
-    public void handleTile(Player player, Tile destTile) {
-        String message = "";
-        NetworkController nc = Network.getInstance().getNetworkController();
-        GameController controller = Game.getInstance().getGameController();
-        if (destTile instanceof Property) {
-            handleProperty(player, (Property) destTile);
-        } else if (destTile instanceof Jail) {
-            message = player.getName() + " has got into jail!";
-            nc.sendCommand(new ChangeJailStatusCommand(player.getID(), true));
-        } else if (destTile instanceof ChanceTile) {
-            ((ChanceTile) destTile).landingAction(player);
-        } else if (destTile instanceof CommunityChestTile) {
-            ((CommunityChestTile) destTile).landingAction(player);
-        } else {// other types, do nothing for now
-            message = player.getName() + " has nothing to do now,will take a rest";
-        }
-        if (player.getMovementStatus() == PlayerMovementStatus.NORMAL_MOVE) {
-            controller.enableSpecialAction();
-        } else {
-            controller.enableEndTurn();
-        }
-
-        if (!message.equals(""))
-            nc.sendCommand(new AnnounceMessageCommand(message));
-
-    }
-
-    public void upgradeBuilding(Player player, GroupColoredProperty property) {
+    public void upgradeBuilding(IPlayer player, GroupColoredProperty property) {
         NetworkController nc = Network.getInstance().getNetworkController();
         int upgradeAmount = property.getUpgradeAmount();
         nc.sendCommand(new PayRentCommand(player.getID(), upgradeAmount));
@@ -533,11 +479,10 @@ public class Board implements RepresentationInvariant, Serializable {
 
     /**
      * This method will only be called when it's possible to do so
-     *
-     * @param player   the player to buy the property
+     *  @param player   the player to buy the property
      * @param property the property to be bought by the player
      */
-    public void buyProperty(Player player, Property property) {
+    public void buyProperty(IPlayer player, Property property) {
         player.loseMoney(property.getPrice());
         player.ownProperty(property);
         property.setOwner(player);

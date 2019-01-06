@@ -19,7 +19,7 @@ public class RegularDieImage extends DieImage {
     public RegularDieImage() {
         add(dieImageLabel);
         dieImageLabel.setVisible(true);
-        drawDie(2);
+        drawDie(1);
     }
 
     @Override
@@ -48,7 +48,6 @@ public class RegularDieImage extends DieImage {
                 logger.d("Invalid die type is entered!");
                 break;
         }
-        logger.d("Image path is "+image);
         return image;
     }
 

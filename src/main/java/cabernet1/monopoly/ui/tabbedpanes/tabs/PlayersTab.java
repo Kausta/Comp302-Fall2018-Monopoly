@@ -61,7 +61,6 @@ public class PlayersTab extends JScrollPane implements Observer<ArrayList<IPlaye
 
     @Override
     public void onValueChanged(ArrayList<IPlayer> playerList) {
-        logger.d("Value changed");
         DefaultTableModel model = (DefaultTableModel) playerTable.getModel();
         int rowCount = model.getRowCount();
         //Remove rows one by one from the end of the table

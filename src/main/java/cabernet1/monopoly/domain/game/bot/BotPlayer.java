@@ -12,20 +12,13 @@ public class BotPlayer extends IPlayer {
         this.botStrategy = botStrategy;
     }
 
-    @Override
-    public void playTurn() {
 
-    }
 
     public IStrategy getBotStrategy() {
         return botStrategy;
     }
 
-    @Override
-    protected void handleNormalMove() {
-        // TODO Auto-generated method stub
 
-    }
 
     @Override
     protected void handleMrMonopolyMove() {
@@ -39,7 +32,6 @@ public class BotPlayer extends IPlayer {
 
     }
 
-    @Override
     protected void handleTriplesMove() {
         // TODO Auto-generated method stub
 
@@ -67,6 +59,17 @@ public class BotPlayer extends IPlayer {
     protected void goJail() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void handleBuyProperty() {
+        System.out.println("strategy called");
+        botStrategy.handleBuyProperty(this);
+    }
+
+    @Override
+    public void handleUpgradeProperty() {
+        botStrategy.handleUpgradeProperty(this);
     }
 
 

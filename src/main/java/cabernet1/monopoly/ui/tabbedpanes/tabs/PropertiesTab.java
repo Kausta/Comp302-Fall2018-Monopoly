@@ -49,14 +49,12 @@ public class PropertiesTab extends JScrollPane implements Observer<ArrayList<Til
     }
     @Override
     public void onValueChanged(ArrayList<Tile> tileList) {
-        logger.d("Value changed");
         DefaultTableModel model = (DefaultTableModel) propertiesTable.getModel();
         int rowCount = model.getRowCount();
         //Remove rows one by one from the end of the table
         for (int i = rowCount - 1; i >= 0; i--) {
             model.removeRow(i);
         }
-        logger.d("tile list size is "+tileList.size());
         int counter=0;
         for (Tile p : tileList) {
             if (p instanceof GroupColoredProperty) {
@@ -66,6 +64,5 @@ public class PropertiesTab extends JScrollPane implements Observer<ArrayList<Til
                 model.addRow(new Object[]{p.getName(), owner,prop.getColorGroup(), ""+prop.getRent()});
             }
         }
-        logger.d("Got "+counter+" group properties");
     }
 }
