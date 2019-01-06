@@ -2,6 +2,7 @@ package cabernet1.monopoly.lib.persistance;
 
 import cabernet1.monopoly.TestBase;
 import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.game.bot.BotLevel;
 import cabernet1.monopoly.domain.game.bot.BotPlayer;
 import cabernet1.monopoly.domain.game.bot.BotStrategyFactory;
 import cabernet1.monopoly.domain.game.die.cup.JailDiceCup;
@@ -25,7 +26,7 @@ public class GameSerializerTests extends TestBase {
     public void gameSerializesCorrectly() {
         // Create all instances
         List<InitialPlayerData> initialPlayerData = new ArrayList<>();
-        initialPlayerData.add(new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false, botLevel));
+        initialPlayerData.add(new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false, BotLevel.EASY));
         Game.getInstance().initialize(initialPlayerData);
         RollThreeDiceCup.getInstance();
         NormalDiceCup.getInstance();
@@ -44,7 +45,7 @@ public class GameSerializerTests extends TestBase {
     public void gameSerializesAndDeserializesCorrectly() {
         // Create all instances
         List<InitialPlayerData> initialPlayerData = new ArrayList<>();
-        InitialPlayerData playerData = new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false, botLevel);
+        InitialPlayerData playerData = new InitialPlayerData(0, "Test Name", "127.0.0.1:1000", false, BotLevel.EASY);
         initialPlayerData.add(playerData);
         Game.getInstance().initialize(initialPlayerData);
         RollThreeDiceCup.getInstance();
