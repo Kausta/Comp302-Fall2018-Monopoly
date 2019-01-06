@@ -5,6 +5,7 @@
 package cabernet1.monopoly.domain.game.player;
 
 import cabernet1.monopoly.domain.Game;
+import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.Board;
@@ -62,6 +63,15 @@ public class Player extends IPlayer implements RepresentationInvariant {
         return super.repOK();
     }
 
+    @Override
+    public void handleBuyProperty() {
+        Game.getInstance().getGameController().enableBuyProperty();
+    }
+
+    @Override
+    public void handleUpgradeProperty(){
+        Game.getInstance().getGameController().enableUpgradeBuilding();
+    }
     @Override
     public String toString() {
         return "Player{" + super.toString() + "}";

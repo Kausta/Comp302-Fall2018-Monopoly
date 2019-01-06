@@ -61,5 +61,15 @@ public class BotPlayer extends IPlayer {
 
     }
 
+    @Override
+    public void handleBuyProperty() {
+        botStrategy.handleBuyProperty(this);
+    }
+
+    @Override
+    public void handleUpgradeProperty() {
+        botStrategy.handleUpgradeProperty(this);
+    }
+
 
 }

@@ -11,12 +11,13 @@ import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.NetworkController;
 import cabernet1.monopoly.domain.game.board.Board;
 import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.ChanceTile;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.CommunityChestTile;
+import cabernet1.monopoly.domain.game.board.tile.actiontile.Jail;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.TileType;
+import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
-import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
-import cabernet1.monopoly.domain.game.command.ChangeMovementStatusCommand;
-import cabernet1.monopoly.domain.game.command.IncNumConsDoubleRollsCommand;
-import cabernet1.monopoly.domain.game.command.MovePlayerCommand;
+import cabernet1.monopoly.domain.game.command.*;
 import cabernet1.monopoly.domain.game.die.cup.JailDiceCup;
 import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
 import cabernet1.monopoly.domain.game.die.enumerators.JailDiceCupStatus;
@@ -231,7 +232,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         String message = getName() + " has moved from " + previousTile + "  to " + newTile.getName();
         nc.sendCommand(new AnnounceMessageCommand(message));
         nc.sendCommand(new MovePlayerCommand(this.getID(), newTile.getID(), cup.isEven()));
-        board.handleTile(this, newTile);
+        handleTile(newTile, board);
     }
 
     /**
@@ -268,7 +269,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
 
         if (nextTile != null) {
             nc.sendCommand(new MovePlayerCommand(this.getID(), nextTile.getID(), cup.isEven()));
-            board.handleTile(this, nextTile);
+            handleTile(nextTile, board);
         }
     }
 
@@ -302,7 +303,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
                 message = "You will move to the next Chance tile";
             nc.sendCommand(new AnnounceMessageCommand(message));
             nc.sendCommand(new MovePlayerCommand(this.getID(), nextTile.getID(), cup.isEven()));
-            board.handleTile(this, nextTile);
+            handleTile(nextTile, board);
         }
     }
 
@@ -411,7 +412,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         nc.sendCommand(new MovePlayerCommand(this.getID(), newTile.getID(), true));
         String message = getName() + " has transposed immediately from " + previousTile + " to " + curTile.getName();
         nc.sendCommand(new AnnounceMessageCommand(message));
-        Board.getInstance().handleTile(this, newTile);
+        handleTile(newTile, Board.getInstance());
     }
 
 
@@ -574,4 +575,55 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
                 return -1;
         }
     }
+
+    public void handleTile(Tile destTile, Board board) {
+        String message = "";
+        NetworkController nc = Network.getInstance().getNetworkController();
+        GameController controller = Game.getInstance().getGameController();
+        if (destTile instanceof Property) {
+            handleProperty((Property) destTile);
+        } else if (destTile instanceof Jail) {
+            message = getName() + " has got into jail!";
+            nc.sendCommand(new ChangeJailStatusCommand(getID(), true));
+        } else if (destTile instanceof ChanceTile) {
+            ((ChanceTile) destTile).landingAction(this);
+        } else if (destTile instanceof CommunityChestTile) {
+            ((CommunityChestTile) destTile).landingAction(this);
+        } else {// other types, do nothing for now
+            message = getName() + " has nothing to do now,will take a rest";
+        }
+        if (getMovementStatus() == PlayerMovementStatus.NORMAL_MOVE) {
+            controller.enableSpecialAction();
+        } else {
+            controller.enableEndTurn();
+        }
+
+        if (!message.equals(""))
+            nc.sendCommand(new AnnounceMessageCommand(message));
+
+    }
+
+    public void handleProperty(Property property) {
+        GameController controller = Game.getInstance().getGameController();
+        NetworkController nc = Network.getInstance().getNetworkController();
+
+        if (property.getOwner() == null && property.getPrice() < getMoney()) {
+            handleBuyProperty();
+
+        } else if (property.getOwner().equals(this)) {
+            if (property instanceof GroupColoredProperty) {
+                GroupColoredProperty gcp = (GroupColoredProperty) property;
+                if (gcp.getUpgradeAmount() <= getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property)))
+                    handleUpgradeProperty();
+            }
+        } else {
+            int rent = property.getRent();
+            nc.sendCommand(new PayRentCommand(getID(), rent));
+            nc.sendCommand(new GainMoneyCommand(property.getOwner().getID(), rent));
+            String message = getName() + " has paid a rent to " + property.getOwner().getName();
+            nc.sendCommand(new AnnounceMessageCommand(message));
+        }
+    }
+    public abstract void handleBuyProperty();
+    public abstract void handleUpgradeProperty();
 }
