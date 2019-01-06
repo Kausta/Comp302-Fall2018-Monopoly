@@ -2,6 +2,8 @@ package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.Board;
+import cabernet1.monopoly.domain.game.board.tile.Tile;
+import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BoylstonStreet;
 import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkblue.Boardwalk;
 import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkred.MulhollandDrive;
@@ -55,7 +57,6 @@ public class Game implements Serializable {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
         }).collect(toCollection(ArrayList::new));
-
     }
 
     public List<String> getPlayersOnDevice() {
