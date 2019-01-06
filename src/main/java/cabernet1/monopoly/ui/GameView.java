@@ -11,10 +11,7 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
-import cabernet1.monopoly.ui.panels.ActionPanel;
-import cabernet1.monopoly.ui.panels.BoardPanel;
-import cabernet1.monopoly.ui.panels.MouseOverPanel;
-import cabernet1.monopoly.ui.panels.RightPanel;
+import cabernet1.monopoly.ui.panels.*;
 import cabernet1.monopoly.ui.players.PlayersPanel;
 import cabernet1.monopoly.ui.scrollpanes.LogScrollPane;
 import cabernet1.monopoly.ui.tabbedpanes.DetailsTabbedPane;
@@ -65,6 +62,7 @@ public class GameView extends BaseView {
         // Right panel covers the right side of the frame.
         // In addition, it contains some other panels
         RightPanel rP = RightPanel.getInstance();
+        rP.add(DicePanel.getInstance(),BorderLayout.NORTH);
         rP.add(MouseOverPanel.getInstance(), BorderLayout.NORTH);
         rP.add(DetailsTabbedPane.getInstance(), BorderLayout.NORTH);
         rP.add(LogScrollPane.getInstance(), BorderLayout.NORTH);
