@@ -18,7 +18,7 @@ public class BuyPropertyCheatCommand extends CheatCommand {
         IPlayer currentPlayer = Game.getInstance().getCurrentPlayer();
         Tile tile = Board.getInstance().getTileAtPosition(propertyId);
         if(tile instanceof Property) {
-            Board.getInstance().buyProperty(currentPlayer, (Property) tile);
+            Board.getInstance().buyProperty(currentPlayer, propertyId);
         }
     }
 

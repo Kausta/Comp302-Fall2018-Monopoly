@@ -58,6 +58,7 @@ public class GameController implements Serializable {
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
 
     public GameController() {
+        updateInfoObservables();
         initializeInteractableObservableList();
         logger.i("Created Game Controller");
     }
@@ -78,6 +79,7 @@ public class GameController implements Serializable {
             currentPlayer.playTurn();
         }
         // showDiceValue();
+        rollButton.setValue(false);
     }
 
     public IPlayer getPlayer(int ID) {
@@ -168,15 +170,15 @@ public class GameController implements Serializable {
         Board.getInstance().upgradeBuilding(getCurrentPlayer(), (GroupColoredProperty) getCurrentPlayer().getCurrentTile());
     }
 
-    public void activateBuyProperty() {
-        Board.getInstance().buyProperty(getCurrentPlayer(), (Property) getCurrentPlayer().getCurrentTile());
+    public void activateBuyProperty(int tileID) {
+        Board.getInstance().buyProperty(getCurrentPlayer(), tileID);
         playerListObservable.setValue(playerList());
         tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
 
     public void buyProperty() {
         NetworkController nc = Network.getInstance().getNetworkController();
-        nc.sendCommand(new BuyPropertyCommand());
+        nc.sendCommand(new BuyPropertyCommand(getCurrentPlayer().getCurrentTile().getID()));
     }
 
     //initial states are disabled.
@@ -241,6 +243,11 @@ public class GameController implements Serializable {
 
     public void downgradeBuilding(int propertyId){
         ((GroupColoredProperty) getTile(propertyId)).downgrade();
+    }
+
+    private void updateInfoObservables() {
+        playerListObservable.setValue(playerList());
+        tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
 
     private void initializeInteractableObservableList() {
