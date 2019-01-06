@@ -32,7 +32,7 @@ public class ChatPanel extends BasePanel {
 
         JButton send = new JButton("Send");
         send.addActionListener(e -> {
-            Game.getInstance().getGameController().sendChatMessage("[" + Game.getInstance().getCurrentPlayer().getName() + "]" + ": " + entry.getText());
+            Game.getInstance().getGameController().sendChatMessage(entry.getText(), "[" + Game.getInstance().getCurrentPlayer().getName() + "]" + ": " + entry.getText());
             entry.setText("");
         });
         add(send);
