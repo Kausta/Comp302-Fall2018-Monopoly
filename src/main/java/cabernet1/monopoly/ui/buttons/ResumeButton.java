@@ -17,11 +17,11 @@ public class ResumeButton extends BaseButton {
   }
 
   private void initialize() {
-    controller.rollButton.addObserver(this);
-
+    controller.resumeButton.addObserver(this);
     addActionListener(e -> {
       controller.resumeGame();
     });
+    setVisible(false);
   }
 
   @Override

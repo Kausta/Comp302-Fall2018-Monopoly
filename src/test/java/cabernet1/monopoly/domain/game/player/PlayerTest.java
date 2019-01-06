@@ -32,7 +32,7 @@ class PlayerTest extends TestBase {
     @BeforeEach
     public void createPlayerBeforeEachTest() {
         Board.getInstance().initialize();
-        player = new Player(0, "player1", 100, 1, Board.getInstance().getInitialTile());
+        player = new Player("origin", 0, "player1", 100, 1, Board.getInstance().getInitialTile());
     }
 
     @AfterEach

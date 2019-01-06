@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.lightblue;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class OrientalAvenue extends GroupColoredProperty {
               }
             },
             250, 125, 550,
-            300, 150, 1050);
+            300, 150, 1050,
+            Track.Center);
   }
 }

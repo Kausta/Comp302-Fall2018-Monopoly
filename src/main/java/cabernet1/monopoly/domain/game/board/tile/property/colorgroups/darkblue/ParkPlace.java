@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkblue;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class ParkPlace extends GroupColoredProperty {
               }
             },
             1000, 500, 1500,
-            1200, 600, 2500);
+            1200, 600, 2500,
+            Track.Center);
   }
 }

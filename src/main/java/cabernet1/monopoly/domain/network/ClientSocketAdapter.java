@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.network;
 
 import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.domain.network.command.NetworkCommand;
+import cabernet1.monopoly.domain.network.command.ServerDisconnectedCommand;
 import cabernet1.monopoly.utils.Observable;
 import cabernet1.monopoly.utils.Observer;
 
@@ -50,7 +51,10 @@ public class ClientSocketAdapter implements INetworkAdapter {
                 throw new IOException("Incorrect command received: " + command);
             }
             this.commandObservable.setValue((NetworkCommand) command);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
+            this.commandObservable.setValue(new NetworkCommand(new ServerDisconnectedCommand()));
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
             e.printStackTrace();
         }
 

@@ -5,6 +5,8 @@ import cabernet1.monopoly.domain.game.die.enumerators.SpeedDieFaces;
 public class SpeedDie extends IDie {
     private static final long serialVersionUID = -2706407479654611703L;
 
+
+    private int absoluteDieValue;
     public SpeedDie() {
         super();
     }
@@ -12,10 +14,16 @@ public class SpeedDie extends IDie {
     @Override
     public void rollDice() {
         int value = generateRollResult();
+        //to disable Mr.Monopoly & bus move
+        value=Math.min(value,3);
+        this.absoluteDieValue =value;
         SpeedDieFaces speedDieFaces = rollResultToSpeedDieFaces(value);
         if (speedDieFaces != null) {
             setDiceValue(speedDieFaces);
         }
+    }
+    public int getAbsoluteDieValue() {
+        return absoluteDieValue;
     }
 
     public int speedDieValue() {

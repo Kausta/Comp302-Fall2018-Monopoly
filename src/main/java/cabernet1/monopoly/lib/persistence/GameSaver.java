@@ -10,11 +10,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Map;
 
 public class GameSaver {
-    public static final String SAVE_FILE_DIRECTORY = "saves";
     private static GameSaver _instance = null;
 
     private Logger logger = LoggerFactory.getInstance().getLogger(getClass());
@@ -29,13 +28,13 @@ public class GameSaver {
         return _instance;
     }
 
-    public void saveToFile(String fileName) {
+    public void saveToFile(Path pathToFile) {
         Map<String, String> serializedObjects = GameSerializer.getInstance().serializeGame();
         String jsonContent = buildJson(serializedObjects);
         if (jsonContent == null) {
             throw new RuntimeException("Cannot serialize the game and convert to json");
         }
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(SAVE_FILE_DIRECTORY, fileName))) {
+        try (BufferedWriter writer = Files.newBufferedWriter(pathToFile)) {
             writer.write(jsonContent);
         } catch (IOException e) {
             throw new RuntimeException("Cannot write serialized json: " + e.getMessage());
