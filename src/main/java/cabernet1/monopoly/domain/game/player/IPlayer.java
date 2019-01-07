@@ -637,8 +637,9 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         } else if (property.getOwner().equals(this)) {
             if (property instanceof GroupColoredProperty) {
                 GroupColoredProperty gcp = (GroupColoredProperty) property;
-                if (gcp.getUpgradeAmount() <= getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property)))
+                if (gcp.getUpgradeAmount() <= getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property))) {
                     handleUpgradeProperty();
+                }
             }
         } else {
             int rent = property.getRent();
