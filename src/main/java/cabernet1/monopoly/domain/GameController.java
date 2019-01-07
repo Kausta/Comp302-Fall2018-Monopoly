@@ -357,4 +357,14 @@ public class GameController implements Serializable {
     public void saveGame(File saveFile) {
         GameSaver.getInstance().saveToFile(Paths.get(saveFile.getAbsolutePath()));
     }
+
+    public void startGame() {
+        if(getCurrentPlayer().isOnThisDevice()) {
+            rollButton.setValue(true);
+            System.out.println("I'm here");
+        }
+        else {
+            rollButton.setValue(false);
+        }
+    }
 }

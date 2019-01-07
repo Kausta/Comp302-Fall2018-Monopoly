@@ -99,6 +99,12 @@ public class Game implements Serializable {
         if (player instanceof BotPlayer) {
             player.playTurn();
         }
+        if(Game.getInstance().getGameController().getCurrentPlayer().isOnThisDevice()) {
+            Game.getInstance().getGameController().rollButton.setValue(true);
+        }
+        else {
+            Game.getInstance().getGameController().rollButton.setValue(false);
+        }
     }
 
     public IPlayer getCurrentPlayer() {
