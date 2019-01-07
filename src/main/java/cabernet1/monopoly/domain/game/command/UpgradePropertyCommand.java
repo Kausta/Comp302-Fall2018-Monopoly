@@ -16,6 +16,7 @@ public class UpgradePropertyCommand extends ICommand {
     public void execute() {
         GameController game = Game.getInstance().getGameController();
         game.completeUpgradeBuilding(propertyId);
-
+        game.updateInfoObservables();
+        game.upgradeButton.setValue(false);
     }
 }

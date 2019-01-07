@@ -23,6 +23,6 @@ public class PayRentCommand extends ICommand {
     public void execute() {
         GameController game = Game.getInstance().getGameController();
         game.playerPayRent(playerId, rentAmount);
-
+        game.updateInfoObservables();
     }
 }

@@ -73,8 +73,8 @@ public class Application implements Runnable {
     public void startGame() {
         logger.i("Starting the actual game");
         Game game = Game.getInstance();
-        game.startGame();
         GameController controller = game.getGameController();
+        controller.startGame();
         GameView view = GameView.getInstance();
         logger.i("Initializing game view");
         view.initialize(controller);

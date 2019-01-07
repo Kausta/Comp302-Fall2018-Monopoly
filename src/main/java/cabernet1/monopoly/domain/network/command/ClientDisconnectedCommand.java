@@ -1,34 +1,39 @@
 package cabernet1.monopoly.domain.network.command;
 
-import java.util.List;
-
 import cabernet1.monopoly.domain.Game;
-import cabernet1.monopoly.domain.InitializationController;
 import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.game.player.IPlayer;
-import cabernet1.monopoly.domain.game.player.InitialPlayerData;
+
+import java.util.List;
+import java.util.Set;
 
 public class ClientDisconnectedCommand extends ICommand {
+    private static final long serialVersionUID = 1380460954304578921L;
 
-    private String id;
+    private final Set<String> disconnectedIdentifiers;
 
-    public ClientDisconnectedCommand(String identifier) {
-        id = identifier;
+    public ClientDisconnectedCommand(Set<String> disconnectedIdentifiers) {
+        this.disconnectedIdentifiers = disconnectedIdentifiers;
     }
 
     @Override
     public void execute() {
+        disconnectedIdentifiers.forEach(identifier -> {
+            Network.getInstance().removeClient(identifier);
+        });
         Game game = Game.getInstance();
-        for(InitialPlayerData d : game.getPlayerData()){
-            if(d.getOrigin().split(":")[0].equals(id) && !d.isBotPlayer() ){
-                for(IPlayer p : game.getPlayers()){
-                    if(p.getID() == d.getId()){
-                        game.changePlayerToBot(p);
-                    }
-                }
-            }
+        List<IPlayer> players = game.getPlayers();
+        if (players == null) {
+            return;
         }
+        players.forEach(player -> {
+            if (disconnectedIdentifiers.contains(player.getOrigin())) {
+                player.setOrigin("Server");
+            }
+        });
     }
 
-    
+    public Set<String> getDisconnectedIdentifiers() {
+        return disconnectedIdentifiers;
+    }
 }

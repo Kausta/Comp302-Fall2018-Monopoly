@@ -77,7 +77,7 @@ public class GameController implements Serializable {
         if (currentPlayer.isInJail()) {
             currentPlayer.playJailturn();
         } else {
-            currentPlayer.playTurn();
+            currentPlayer.rollDice();
         }
         // showDiceValue();
         rollButton.setValue(false);
@@ -123,6 +123,7 @@ public class GameController implements Serializable {
         MovePlayerObservableInfo info=new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads,false);
         logger.d("created observable info");
         movePlayerObservable.setValue(info);
+        playerListObservable.setValue(playerList());
         logger.d("move player command changed value");
         getPlayer(playerId).setCurrentTile(getTile(newTileId));
         logger.d("move player command finished");
@@ -152,7 +153,7 @@ public class GameController implements Serializable {
     }
 
     public void playTurn() {
-        getCurrentPlayer().playTurn();
+        getCurrentPlayer().rollDice();
     }
 
     public void playerPayRent(int playerId, int rentAmount) {
@@ -173,6 +174,7 @@ public class GameController implements Serializable {
 
     public void enableUpgradeBuilding() {
         upgradeButton.setValue(true);
+        buyButton.setValue(false);
     }
 
     public void upgradeBuilding() {
@@ -193,6 +195,7 @@ public class GameController implements Serializable {
     //initial states are disabled.
     public void enableBuyProperty() {
         buyButton.setValue(true);
+        upgradeButton.setValue(false);
     }
     // All the enableX methods below are set to update the observer with "true" assuming the specified buttons'
 
@@ -204,7 +207,15 @@ public class GameController implements Serializable {
         logger.i("Finished moving players");
         //TODO execute when on current device
         IPlayer player = getCurrentPlayer();
-        player.handleTile(player.getCurrentTile(), Board.getInstance());
+        if (player.isOnThisDevice()) {
+            player.handleTile(player.getCurrentTile(), Board.getInstance());
+        }
+    }
+    public void finishedRollingDice(){
+        IPlayer player = getCurrentPlayer();
+        if (player.isOnThisDevice()) {
+            player.playTurn();
+        }
     }
     public void enableEndTurn() {
         endButton.setValue(true);
@@ -254,7 +265,7 @@ public class GameController implements Serializable {
         ((GroupColoredProperty) getTile(propertyId)).downgrade();
     }
 
-    private void updateInfoObservables() {
+    public void updateInfoObservables() {
         playerListObservable.setValue(playerList());
         tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
@@ -270,7 +281,7 @@ public class GameController implements Serializable {
         }
         resumeButton.setValue(false);
         pauseButton.setValue(true);
-        saveButton.setValue(true);
+        saveButton.setValue(false);
     }
 
     public static class MovePlayerObservableInfo implements Serializable {
@@ -352,5 +363,15 @@ public class GameController implements Serializable {
      */
     public void saveGame(File saveFile) {
         GameSaver.getInstance().saveToFile(Paths.get(saveFile.getAbsolutePath()));
+    }
+
+    public void startGame() {
+        if(getCurrentPlayer().isOnThisDevice()) {
+            rollButton.setValue(true);
+            System.out.println("I'm here");
+        }
+        else {
+            rollButton.setValue(false);
+        }
     }
 }

@@ -1,10 +1,7 @@
 package cabernet1.monopoly.lib.cheat;
 
 import cabernet1.monopoly.lib.cheat.command.CheatCommand;
-import cabernet1.monopoly.lib.cheat.parser.BuyPropertyParser;
-import cabernet1.monopoly.lib.cheat.parser.GainMoneyParser;
-import cabernet1.monopoly.lib.cheat.parser.JumpCommandParser;
-import cabernet1.monopoly.lib.cheat.parser.Parser;
+import cabernet1.monopoly.lib.cheat.parser.*;
 import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
@@ -19,6 +16,7 @@ public class CheatCommandParser {
         classes.put("gainmoney", new GainMoneyParser());
         classes.put("buyproperty", new BuyPropertyParser());
         classes.put("jump", new JumpCommandParser());
+        classes.put("rolldice", new RollDiceParser());
     }
 
     public static synchronized CheatCommandParser getInstance() {

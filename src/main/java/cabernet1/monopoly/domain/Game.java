@@ -15,7 +15,6 @@ import cabernet1.monopoly.utils.TimeoutManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -55,43 +54,8 @@ public class Game implements Serializable {
         }).sorted(Comparator.comparingInt(IPlayer::getID)).collect(toCollection(ArrayList::new));
     }
 
-    public void startGame() {
-        setNextServer();
-    }
-
-    public void makeSelfIneligibleForServer(String identifier) {
-        for (InitialPlayerData i : initialPlayerData) {
-            if (i.getOrigin().equals(identifier)) {
-                i.setEligibleForServer(false);
-            }
-        }
-    }
-
-    public void changePlayerToBot(IPlayer p) {
-        BotPlayer b = (BotPlayer) p;
-        for (int i = 0; i < player.size(); i++) {
-            if (player.get(i).equals(p)) {
-                player.remove(i);
-                player.add(i, b);
-            }
-        }
-    }
-
-    public void setNextServer() {
-        Collections.sort(initialPlayerData);
-        for (InitialPlayerData i : initialPlayerData) {
-            if (i.getEligibleForServer()) {
-                nextPossibleServer = i.getOrigin();
-            }
-        }
-    }
-
     public List<String> getPlayersOnDevice() {
         return this.playersOnDevice;
-    }
-
-    public String getNextPossibleServer() {
-        return this.nextPossibleServer;
     }
 
     public List<InitialPlayerData> getPlayerData() {
@@ -132,8 +96,18 @@ public class Game implements Serializable {
         String message = "Player: " + player.getName() + " will play now\n" + Constants.SEPERATING_lINE + "\n\n";
         controller.announceMessage(message);
         controller.tileListObservable.setValue(Board.getInstance().getBoardTiles());
-        if (player instanceof BotPlayer) {
-            player.playTurn();
+        if (player instanceof BotPlayer && player.isOnThisDevice()){
+            player.rollDice();
+        }
+        if(player.isOnThisDevice() && !(player instanceof BotPlayer)) {
+            Game.getInstance().getGameController().rollButton.setValue(true);
+            Game.getInstance().getGameController().pauseButton.setValue(true);
+            Game.getInstance().getGameController().saveButton.setValue(false);
+        }
+        else {
+            Game.getInstance().getGameController().rollButton.setValue(false);
+            Game.getInstance().getGameController().pauseButton.setValue(false);
+            Game.getInstance().getGameController().saveButton.setValue(false);
         }
     }
 
