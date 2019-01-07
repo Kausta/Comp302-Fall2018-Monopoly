@@ -28,8 +28,9 @@ public class ResumeCommand extends ICommand {
       gc.pauseButton.setValue(true);
     }
     else {
-      gc.pauseButton.setValue(true);
+      gc.pauseButton.setValue(false);
     }
+    gc.saveButton.setValue(false);
     for(Observable<Boolean> o: gc.disabledObservableList) {
       o.setValue(true);
     }
