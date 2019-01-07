@@ -35,6 +35,10 @@ public class ClientSocket extends BaseSocket {
         this.socket = new Socket(ipAddress, port);
     }
 
+    public String getIdentifier() {
+        return getIpAddress() + ":" + getPort();
+    }
+
     public String getIpAddress() {
         return ipAddress;
     }
