@@ -74,6 +74,7 @@ public class Application implements Runnable {
         logger.i("Starting the actual game");
         Game game = Game.getInstance();
         GameController controller = game.getGameController();
+        controller.startGame();
         GameView view = GameView.getInstance();
         logger.i("Initializing game view");
         view.initialize(controller);
