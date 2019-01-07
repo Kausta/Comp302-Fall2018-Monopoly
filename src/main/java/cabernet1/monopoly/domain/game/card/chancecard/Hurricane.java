@@ -31,14 +31,29 @@ public class Hurricane extends ChanceCard implements IimmediateAction{
         ArrayList<IPlayer> players = (ArrayList<IPlayer>) gc.playerList().clone();
         players.remove(player);
         for(int i=0; i<players.size(); i++){
-            if(players.get(i).getOwnedProperty().size() == 0){
+            HashSet<Property> properties = players.get(i).getOwnedProperty();
+            if(properties.size() == 0){
+                players.remove(i);
+                i--;
+            }
+            boolean flag = false;
+            for(Property property: properties) {
+                if(property instanceof GroupColoredProperty) {
+                    GroupColoredProperty prop = (GroupColoredProperty) property;
+                    if(prop.getHouse().getAmount() > 0) {
+                       flag = true;
+                       break;
+                    }
+                }
+            }
+            if(!flag) {
                 players.remove(i);
                 i--;
             }
         }
         if(players.size() == 0)
         {
-            nc.sendCommand(new AnnounceMessageCommand("Hurricane card can't be used as no player owns property!"));
+            nc.sendCommand(new AnnounceMessageCommand("Hurricane card can't be used as no player owns a property with a house!"));
             return;
         }
         String[] names = new String[players.size()];
