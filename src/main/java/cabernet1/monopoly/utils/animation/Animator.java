@@ -9,17 +9,16 @@ import java.util.Vector;
  * control the speed, and add some buttons.
  */
 public class Animator implements Runnable {
+    private static Animator _instance=null;
+    private Animator(){};
     private Vector<Animatable> elementsToDraw = new Vector<>();
     private long sleepTime = 20;
-    private boolean animatorStopped = true, firstTime = true;
-
-    /**
-     * Constructor that creates the JFrame for the animator.  Note
-     * the JFrame is shown in the show() method because this starts
-     * the GUI thread.  Starting the thread in the constructor
-     * can lead to a race condition.
-     */
-    public Animator() {
+    private boolean animatorStopped = false, firstTime = true;
+    public static synchronized Animator getInstance(){
+        if (_instance==null){
+            _instance=new Animator();
+        }
+        return _instance;
     }
 
     /**
@@ -43,6 +42,9 @@ public class Animator implements Runnable {
                 // calling object can continue.
                 (new Thread(this)).start();
             }
+            animatorStopped=false;
+        }else{
+            animatorStopped=true;
         }
     }
 
@@ -62,7 +64,9 @@ public class Animator implements Runnable {
             } catch (InterruptedException e) {
                 System.out.println("Thread Interrupted");
             }
-            animate();
+            if (!animatorStopped) {
+                animate();
+            }
         }
     }
 

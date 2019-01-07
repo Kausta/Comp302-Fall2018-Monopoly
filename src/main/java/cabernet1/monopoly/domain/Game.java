@@ -27,6 +27,7 @@ import cabernet1.monopoly.utils.TimeoutManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.util.stream.Collectors.toCollection;
@@ -62,7 +63,7 @@ public class Game implements Serializable {
         this.player = initialPlayerData.stream().map(playerData -> {
             logger.i("Registered " + playerData.getName());
             return PlayerFactory.getInstance().createFromInitialData(playerData);
-        }).collect(toCollection(ArrayList::new));
+        }).sorted(Comparator.comparingInt(IPlayer::getID)).collect(toCollection(ArrayList::new));
     }
 
     public void startGame() {

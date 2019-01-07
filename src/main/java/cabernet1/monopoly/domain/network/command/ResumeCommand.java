@@ -5,6 +5,7 @@ import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.utils.Observable;
+import cabernet1.monopoly.utils.animation.Animator;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class ResumeCommand extends ICommand {
   public void execute() {
     GameController gc = Game.getInstance().getGameController();
     gc.resumeButton.setValue(false);
+    Animator.getInstance().setVisible(true);
     IPlayer currentPlayer = Game.getInstance().getCurrentPlayer();
     List<String> playersOnDevice = Game.getInstance().getPlayersOnDevice();
     if(currentPlayer.isOnThisDevice()) {
