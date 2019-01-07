@@ -125,7 +125,7 @@ public class InitializationController {
         }
         otherClientsPlayerNames.put(identifier, currentPlayerNames);
 
-        StartGameCommand command = new StartGameCommand(initialPlayerData);
+        StartGameCommand command = new StartGameCommand(initialPlayerData, Network.getInstance().getAllClientNames(), Network.getInstance().getAllClientIdentifiersByNames());
         NetworkController networkController = Network.getInstance().getNetworkController();
         networkController.sendCommand(command);
     }

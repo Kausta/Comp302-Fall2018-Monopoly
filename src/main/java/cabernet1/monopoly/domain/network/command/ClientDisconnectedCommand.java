@@ -1,10 +1,9 @@
 package cabernet1.monopoly.domain.network.command;
 
 import cabernet1.monopoly.domain.Game;
-import cabernet1.monopoly.domain.GameController;
+import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -19,13 +18,16 @@ public class ClientDisconnectedCommand extends ICommand {
 
     @Override
     public void execute() {
+        disconnectedIdentifiers.forEach(identifier -> {
+            Network.getInstance().removeClient(identifier);
+        });
         Game game = Game.getInstance();
         List<IPlayer> players = game.getPlayers();
-        if(players == null) {
+        if (players == null) {
             return;
         }
         players.forEach(player -> {
-            if(disconnectedIdentifiers.contains(player.getOrigin())) {
+            if (disconnectedIdentifiers.contains(player.getOrigin())) {
                 player.setOrigin("Server");
             }
         });
