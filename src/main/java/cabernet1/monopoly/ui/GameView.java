@@ -70,6 +70,33 @@ public class GameView extends BaseView {
         rP.add(ActionPanel.getInstance(), BorderLayout.NORTH);
         rP.add(PauseResumeSavePanel.getInstance(), BorderLayout.NORTH);
 
+        controller.getShowPlayerSelect().addObserver(names -> {
+            int selectedOption = JOptionPane.showOptionDialog(
+                    null,
+                    "Choose which player's property you would like to downgrade",
+                    "Hurricane!",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    names,
+                    null);
+            controller.continueHurricane1(selectedOption);
+        });
+
+        controller.getColorSelect().addObserver(targetColors -> {
+            int selectedOption = JOptionPane.showOptionDialog(
+                    null,
+                    "Choose which color you want to demolish",
+                    "Choose Color",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    targetColors,
+                    null
+            );
+            controller.finishHurricane(selectedOption);
+        });
+
         // Adding BoardPanel and RightPanel to our one big panel -which acts as frame in our case-.
         this.root.add(bP, BorderLayout.WEST);
 
