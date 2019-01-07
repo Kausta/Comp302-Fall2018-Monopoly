@@ -101,9 +101,13 @@ public class Game implements Serializable {
         }
         if(Game.getInstance().getGameController().getCurrentPlayer().isOnThisDevice()) {
             Game.getInstance().getGameController().rollButton.setValue(true);
+            Game.getInstance().getGameController().pauseButton.setValue(true);
+            Game.getInstance().getGameController().saveButton.setValue(false);
         }
         else {
             Game.getInstance().getGameController().rollButton.setValue(false);
+            Game.getInstance().getGameController().pauseButton.setValue(false);
+            Game.getInstance().getGameController().saveButton.setValue(false);
         }
     }
 

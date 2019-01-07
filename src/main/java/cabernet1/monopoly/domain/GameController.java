@@ -274,7 +274,7 @@ public class GameController implements Serializable {
         }
         resumeButton.setValue(false);
         pauseButton.setValue(true);
-        saveButton.setValue(true);
+        saveButton.setValue(false);
     }
 
     public static class MovePlayerObservableInfo implements Serializable {
