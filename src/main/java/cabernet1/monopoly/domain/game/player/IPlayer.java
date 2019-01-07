@@ -237,12 +237,15 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         if (newTile==null){
             logger.d("ERROR ERROR ERROR: null tile accessed ");
         }
-        NetworkController nc = Network.getInstance().getNetworkController();
+       NetworkController nc = Network.getInstance().getNetworkController();
+        GameController controller=Game.getInstance().getGameController();
 
         String previousTile = curTile.getName();
         String message = getName() + " has moved from " + previousTile + "  to " + newTile.getName();
         logger.d("Message in normal move "+message);
+        //controller.announceMessage(message);
         nc.sendCommand(new AnnounceMessageCommand(message));
+        //controller.movePlayer(this.getID(),newTile.getID(),cup.isEven());
         nc.sendCommand(new MovePlayerCommand(this.getID(), newTile.getID(), cup.isEven()));
         logger.d("Handle Normal move finished");
     }
@@ -351,13 +354,17 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
      * cup, and moving based on its results, player might get into jail,
      * if he/she plays Double for the third time in row
      */
-    public void playTurn() {
+    public void rollDice() {
         logger.i("Turn of " + name);
         NormalDiceCup cup = NormalDiceCup.getInstance();
         NormalDiceCupStatus rollStatus = cup.rollCup();
-        NetworkController nc = Network.getInstance().getNetworkController();
         GameController controller = Game.getInstance().getGameController();
         controller.showDiceValue();
+    }
+
+    public void playTurn() {
+        GameController controller = Game.getInstance().getGameController();
+        NetworkController nc = Network.getInstance().getNetworkController();
         handleNormalMove();
         /*switch (rollStatus) {
             case NORMAL_MOVE:
@@ -383,8 +390,8 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
             controller.disableRollDice();
             controller.enableEndTurn();
         }
-
     }
+
     protected abstract void handleTriplesMove();
     // TODO: need to check building buying availability hear can check easier with owned properties
     public void playJailturn() {

@@ -77,7 +77,7 @@ public class GameController implements Serializable {
         if (currentPlayer.isInJail()) {
             currentPlayer.playJailturn();
         } else {
-            currentPlayer.playTurn();
+            currentPlayer.rollDice();
         }
         // showDiceValue();
         rollButton.setValue(false);
@@ -123,6 +123,7 @@ public class GameController implements Serializable {
         MovePlayerObservableInfo info=new MovePlayerObservableInfo(getTile(newTileId), takeRailRoads,false);
         logger.d("created observable info");
         movePlayerObservable.setValue(info);
+        playerListObservable.setValue(playerList());
         logger.d("move player command changed value");
         getPlayer(playerId).setCurrentTile(getTile(newTileId));
         logger.d("move player command finished");
@@ -152,7 +153,7 @@ public class GameController implements Serializable {
     }
 
     public void playTurn() {
-        getCurrentPlayer().playTurn();
+        getCurrentPlayer().rollDice();
     }
 
     public void playerPayRent(int playerId, int rentAmount) {
@@ -208,6 +209,12 @@ public class GameController implements Serializable {
         IPlayer player = getCurrentPlayer();
         if (player.isOnThisDevice()) {
             player.handleTile(player.getCurrentTile(), Board.getInstance());
+        }
+    }
+    public void finishedRollingDice(){
+        IPlayer player = getCurrentPlayer();
+        if (player.isOnThisDevice()) {
+            player.playTurn();
         }
     }
     public void enableEndTurn() {
