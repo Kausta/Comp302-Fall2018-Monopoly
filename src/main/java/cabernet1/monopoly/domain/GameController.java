@@ -173,6 +173,7 @@ public class GameController implements Serializable {
 
     public void enableUpgradeBuilding() {
         upgradeButton.setValue(true);
+        buyButton.setValue(false);
     }
 
     public void upgradeBuilding() {
@@ -193,6 +194,7 @@ public class GameController implements Serializable {
     //initial states are disabled.
     public void enableBuyProperty() {
         buyButton.setValue(true);
+        upgradeButton.setValue(false);
     }
     // All the enableX methods below are set to update the observer with "true" assuming the specified buttons'
 
