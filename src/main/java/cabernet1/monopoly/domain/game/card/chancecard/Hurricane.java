@@ -84,14 +84,14 @@ public class Hurricane extends ChanceCard implements IimmediateAction{
                 targetColors,
                 null
         )+targetColors.length) % targetColors.length];
-
         //decrease upgrade levels of all the tiles owned by target player in selected color
         List<Tile> boardTiles = Board.getInstance().getBoardTiles();
         for(Tile t: boardTiles){
             if(t instanceof GroupColoredProperty){
                 GroupColoredProperty tile = (GroupColoredProperty)t;
-                if(tile.getColorGroup().equals(targetColor) && tile.getOwner().equals(target))
+                if(tile.getColorGroup().equals(targetColor) && tile.getOwner().getID()==target.getID()) {
                     nc.sendCommand(new DowngradePropertyCommand(tile.getID()));
+                }
             }
         }
 
