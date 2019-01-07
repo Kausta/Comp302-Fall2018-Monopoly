@@ -36,7 +36,7 @@ public class PlayersPanel extends BasePanel implements Observer<GameController.M
     }
 
     private void initialize() {
-        Animator animator = new Animator();
+        Animator animator = Animator.getInstance();
         controller.movePlayerObservable.addObserver(this);
         logger.d("After adding observer");
         List<IPlayer> domainPlayerList = controller.playerList();

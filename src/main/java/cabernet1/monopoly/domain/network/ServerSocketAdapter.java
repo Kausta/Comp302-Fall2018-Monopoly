@@ -1,7 +1,8 @@
 package cabernet1.monopoly.domain.network;
 
-import cabernet1.monopoly.domain.network.command.ClientDisconnectedCommand;
 import cabernet1.monopoly.domain.InitializationController;
+import cabernet1.monopoly.domain.Network;
+import cabernet1.monopoly.domain.network.command.ClientDisconnectedCommand;
 import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.domain.network.command.NetworkCommand;
 import cabernet1.monopoly.domain.network.command.WelcomeCommand;
@@ -10,7 +11,9 @@ import cabernet1.monopoly.utils.Observer;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class ServerSocketAdapter implements INetworkAdapter {
@@ -20,24 +23,31 @@ public class ServerSocketAdapter implements INetworkAdapter {
      */
     private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
     private final ServerSocket serverSocket;
-    private final ArrayList<ClientSocketAdapter> connectedClients;
+    private final HashMap<String, ClientSocketAdapter> connectedClients;
 
     public ServerSocketAdapter(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
-        this.connectedClients = new ArrayList<>();
+        this.connectedClients = new HashMap<>();
         executor.execute(this::waitForConnections);
     }
 
     @Override
     public void sendCommand(ICommand command) {
         command.execute();
-        for(ClientSocketAdapter s : connectedClients){
+        Set<String> identifiersToRemove = new HashSet<>();
+        for (ClientSocketAdapter s : connectedClients.values()) {
             try {
                 s.sendCommand(command);
             } catch (Exception e) {
-                connectedClients.remove(s);
-                sendCommand(new ClientDisconnectedCommand(s.getClientSocket().getIpAddress()));
+                System.out.println("Client disconnected: " + s.getClientSocket().getIdentifier());
+                identifiersToRemove.add(s.getClientSocket().getIdentifier());
             }
+        }
+        if (identifiersToRemove.size() > 0) {
+            // Remove every disconnected client
+            identifiersToRemove.forEach(connectedClients::remove);
+            // Then actually send disconnected identifiers to every client
+            Network.getInstance().getNetworkController().sendCommand(new ClientDisconnectedCommand(identifiersToRemove));
         }
     }
 
@@ -45,7 +55,7 @@ public class ServerSocketAdapter implements INetworkAdapter {
     public void onReceiveCommand(Observer<NetworkCommand> observer) {
         // Subscribe to both this and clients, so the command executes locally and remotely
         commandObservable.addObserver(observer);
-        connectedClients.forEach(socket -> socket.onReceiveCommand(observer));
+        connectedClients.values().forEach(socket -> socket.onReceiveCommand(observer));
     }
 
     /**
@@ -56,7 +66,7 @@ public class ServerSocketAdapter implements INetworkAdapter {
             Socket socket = serverSocket.waitForConnection();
             ClientSocket clientSocket = new ClientSocket(socket);
             ClientSocketAdapter adapter = new ClientSocketAdapter(clientSocket);
-            connectedClients.add(adapter);
+            connectedClients.put(clientSocket.getIdentifier(), adapter);
 
             String id = clientSocket.getIpAddress() + ":" + clientSocket.getPort();
             WelcomeCommand command = new WelcomeCommand(id, InitializationController.getInstance().isLoadedGame());
@@ -79,5 +89,9 @@ public class ServerSocketAdapter implements INetworkAdapter {
 
     public ServerSocket getServerSocket() {
         return serverSocket;
+    }
+
+    public void removeClient(String identifier) {
+        connectedClients.remove(identifier);
     }
 }

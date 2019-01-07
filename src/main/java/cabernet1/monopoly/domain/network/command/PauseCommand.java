@@ -5,6 +5,7 @@ import cabernet1.monopoly.domain.GameController;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.utils.Observable;
+import cabernet1.monopoly.utils.animation.Animator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class PauseCommand extends ICommand {
   public void execute() {
     GameController gc = Game.getInstance().getGameController();
     gc.pauseButton.setValue(false);
+    Animator.getInstance().setVisible(false);
     IPlayer currentPlayer = Game.getInstance().getCurrentPlayer();
     List<String> playersOnDevice = Game.getInstance().getPlayersOnDevice();
     if(currentPlayer.isOnThisDevice()) {

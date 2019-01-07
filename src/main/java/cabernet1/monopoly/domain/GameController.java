@@ -206,7 +206,9 @@ public class GameController implements Serializable {
         logger.i("Finished moving players");
         //TODO execute when on current device
         IPlayer player = getCurrentPlayer();
-        player.handleTile(player.getCurrentTile(), Board.getInstance());
+        if (player.isOnThisDevice()) {
+            player.handleTile(player.getCurrentTile(), Board.getInstance());
+        }
     }
     public void enableEndTurn() {
         endButton.setValue(true);

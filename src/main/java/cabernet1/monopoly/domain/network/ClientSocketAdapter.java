@@ -1,8 +1,11 @@
 package cabernet1.monopoly.domain.network;
 
+import cabernet1.monopoly.domain.Network;
+import cabernet1.monopoly.domain.network.command.ClientDisconnectedCommand;
 import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.domain.network.command.NetworkCommand;
-import cabernet1.monopoly.domain.network.command.ServerDisconnectedCommand;
+import cabernet1.monopoly.ui.ContainerView;
+import cabernet1.monopoly.ui.NetworkRecoveryView;
 import cabernet1.monopoly.utils.Observable;
 import cabernet1.monopoly.utils.Observer;
 
@@ -10,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashSet;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class ClientSocketAdapter implements INetworkAdapter {
@@ -35,7 +39,8 @@ public class ClientSocketAdapter implements INetworkAdapter {
         try {
             this.objectOutputStream.writeObject(command);
         } catch (IOException e) {
-            throw new RuntimeException("Cannot send command through the socket");
+            recover();
+            e.printStackTrace();
         }
     }
 
@@ -52,9 +57,9 @@ public class ClientSocketAdapter implements INetworkAdapter {
             }
             this.commandObservable.setValue((NetworkCommand) command);
         } catch (IOException e) {
-            this.commandObservable.setValue(new NetworkCommand(new ServerDisconnectedCommand()));
+            this.recover();
             e.printStackTrace();
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -63,5 +68,20 @@ public class ClientSocketAdapter implements INetworkAdapter {
 
     public ClientSocket getClientSocket() {
         return clientSocket;
+    }
+
+    private void recover() {
+        if (Network.getInstance().isServerMode()) {
+            // Client disconnected from server
+            ServerSocketAdapter adapter = (ServerSocketAdapter) Network.getInstance().getNetworkAdapter();
+            adapter.removeClient(clientSocket.getIdentifier());
+            HashSet<String> identifiersToRemove = new HashSet<>();
+            identifiersToRemove.add(clientSocket.getIdentifier());
+            Network.getInstance().getNetworkController().sendCommand(new ClientDisconnectedCommand(identifiersToRemove));
+        } else {
+            // Server disconnected, we need a new server
+            ContainerView.getInstance().setCurrentView(NetworkRecoveryView.getInstance());
+            
+        }
     }
 }
