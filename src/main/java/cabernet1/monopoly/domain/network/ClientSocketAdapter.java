@@ -4,6 +4,8 @@ import cabernet1.monopoly.domain.Network;
 import cabernet1.monopoly.domain.network.command.ClientDisconnectedCommand;
 import cabernet1.monopoly.domain.network.command.ICommand;
 import cabernet1.monopoly.domain.network.command.NetworkCommand;
+import cabernet1.monopoly.ui.ContainerView;
+import cabernet1.monopoly.ui.NetworkRecoveryView;
 import cabernet1.monopoly.utils.Observable;
 import cabernet1.monopoly.utils.Observer;
 
@@ -78,7 +80,8 @@ public class ClientSocketAdapter implements INetworkAdapter {
             Network.getInstance().getNetworkController().sendCommand(new ClientDisconnectedCommand(identifiersToRemove));
         } else {
             // Server disconnected, we need a new server
-
+            ContainerView.getInstance().setCurrentView(NetworkRecoveryView.getInstance());
+            
         }
     }
 }

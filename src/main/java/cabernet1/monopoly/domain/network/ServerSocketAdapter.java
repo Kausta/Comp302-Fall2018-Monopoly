@@ -43,10 +43,12 @@ public class ServerSocketAdapter implements INetworkAdapter {
                 identifiersToRemove.add(s.getClientSocket().getIdentifier());
             }
         }
-        // Remove every disconnected client
-        identifiersToRemove.forEach(connectedClients::remove);
-        // Then actually send disconnected identifiers to every client
-        Network.getInstance().getNetworkController().sendCommand(new ClientDisconnectedCommand(identifiersToRemove));
+        if (identifiersToRemove.size() > 0) {
+            // Remove every disconnected client
+            identifiersToRemove.forEach(connectedClients::remove);
+            // Then actually send disconnected identifiers to every client
+            Network.getInstance().getNetworkController().sendCommand(new ClientDisconnectedCommand(identifiersToRemove));
+        }
     }
 
     @Override

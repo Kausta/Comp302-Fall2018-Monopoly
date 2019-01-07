@@ -21,6 +21,9 @@ public class ClientDisconnectedCommand extends ICommand {
     public void execute() {
         Game game = Game.getInstance();
         List<IPlayer> players = game.getPlayers();
+        if(players == null) {
+            return;
+        }
         players.forEach(player -> {
             if(disconnectedIdentifiers.contains(player.getOrigin())) {
                 player.setOrigin("Server");
