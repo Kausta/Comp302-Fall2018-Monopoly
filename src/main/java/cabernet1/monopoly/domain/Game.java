@@ -96,10 +96,10 @@ public class Game implements Serializable {
         String message = "Player: " + player.getName() + " will play now\n" + Constants.SEPERATING_lINE + "\n\n";
         controller.announceMessage(message);
         controller.tileListObservable.setValue(Board.getInstance().getBoardTiles());
-        if (player instanceof BotPlayer) {
-            player.playTurn();
+        if (player instanceof BotPlayer && player.isOnThisDevice()){
+            player.rollDice();
         }
-        if(Game.getInstance().getGameController().getCurrentPlayer().isOnThisDevice()) {
+        if(player.isOnThisDevice() && !(player instanceof BotPlayer)) {
             Game.getInstance().getGameController().rollButton.setValue(true);
             Game.getInstance().getGameController().pauseButton.setValue(true);
             Game.getInstance().getGameController().saveButton.setValue(false);

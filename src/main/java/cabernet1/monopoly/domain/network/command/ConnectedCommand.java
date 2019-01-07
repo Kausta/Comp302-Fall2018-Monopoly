@@ -22,6 +22,7 @@ public class ConnectedCommand extends ICommand {
     public void execute() {
         logger.i("Client " + clientIdentifier + " connected");
         if (Network.getInstance().getIdentifier().equals(clientIdentifier)) {
+            Network.getInstance().addClientIdentifier(Network.getInstance().getClientName(), clientIdentifier);
             Network.getInstance().getNetworkController().sendCommand(
                     new ClientNameCommand(Network.getInstance().getClientName(), clientIdentifier)
             );

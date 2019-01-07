@@ -28,7 +28,7 @@ public class MovePlayerCommand extends ICommand {
     public void execute() {
         GameController game = Game.getInstance().getGameController();
         game.movePlayer(playerId, newTileId, takeRailRoads);
-        game.playerListObservable.setValue(game.playerList());
+
     }
 
 }
