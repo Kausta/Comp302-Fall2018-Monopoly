@@ -8,10 +8,7 @@ import cabernet1.monopoly.domain.game.board.tile.Tile;
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 import cabernet1.monopoly.domain.game.board.tile.property.Property;
-import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
-import cabernet1.monopoly.domain.game.command.BuyPropertyCommand;
-import cabernet1.monopoly.domain.game.command.SendChatMessageCommand;
-import cabernet1.monopoly.domain.game.command.showDiceFacesCommand;
+import cabernet1.monopoly.domain.game.command.*;
 import cabernet1.monopoly.domain.game.die.RegularDie;
 import cabernet1.monopoly.domain.game.die.SpeedDie;
 import cabernet1.monopoly.domain.game.die.cup.NormalDiceCup;
@@ -24,10 +21,12 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 import cabernet1.monopoly.utils.Observable;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class GameController implements Serializable {
@@ -56,6 +55,8 @@ public class GameController implements Serializable {
     private final RegularDie die2 = NormalDiceCup.getInstance().die2;
     private final SpeedDie die3 = NormalDiceCup.getInstance().die3;
     private final Logger logger = LoggerFactory.getInstance().getLogger(getClass());
+    private final Observable<String[]> showPlayerSelect = new Observable<String[]>();
+    private final Observable<Object[]> colorSelect = new Observable<>();
 
     public GameController() {
         updateInfoObservables();
@@ -284,6 +285,47 @@ public class GameController implements Serializable {
         resumeButton.setValue(false);
         pauseButton.setValue(true);
         saveButton.setValue(false);
+    }
+
+    public Observable<String[]> getShowPlayerSelect() {
+        return showPlayerSelect;
+    }
+
+    private IPlayer target = null;
+    public void continueHurricane1(int selectedOption) {
+        ArrayList<IPlayer> playerList = playerList();
+        target = playerList().get((selectedOption + playerList.size()) % playerList.size());
+        HashSet<Property> targetProperty = target.getOwnedProperty();
+        HashSet<ColorGroup> colors = new HashSet<ColorGroup>();
+        for(Property p: targetProperty)
+            if(((GroupColoredProperty)p).getHouse().exists())
+                colors.add(((GroupColoredProperty)p).getColorGroup());
+        Object[] targetColors = colors.toArray();
+        colorSelect.setValue(targetColors);
+    }
+
+    public Observable<Object[]> getColorSelect() {
+        return colorSelect;
+    }
+
+    public void finishHurricane(int selectedOption) {
+        NetworkController nc = Network.getInstance().getNetworkController();
+        Object[] targetColors = colorSelect.getValue();
+        ColorGroup targetColor = (ColorGroup) targetColors[(selectedOption+targetColors.length) % targetColors.length];
+        //decrease upgrade levels of all the tiles owned by target player in selected color
+        List<Tile> boardTiles = Board.getInstance().getBoardTiles();
+        for(Tile t: boardTiles){
+            if(t instanceof GroupColoredProperty){
+                GroupColoredProperty tile = (GroupColoredProperty)t;
+                if(tile.getColorGroup().equals(targetColor) && tile.getOwner().getID()==target.getID()) {
+                    nc.sendCommand(new DowngradePropertyCommand(tile.getID()));
+                }
+            }
+        }
+
+        //broadcast message to network
+        nc.sendCommand(new AnnounceMessageCommand("Hurricane wrecked" + target.getName() +
+                "'s properties of color: " + targetColor));
     }
 
     public static class MovePlayerObservableInfo implements Serializable {

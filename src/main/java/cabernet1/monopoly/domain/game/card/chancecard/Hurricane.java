@@ -22,6 +22,8 @@ import java.util.List;
 
 public class Hurricane extends ChanceCard implements IimmediateAction{
 
+    private static final long serialVersionUID = -252667589202448424L;
+
     public Hurricane(){super("Hurricane");}
 
     @Override
@@ -59,44 +61,6 @@ public class Hurricane extends ChanceCard implements IimmediateAction{
         String[] names = new String[players.size()];
         for(int i=0; i<names.length; i++)
             names[i] = players.get(i).getName();
-        IPlayer target = players.get((JOptionPane.showOptionDialog(
-                null,
-                "Choose which player's property you would like to downgrade",
-                "Hurricane!",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                names,
-                null) + players.size()) % players.size());
-        HashSet<Property> targetProperty = target.getOwnedProperty();
-        HashSet<ColorGroup> colors = new HashSet<ColorGroup>();
-        for(Property p: targetProperty)
-            if(((GroupColoredProperty)p).getHouse().exists())
-                colors.add(((GroupColoredProperty)p).getColorGroup());
-        Object[] targetColors = colors.toArray();
-        ColorGroup targetColor = (ColorGroup) targetColors[(JOptionPane.showOptionDialog(
-                null,
-                "Choose which color you want to demolish",
-                "Choose Color",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                targetColors,
-                null
-        )+targetColors.length) % targetColors.length];
-        //decrease upgrade levels of all the tiles owned by target player in selected color
-        List<Tile> boardTiles = Board.getInstance().getBoardTiles();
-        for(Tile t: boardTiles){
-            if(t instanceof GroupColoredProperty){
-                GroupColoredProperty tile = (GroupColoredProperty)t;
-                if(tile.getColorGroup().equals(targetColor) && tile.getOwner().getID()==target.getID()) {
-                    nc.sendCommand(new DowngradePropertyCommand(tile.getID()));
-                }
-            }
-        }
-
-        //broadcast message to network
-        nc.sendCommand(new AnnounceMessageCommand("Hurricane wrecked" + target.getName() +
-                "'s properties of color: " + targetColor));
+        Game.getInstance().getGameController().getShowPlayerSelect().setValue(names);
     }
 }
