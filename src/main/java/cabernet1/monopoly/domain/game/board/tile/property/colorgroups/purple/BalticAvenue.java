@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.purple;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class BalticAvenue extends GroupColoredProperty {
                     }
                 },
                 250, 125, 250,
-                300, 150, 750);
+                300, 150, 750,
+                Track.Center);
     }
 }

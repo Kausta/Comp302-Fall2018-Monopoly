@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkpurpl
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class LakeShoreDrive extends GroupColoredProperty {
               }
             },
             750, 375, 1180,
-            900, 450, 2180);
+            900, 450, 2180,
+            Track.Outer);
   }
 }

@@ -12,5 +12,8 @@ public class NextTurnCommand extends ICommand {
     @Override
     public void execute() {
         Game.getInstance().getGameController().nextTurn();
+        Game.getInstance().getGameController().endButton.setValue(false);
+        Game.getInstance().getGameController().buyButton.setValue(false);
+        Game.getInstance().getGameController().upgradeButton.setValue(false);
     }
 }

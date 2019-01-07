@@ -2,6 +2,7 @@ package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkred;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class VenturaBoulevard extends GroupColoredProperty {
               }
             },
             1500, 750, 2100,
-            1800, 900, 3600);
+            1800, 900, 3600,
+            Track.Outer);
   }
 }

@@ -4,9 +4,9 @@ import cabernet1.monopoly.logging.Logger;
 import cabernet1.monopoly.logging.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameSerializer {
@@ -34,6 +34,7 @@ public class GameSerializer {
                         if (instance == null) {
                             return "null";
                         }
+
                         final String serialized = ObjectSerializer.serializeObject(instance);
                         if (serialized == null) {
                             throw new NullPointerException("Input/Output Exception while serializing");

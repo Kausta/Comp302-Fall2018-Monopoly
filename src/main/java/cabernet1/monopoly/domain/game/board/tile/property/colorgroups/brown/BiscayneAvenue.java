@@ -1,6 +1,7 @@
 package cabernet1.monopoly.domain.game.board.tile.property.colorgroups.brown;
 
 import cabernet1.monopoly.domain.game.board.tile.enumerators.ColorGroup;
+import cabernet1.monopoly.domain.game.board.tile.enumerators.Track;
 import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class BiscayneAvenue extends GroupColoredProperty
               }
             },
             250, 125, 800,
-            300, 150, 1300);
+            300, 150, 1300,
+            Track.Inner);
   }
 }

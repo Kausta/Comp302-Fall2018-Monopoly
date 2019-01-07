@@ -36,25 +36,20 @@ public class PlayersPanel extends BasePanel implements Observer<GameController.M
     }
 
     private void initialize() {
-        logger.d("initializing method accessed");
-        Animator animator = new Animator();
-        logger.d("after anuimator ");
+        Animator animator = Animator.getInstance();
         controller.movePlayerObservable.addObserver(this);
+        logger.d("After adding observer");
         List<IPlayer> domainPlayerList = controller.playerList();
         int size = domainPlayerList.size();
         players = new ArrayList<>();
-        logger.d("before adding players objects");
         for (IPlayer iPlayer : domainPlayerList) {
-            Player player = new Player(iPlayer);
+            Player player = new Player(iPlayer,animator);
             players.add(player);
-            animator.addDrawable(player);
             player.setBounds(0, 0, this.getWidth(), this.getHeight());
             this.add(player);
         }
-        logger.d("finished adding stuff");
 
         animator.setVisible(true);
-        logger.d("set the animator to visible");
     }
 
     private Player getPlayer(IPlayer domainPlayer) {
@@ -62,6 +57,7 @@ public class PlayersPanel extends BasePanel implements Observer<GameController.M
             if (player.player.equals(domainPlayer))
                 return player;
         }
+        logger.d("get player hasn't found");
         assert (false);
         return null;
     }
@@ -69,9 +65,12 @@ public class PlayersPanel extends BasePanel implements Observer<GameController.M
 
     @Override
     public void onValueChanged(GameController.MovePlayerObservableInfo value) {
+
         Player player = getPlayer(controller.getCurrentPlayer());
+
         if (player != null) {
-            player.updatePath(value.tile, value.takeRailRoads);
+            player.updatePath(value.tile, value.takeRailRoads,value.jump);
         }
+
     }
 }

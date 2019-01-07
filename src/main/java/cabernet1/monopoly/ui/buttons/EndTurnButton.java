@@ -7,6 +7,7 @@ public class EndTurnButton extends BaseButton {
     private EndTurnButton() {
         setText("End Turn");
         initialize();
+        setVisible(false);
     }
 
     public static synchronized EndTurnButton getInstance() {
