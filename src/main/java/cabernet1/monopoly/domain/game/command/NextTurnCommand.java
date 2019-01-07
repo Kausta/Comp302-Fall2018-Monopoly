@@ -15,11 +15,5 @@ public class NextTurnCommand extends ICommand {
         Game.getInstance().getGameController().endButton.setValue(false);
         Game.getInstance().getGameController().buyButton.setValue(false);
         Game.getInstance().getGameController().upgradeButton.setValue(false);
-        if(Game.getInstance().getGameController().getCurrentPlayer().isOnThisDevice()) {
-            Game.getInstance().getGameController().rollButton.setValue(true);
-        }
-        else {
-            Game.getInstance().getGameController().rollButton.setValue(false);
-        }
     }
 }
