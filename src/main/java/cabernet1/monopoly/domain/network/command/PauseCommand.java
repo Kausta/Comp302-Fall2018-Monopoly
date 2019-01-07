@@ -33,7 +33,7 @@ public class PauseCommand extends ICommand {
       gc.resumeButton.setValue(false);
       gc.resumeButton.setValue(false);
     }
-    if(gc.disabledObservableList.isEmpty()) {
+    if(!gc.disabledObservableList.isEmpty()) {
       gc.disabledObservableList.clear();
     }
     for(Observable<Boolean> o: gc.interactableObservableList) {
