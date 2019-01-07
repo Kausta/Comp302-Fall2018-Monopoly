@@ -2,22 +2,11 @@ package cabernet1.monopoly.domain;
 
 import cabernet1.monopoly.domain.game.Constants;
 import cabernet1.monopoly.domain.game.board.Board;
-import cabernet1.monopoly.domain.game.board.tile.Tile;
-import cabernet1.monopoly.domain.game.board.tile.property.GroupColoredProperty;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.black.BoylstonStreet;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkblue.Boardwalk;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.darkred.MulhollandDrive;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.NorthCarolinaAvenue;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.green.PacificAvenue;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.grey.FifthAvenue;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.orange.StJamesPlace;
-import cabernet1.monopoly.domain.game.board.tile.property.colorgroups.pink.VirginiaAvenue;
 import cabernet1.monopoly.domain.game.bot.BotPlayer;
 import cabernet1.monopoly.domain.game.command.AnnounceMessageCommand;
 import cabernet1.monopoly.domain.game.command.NextTurnCommand;
 import cabernet1.monopoly.domain.game.player.IPlayer;
 import cabernet1.monopoly.domain.game.player.InitialPlayerData;
-import cabernet1.monopoly.domain.game.player.Player;
 import cabernet1.monopoly.domain.game.player.PlayerFactory;
 import cabernet1.monopoly.lib.persistence.Saveable;
 import cabernet1.monopoly.logging.Logger;
@@ -143,8 +132,8 @@ public class Game implements Serializable {
         String message="Player: "+player.getName()+" will play now\n" + Constants.SEPERATING_lINE+"\n\n";
         controller.announceMessage(message);
         controller.tileListObservable.setValue(Board.getInstance().getBoardTiles());
-        if (player instanceof BotPlayer){
-            player.playTurn();
+        if (player instanceof BotPlayer && player.isOnThisDevice()){
+            player.rollDice();
         }
     }
 
