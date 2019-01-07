@@ -166,7 +166,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
      */
     public void ownProperty(Property property) {
         ownedProperty.add(property);
-        property.setOwner((Player) this);
+        property.setOwner(this);
     }
 
     /**
