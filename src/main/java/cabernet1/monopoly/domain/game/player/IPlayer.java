@@ -641,7 +641,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
         if (property.getOwner() == null && property.getPrice() < getMoney()) {
             handleBuyProperty();
 
-        } else if (property.getOwner().equals(this)) {
+        } else if (property.getOwner().getID()==this.getID()) {
             if (property instanceof GroupColoredProperty) {
                 GroupColoredProperty gcp = (GroupColoredProperty) property;
                 if (gcp.getUpgradeAmount() <= getMoney() && controller.canBeUpgraded(((GroupColoredProperty) property).getColorGroup(), ((GroupColoredProperty) property))) {
@@ -652,7 +652,7 @@ public abstract class IPlayer implements RepresentationInvariant, Serializable {
             int rent = property.getRent();
             nc.sendCommand(new PayRentCommand(getID(), rent));
             nc.sendCommand(new GainMoneyCommand(property.getOwner().getID(), rent));
-            String message = getName() + " has paid a rent to " + property.getOwner().getName();
+            String message = getName() + " has paid a rent to " + property.getOwner().getName()+ " an amount of "+rent + " $";
             nc.sendCommand(new AnnounceMessageCommand(message));
         }
         logger.d(("handle property finished"));
