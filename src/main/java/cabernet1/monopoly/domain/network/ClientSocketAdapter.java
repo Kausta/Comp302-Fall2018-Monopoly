@@ -25,12 +25,14 @@ public class ClientSocketAdapter implements INetworkAdapter {
     private final ClientSocket clientSocket;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
+    private boolean running = false;
 
     public ClientSocketAdapter(ClientSocket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         Socket socket = clientSocket.getSocket();
         this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+        running = true;
         executor.execute(this::waitForCommand);
     }
 
@@ -62,8 +64,9 @@ public class ClientSocketAdapter implements INetworkAdapter {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        executor.execute(this::waitForCommand);
+        if (running) {
+            executor.execute(this::waitForCommand);
+        }
     }
 
     public ClientSocket getClientSocket() {
@@ -71,6 +74,12 @@ public class ClientSocketAdapter implements INetworkAdapter {
     }
 
     private void recover() {
+        running = false;
+        try {
+            clientSocket.getSocket().close();
+        } catch (IOException ignored) {
+            // Ignore if it is closed
+        }
         if (Network.getInstance().isServerMode()) {
             // Client disconnected from server
             ServerSocketAdapter adapter = (ServerSocketAdapter) Network.getInstance().getNetworkAdapter();
@@ -81,7 +90,7 @@ public class ClientSocketAdapter implements INetworkAdapter {
         } else {
             // Server disconnected, we need a new server
             ContainerView.getInstance().setCurrentView(NetworkRecoveryView.getInstance());
-            
+
         }
     }
 }
