@@ -204,7 +204,9 @@ public class GameController implements Serializable {
         logger.i("Finished moving players");
         //TODO execute when on current device
         IPlayer player = getCurrentPlayer();
-        player.handleTile(player.getCurrentTile(), Board.getInstance());
+        if (player.isOnThisDevice()) {
+            player.handleTile(player.getCurrentTile(), Board.getInstance());
+        }
     }
     public void enableEndTurn() {
         endButton.setValue(true);
@@ -254,7 +256,7 @@ public class GameController implements Serializable {
         ((GroupColoredProperty) getTile(propertyId)).downgrade();
     }
 
-    private void updateInfoObservables() {
+    public void updateInfoObservables() {
         playerListObservable.setValue(playerList());
         tileListObservable.setValue(Board.getInstance().getBoardTiles());
     }
