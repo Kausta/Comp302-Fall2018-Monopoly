@@ -263,6 +263,8 @@ public class GameController implements Serializable {
 
     public void downgradeBuilding(int propertyId){
         ((GroupColoredProperty) getTile(propertyId)).downgrade();
+        updateInfoObservables();
+
     }
 
     public void updateInfoObservables() {

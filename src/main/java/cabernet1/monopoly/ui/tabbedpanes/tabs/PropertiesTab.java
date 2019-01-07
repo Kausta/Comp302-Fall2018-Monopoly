@@ -35,17 +35,19 @@ public class PropertiesTab extends JScrollPane implements Observer<ArrayList<Til
     private void initialize() {
         controller.tileListObservable.addObserver(this);
 
-        propertiesTable = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Property Name", "Owner", "Group", "Rent"}));
+        propertiesTable = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Property Name", "Owner", "Group", "Rent","Upgrades"}));
         setViewportView(propertiesTable);
 
         propertiesTable.getColumnModel().getColumn(0).setResizable(false);
         propertiesTable.getColumnModel().getColumn(0).setPreferredWidth(300);
         propertiesTable.getColumnModel().getColumn(1).setResizable(false);
-        propertiesTable.getColumnModel().getColumn(1).setPreferredWidth(300);
+        propertiesTable.getColumnModel().getColumn(1).setPreferredWidth(200);
         propertiesTable.getColumnModel().getColumn(2).setResizable(false);
         propertiesTable.getColumnModel().getColumn(2).setPreferredWidth(100);
         propertiesTable.getColumnModel().getColumn(3).setResizable(false);
-        propertiesTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+        propertiesTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+        propertiesTable.getColumnModel().getColumn(4).setResizable(false);
+        propertiesTable.getColumnModel().getColumn(4).setPreferredWidth(300);
     }
     @Override
     public void onValueChanged(ArrayList<Tile> tileList) {
@@ -61,7 +63,16 @@ public class PropertiesTab extends JScrollPane implements Observer<ArrayList<Til
                 ++counter;
                 GroupColoredProperty prop=(GroupColoredProperty)p;
                 String owner=prop.getOwner()!=null?prop.getOwner().getName():"No Owner";
-                model.addRow(new Object[]{p.getName(), owner,prop.getColorGroup(), ""+prop.getRent()});
+                int level=controller.getPropertyLevel(prop);
+                String upgrade="No upgrades";
+                if ((level == 0 && prop.getHouse().getAmount()>0)  || level ==1){
+                    upgrade=""+prop.getHouse().getAmount()+" Houses";
+                }else if (level == 2){
+                    upgrade=""+prop.getHotel().getAmount()+" Hotel";
+                }else if (level==3){
+                    upgrade=""+prop.getSkyscraper().getAmount()+" Skyscraper";
+                }
+                model.addRow(new Object[]{p.getName(), owner,prop.getColorGroup(), ""+prop.getRent(),upgrade});
             }
         }
     }
