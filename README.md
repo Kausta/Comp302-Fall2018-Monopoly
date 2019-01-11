@@ -4,8 +4,8 @@ Comp 302 Monopoly Group Project created by
 - Caner Korkmaz
 - Besher Massri
 - Alper Toygar
-- Cuneyt Yavuz
-- Ali Sardag
+- Cüneyt Emre Yavuz
+- Ali Şardağ
 
 ## License
 
